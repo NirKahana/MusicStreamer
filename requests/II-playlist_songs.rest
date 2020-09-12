@@ -1,0 +1,7 @@
+POST http://localhost:3001/playlist_songs HTTP/1.1
+content-type: application/json
+
+# {
+#     "playlist_id": 1,
+#     "song_id": 1
+# }
