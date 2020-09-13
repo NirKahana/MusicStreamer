@@ -32,7 +32,10 @@ getArtistID = (artist_id) => {
 
 const getTopSongsHandler = (req, res) => { /// do not modify!
     const queryPromise = new Promise((resolve, reject) => {
-        const sql = `SELECT s.artist_id, SUM(play_count) AS total_plays FROM interactions i JOIN songs s ON s.id = i.song_id GROUP BY artist_id ORDER BY total_plays DESC LIMIT 3`
+        const sql = `SELECT song_id, play_count
+        FROM interactions
+        ORDER BY play_count DESC
+        LIMIT 3`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {reject("no results")}
