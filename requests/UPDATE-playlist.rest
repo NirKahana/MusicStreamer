@@ -1,0 +1,7 @@
+PUT http://localhost:3001/playlists HTTP/1.1
+content-type: application/json
+
+{
+    "name": "My Small Playlist",
+    "created_at": "2020-09-10"
+}

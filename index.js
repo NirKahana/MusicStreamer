@@ -21,11 +21,15 @@ app.post('/artists', query.postToArtistsHandler);
 app.post('/albums', query.postToAlbumsHandler);
 app.post('/playlists', query.postToPlaylistHandler);
 
+app.put('/songs', query.putToSongsHandler);
+app.put('/artists', query.putToArtistsHandler);
+app.put('/albums', query.putToAlbumsHandler);
+app.put('/playlists', query.putToPlaylistHandler);
+
 app.delete('/songs/:id', query.deleteSongByIdHandler);
 app.delete('/artists/:id', query.deleteArtistByIdHandler);
 app.delete('/albums/:id', query.deleteAlbumByIdHandler);
 app.delete('/playlists/:id', query.deletePlaylistByIdHandler);
-
 
 // app.post('/playlist_songs', query.insertIntoPlaylist_Songs)
   

@@ -1,4 +1,4 @@
-POST http://localhost:3001/songs HTTP/1.1
+PUT http://localhost:3001/songs HTTP/1.1
 content-type: application/json
 
 {
