@@ -21,57 +21,127 @@ getArtistID = (artist_id) => {
         con.query(
             `SELECT id FROM artists WHERE id = ${artist_id}`, function(err, result){                                                
                 if(err) throw err;
-                    if (!result[0]) {reject("coudn't find such an artist")}
+                    if (!result[0]) {
+                        reject("coudn't find such an artist")
+                    }
                     else {resolve(result[0].id)}
         });
     }) 
 }
+////////////// GET TOP OF
 
-const selectSongByID = (songId) => {  /// do not modify!
-    return new Promise((resolve, reject) => {
-        con.query(`SELECT * FROM songs WHERE id = ${Number(songId)}`, function (err, result, fields) {
+const getTopSongsHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        const sql = `SELECT s.artist_id, SUM(play_count) AS total_plays FROM interactions i JOIN songs s ON s.id = i.song_id GROUP BY artist_id ORDER BY total_plays DESC LIMIT 3`
+        con.query(sql, function (err, result, fields) {
             if (err) throw err;
-            if (result[0] === undefined) {reject("Song not found"); console.log("rejected");}
+            if (result[0] === undefined) {reject("no results")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const getTopArtistsHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        const sql = `SELECT s.artist_id, SUM(play_count) AS total_plays FROM interactions i JOIN songs s ON s.id = i.song_id GROUP BY artist_id ORDER BY total_plays DESC LIMIT 3`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            if (result[0] === undefined) {reject("no results")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const getTopAlbumsHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        const sql = `SELECT s.album_id, SUM(play_count) AS total_plays FROM interactions i JOIN songs s ON s.id = i.song_id GROUP BY album_id ORDER BY total_plays DESC LIMIT 3`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            if (result[0] === undefined) {reject("no results")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const getTopPlaylistsHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        const sql = `SELECT pls.playlist_id, SUM(i.play_count) AS total_playlist_plays 
+        FROM playlist_songs pls 
+        JOIN interactions i  
+        ON pls.song_id = i.song_id 
+        GROUP BY pls.playlist_id 
+        ORDER BY total_playlist_plays DESC 
+        LIMIT 3`;
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            if (result[0] === undefined) {reject("no results")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+
+////////////// GET SPECIFIC BY ID
+
+const getSongByIdHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`SELECT * FROM songs WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+            if (err) throw err;
+            if (result[0] === undefined) {reject("Song not found")}
             else {resolve(result[0])};
           })
     })
-}
-const selectArtistByID = (artistId) => { /// do not modify!
-    return new Promise((resolve, reject) => {
-        con.query(`SELECT * FROM artists WHERE id = ${Number(artistId)}`, function (err, result, fields) {
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const getArtistByIdHandler = (req, res) => { /// do not modify! 
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`SELECT * FROM artists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {reject("Artist not found")}
             else {resolve(result[0])};
           })
     })
-}
-const selectAlbumByID = (albumId) => {  /// do not modify!
-    return new Promise((resolve, reject) => {
-        con.query(`SELECT * FROM albums WHERE id = ${Number(albumId)}`, function (err, result, fields) {
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const getAlbumByIdHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`SELECT * FROM albums WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {reject("Album not found")}
             else {resolve(result[0])};
           })
     })
-}
-const selectPlaylistByID = (playlistId) => {  /// do not modify!
-    return new Promise((resolve, reject) => {
-        con.query(`SELECT * FROM playlists WHERE id = ${Number(playlistId)}`, function (err, result, fields) {
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const getPlaylistByIdHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`SELECT * FROM playlists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {reject("Playlist not found")}
             else {resolve(result[0])};
           })
     })
-}
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+////////////// POST A NEW
 
-
-const insertNewArtist = (dataObject) => { /// do not modify!
-    return new Promise((resolve, reject) => {
+const postToArtistsHandler = (req, res) => { // do not modify!
+    let body = req.body;                                                     /// defining body
+    if(!body.name) {res.status(400).send("error: artist name is missing!")}; /// managing missing fields
+    const queryPromise = new Promise((resolve, reject) => {
         con.query(`INSERT INTO artists SET ?`,
         {
-            "name": dataObject.name,
-            "cover_img": dataObject.cover_img,
-            "created_at": moment(dataObject.created_at).format("YYYY-MM-DD"),
+            "name": body.name,
+            "cover_img": body.cover_img,
+            "created_at": moment(body.created_at).format("YYYY-MM-DD"),
             "upload_at": moment(new Date()).format("YYYY-MM-DD"),
         }, 
         function (err, result, fields) {
@@ -81,16 +151,20 @@ const insertNewArtist = (dataObject) => { /// do not modify!
         })
 
     })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(400).send(err));
 }
-const insertNewAlbum = (dataObject) => { /// do not modify!
-    return new Promise((resolve, reject) => {
-        getArtistID(dataObject.artist_id).then(() => {
+const postToAlbumsHandler = (req, res) => { // do not
+    let body = req.body;
+    if(!body.name || !body.artist_id) {res.status(400).send("error: album name or artist_id is missing!")}
+    const queryPromise = new Promise((resolve, reject) => {
+        getArtistID(body.artist_id).then(() => {
             con.query(`INSERT INTO albums SET ?`,
             {
-                "name": dataObject.name,
-                "artist_id": dataObject.artist_id,
-                "cover_img": dataObject.cover_img,
-                "created_at": moment(dataObject.created_at).format("YYYY-MM-DD"),
+                "name": body.name,
+                "artist_id": body.artist_id,
+                "cover_img": body.cover_img,
+                "created_at": moment(body.created_at).format("YYYY-MM-DD"),
                 "upload_at": moment(new Date()).format("YYYY-MM-DD"),
             }, 
             function (err, result, fields) {
@@ -101,16 +175,20 @@ const insertNewAlbum = (dataObject) => { /// do not modify!
         })
         .catch(err =>{reject(err)})
     })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(400).send(err));
 }
-const insertNewPlaylist = (dataObject) => { 
-    return new Promise((resolve, reject) => {
+const postToPlaylistHandler = (req, res) => { // do not modify
+    let body = req.body;
+    if(!body.name) {res.status(400).send("error: playlist name is missing!")}; /// managing missing fields
+    const queryPromise = new Promise((resolve, reject) => {
         con.query(`INSERT INTO playlists SET ?`,
         {
-            "name": dataObject.name,
-            "cover_img": dataObject.cover_img,
-            "created_at": moment(dataObject.created_at).format("YYYY-MM-DD"),
+            "name": body.name,
+            "cover_img": body.cover_img,
+            "created_at": moment(body.created_at).format("YYYY-MM-DD"),
             "upload_at": moment(new Date()).format("YYYY-MM-DD"),
-            "list_of_songs": dataObject.list_of_songs
+            "list_of_songs": body.list_of_songs
         }, 
         function (err, result, fields) {
             if (err) throw err;
@@ -118,76 +196,90 @@ const insertNewPlaylist = (dataObject) => {
             else {resolve(result)}
         })
     })
-}
-const insertNewSong = (dataObject) => { 
-    return new Promise((resolve, reject) => {
-        con.query(`INSERT INTO songs SET ?`,
-        {
-            "title": dataObject.title,
-            "artist_id": dataObject.artist_id,
-            "album_id": dataObject.album_id,
-            "created_at": moment(dataObject.created_at).format("YYYY-MM-DD"),
-            "upload_at": moment(new Date()).format("YYYY-MM-DD"),
-            "length": dataObject.title,
-            "track_number": dataObject.track_number,
-            "lyrics": dataObject.lyrics,
-            "youtube_link": dataObject.youtube_link,
-        }, 
-        function (err, result, fields) {
-            if (err) throw err;
-            if(!result) {
-                reject("invalid input");
-                console.log("rejected");
-            }
-            else {
-                resolve(result);
-                console.log("resolved");
-            }
-        })
-    })
-}
-//////////////
-
-const getSongByIdHandler = (req, res) => { /// do not modify!
-    selectSongByID(req.params.id).then(result => res.send(result), err => res.status(404).send(err))
-};
-const getArtistByIdHandler = (req, res) => { /// do not modify! 
-    selectArtistByID(req.params.id).then(result => res.send(result), err => res.status(404).send(err))
-};
-const getAlbumByIdHandler = (req, res) => { /// do not modify!
-    selectAlbumByID(req.params.id).then(result => res.send(result), err => res.status(404).send(err))
-};
-const getPlaylistByIdHandler = (req, res) => { /// do not modify!
-    selectPlaylistByID(req.params.id).then(result => res.send(result), err => res.status(404).send(err))
-};
-//////////////////////////////////////////////////////
-
-const postToArtistsHandler = (req, res) => { // do not modify!
-    let body = req.body;                                                     /// defining body
-    if(!body.name) {res.status(400).send("error: artist name is missing!")}; /// managing missing fields
-    insertNewArtist(body).then(result => res.send(result), err => res.status(400).send(err)); // sending the query
-}
-const postToAlbumsHandler = (req, res) => { // do not
-    let body = req.body;
-    if(!body.name || !body.artist_id) {res.status(400).send("error: album name or artist_id is missing!")}
-    insertNewAlbum(body).then(result => res.send(result), err => res.status(400).send(err));
-}
-const postToPlaylistHandler = (req, res) => { // do not modify
-    let body = req.body;
-    if(!body.name) {res.status(400).send("error: playlist name is missing!")}; /// managing missing fields
-    insertNewPlaylist(body).then(result => res.send(result), err => res.status(400).send(err)); // sending the query
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(400).send(err));
 };
 const postToSongsHandler = (req, res) => {
     let body = req.body;
     if(!body.title || !body.artist_id || !body.album_id) {res.status(400).send("error: song name or album or artist is missing!")}; /// managing missing fields
-    return res.send("sent");
-    insertNewSong(body).then(result => res.send(result), err => res.status(400).send(err)); // sending the query
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`INSERT INTO songs SET ?`,
+        {
+            "title": body.title,
+            "artist_id": body.artist_id,
+            "album_id": body.album_id,
+            "created_at": moment(body.created_at).format("YYYY-MM-DD"),
+            "upload_at": moment(new Date()).format("YYYY-MM-DD"),
+            "length": body.length,
+            "track_number": body.track_number,
+            "lyrics": body.lyrics,
+            "youtube_link": body.youtube_link,
+        }, 
+        function (err, result, fields) {
+            if (err) throw err;
+            if(!result) {reject("invalid input")}
+            else {resolve(result)}
+        })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(400).send(err));
 };
+///////////// UPADTE A SPECIFIC BY ID
 
+///////////// DELETE A SPECIFIC BY ID
+const deleteSongByIdHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`DELETE FROM songs WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+            if (err) throw err;
+            if (result === undefined) {reject("Song not found")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const deleteArtistByIdHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`DELETE FROM artists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+            if (err) throw err;
+            if (result === undefined) {reject("Song not found")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const deleteAlbumByIdHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`DELETE FROM albums WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+            if (err) throw err;
+            if (result === undefined) {reject("Song not found")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
+const deletePlaylistByIdHandler = (req, res) => { /// do not modify!
+    const queryPromise = new Promise((resolve, reject) => {
+        con.query(`DELETE FROM playlists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+            if (err) throw err;
+            if (result === undefined) {reject("Song not found")}
+            else {resolve(result)};
+          })
+    })
+    queryPromise.then(result => res.send(result))
+    .catch( err => res.status(404).send(err))
+};
 
 //// EXPORT
 module.exports = {
     // testFunc: testFunc,
+    getTopSongsHandler: getTopSongsHandler,
+    getTopArtistsHandler: getTopArtistsHandler,
+    getTopAlbumsHandler: getTopAlbumsHandler,
+    getTopPlaylistsHandler: getTopPlaylistsHandler,
+
     getSongByIdHandler: getSongByIdHandler,
     getArtistByIdHandler: getArtistByIdHandler,
     getAlbumByIdHandler: getAlbumByIdHandler,
@@ -197,5 +289,10 @@ module.exports = {
     postToArtistsHandler: postToArtistsHandler,
     postToAlbumsHandler: postToAlbumsHandler,
     postToPlaylistHandler: postToPlaylistHandler,
+
+    deleteSongByIdHandler: deleteSongByIdHandler,
+    deleteArtistByIdHandler: deleteArtistByIdHandler,
+    deleteAlbumByIdHandler: deleteAlbumByIdHandler,
+    deletePlaylistByIdHandler: deletePlaylistByIdHandler,
     // insertIntoPlaylist_Songs: insertIntoPlaylist_Songs,
 };

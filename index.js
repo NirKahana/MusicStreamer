@@ -6,6 +6,11 @@ app.use(express.json());
 app.use(cors());
 
 
+app.get('/top_songs/', query.getTopSongsHandler);
+app.get('/top_artists/', query.getTopArtistsHandler);
+app.get('/top_albums/', query.getTopAlbumsHandler);
+app.get('/top_playlists/', query.getTopPlaylistsHandler);
+
 app.get('/songs/:id', query.getSongByIdHandler);
 app.get('/artists/:id', query.getArtistByIdHandler);
 app.get('/albums/:id', query.getAlbumByIdHandler);
@@ -16,8 +21,29 @@ app.post('/artists', query.postToArtistsHandler);
 app.post('/albums', query.postToAlbumsHandler);
 app.post('/playlists', query.postToPlaylistHandler);
 
+app.delete('/songs/:id', query.deleteSongByIdHandler);
+app.delete('/artists/:id', query.deleteArtistByIdHandler);
+app.delete('/albums/:id', query.deleteAlbumByIdHandler);
+app.delete('/playlists/:id', query.deletePlaylistByIdHandler);
+
+
 // app.post('/playlist_songs', query.insertIntoPlaylist_Songs)
   
+
+
+
+// let calc = (numberOfParticipants) => {
+//     let odds = 1;
+//     for (let i = 0; i < numberOfParticipants; i++) {
+//         odds = odds * ((360-i)/360)
+//     }
+//     return 1 - odds;
+// }
+// let result = calc(15);
+// console.log(result);
+
+
+
 
 
 
