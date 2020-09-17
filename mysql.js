@@ -77,13 +77,7 @@ const getTopAlbumsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopPlaylistsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT pls.playlist_id, SUM(i.play_count) AS total_playlist_plays 
-        FROM playlist_songs pls 
-        JOIN interactions i  
-        ON pls.song_id = i.song_id 
-        GROUP BY pls.playlist_id 
-        ORDER BY total_playlist_plays DESC 
-        LIMIT 3`;
+        const sql = "SELECT p.name, SUM(i.play_count) AS num_of_plays, T.num_of_songs FROM interactions i JOIN playlist_songs pls ON i.song_id = pls.song_id JOIN (SELECT *, COUNT(song_id) AS num_of_songs FROM playlist_songs GROUP BY (playlist_id)) AS T ON T.playlist_id = pls.playlist_id  JOIN playlists p ON p.id = pls.playlist_id GROUP BY (pls.playlist_id)";
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}
