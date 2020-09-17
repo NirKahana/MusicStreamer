@@ -2,7 +2,25 @@ body {
     background-color: rgb(22, 22, 22);
     font-family: 'Inter', sans-serif;
 }
-
+/* width */
+::-webkit-scrollbar {
+    width: 0.75em;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background-color: rgb(34, 34, 34);
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(85, 85, 85);
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(124, 124, 124);
+  }
 .brcpxa {
     display: none
 }
@@ -18,6 +36,28 @@ body {
   }
   .chowzb:hover{
       background-color: lightgreen !important;
+  }
+  .header {
+      height: 5em;
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5em;
+      font-size: 1.2em;
+  }
+
+  .tab{
+      color: rgb(187, 187, 187);
+      margin: 0 1.5em;
+  }
+  .tab:hover{
+      cursor: pointer;
+      color: white;
+  }
+  .logo{
+      color: white;
+  }
+  .profile_logo{
+      color: white;
   }
   .img{
     height: 9em;

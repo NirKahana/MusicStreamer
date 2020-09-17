@@ -45,7 +45,15 @@ const getTopSongsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopArtistsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT s.artist_id, SUM(play_count) AS total_plays FROM interactions i JOIN songs s ON s.id = i.song_id GROUP BY artist_id ORDER BY total_plays DESC LIMIT 3`
+        const sql = `SELECT a.name AS artist_name, SUM(play_count) AS total_plays 
+        FROM interactions i 
+        JOIN songs s 
+        ON s.id = i.song_id 
+        JOIN artists a
+        ON a.id = s.artist_id
+        GROUP BY artist_id 
+        ORDER BY total_plays DESC 
+        LIMIT 10;`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}
@@ -53,7 +61,15 @@ const getTopArtistsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopAlbumsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT s.album_id, SUM(play_count) AS total_plays FROM interactions i JOIN songs s ON s.id = i.song_id GROUP BY album_id ORDER BY total_plays DESC LIMIT 3`
+        const sql = `SELECT a.name AS album_name, artists.name AS artist_name, SUM(play_count) AS total_plays 
+        FROM interactions i 
+        JOIN songs s 
+        ON s.id = i.song_id 
+        JOIN albums a ON a.id = s.album_id
+        JOIN artists ON s.artist_id = artists.id
+        GROUP BY album_id 
+        ORDER BY total_plays DESC 
+        LIMIT 10;`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}
