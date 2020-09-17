@@ -31,7 +31,13 @@ getArtistID = (artist_id) => {
 ////////////// GET TOP OF
 
 const getTopSongsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT song_id, title, SUM(play_count) AS total FROM interactions i JOIN songs s ON s.id = song_id GROUP BY song_id ORDER BY total DESC LIMIT 10`
+        const sql = `SELECT s.title AS song_title, a.name AS artist_name, SUM(play_count) AS total 
+        FROM interactions i 
+        JOIN songs s ON s.id = song_id
+        JOIN artists a ON s.artist_id = a.id
+        GROUP BY song_id 
+        ORDER BY total DESC 
+        LIMIT 10`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}

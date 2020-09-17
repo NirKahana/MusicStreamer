@@ -1,0 +1,52 @@
+body {
+    background-color: rgb(22, 22, 22);
+    font-family: 'Inter', sans-serif;
+}
+
+.brcpxa {
+    display: none
+}
+.ikyGAt {
+    display: none;
+}
+.hCVuYx {
+    background-color: #1db95477 !important;
+  }
+  
+  .chowzb {
+    background-color: #1db95477 !important;
+  }
+  .chowzb:hover{
+      background-color: lightgreen !important;
+  }
+  .img{
+    height: 9em;
+    display: block;
+    margin: auto;
+    margin-top: 0.5em;
+  }
+  .card {
+    display: inline-block;
+    height: 14.5em;
+    width: 10em;
+    background-color: rgb(38 38 38);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px 20px;
+  }
+  .card:hover{
+      cursor: pointer;
+  }
+  .carousel_title{
+    margin-left: 3.4em;
+    color: white;
+  }
+  .major_title {
+    font-size: 1em;
+    margin: 0.5em 0 0.5em 0.5em;
+    color: white;
+  }
+  .minor_title{
+      font-size: 0.7em;
+      color: rgb(141, 141, 141);
+  }

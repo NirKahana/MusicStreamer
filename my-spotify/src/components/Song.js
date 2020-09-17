@@ -1,11 +1,15 @@
 import React from 'react';
 import { useParams, useHistory, useLocation, Link } from "react-router-dom";
 
-function Song() {
+function Song({ title, artist }) {
     const params = useParams()
     return (
         <>
-            <div>{params.id}</div>
+            <div className={"card"}>
+            <img className={"img"} src={"https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg"}></img>
+            <div className={"major_title"}>{title}</div>
+            <div className={"major_title"}><span className={"minor_title"}>{artist}</span></div>
+            </div>
         </>
     )
 }
