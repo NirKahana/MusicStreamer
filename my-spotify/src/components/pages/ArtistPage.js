@@ -1,49 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Carousel from 'react-elastic-carousel';
-import AlbumCard from "../cards/AlbumCard"
-import { useParams, useHistory, useLocation, NavLink, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom"; 
 
-function AritstPage( { breakPointsForCards }) {
+function AritstPage( ) {
 
-    const [albums, setAlbums] = useState([])
-      useEffect( () => 
-            (async () => {
-            const albumsArray = (await axios.get("http://localhost:3001/top_albums")).data;
-            setAlbums(albumsArray);
-            })() 
-        ,[])
+    const [artist, setArtist] = useState({})
+    const [artistSongs, setArtistSongs] = useState([])
+    const {id} = useParams();
 
-    const params = useParams();
+    useEffect( () => {
+        (async () => {
+            const { data } = await axios.get(`http://localhost:3001/artists/${id}`)
+            setArtist(data)
+            const artistSongsData = (await axios.get(`http://localhost:3001/artists/${id}/songs`)).data
+            setArtistSongs(artistSongsData)
+        })()
+    }
+    ,[])
+
+    
     return (
         <>
-        <div className={"main_page_img"}>
-        <div><h2>Artist Name {params.id}</h2>
-        Text
-        </div>
+            <div className={"content"}>
+                <div className="container">
 
-        </div>
+                    <div class="artist_details">
+                        <div className="artist_details_row"><h1 className="inner-row">{artist.name}</h1></div> 
+                        <div className="artist_details_row"><div className="inner-row">Songs Released: {artist.num_of_songs}</div></div>
+                    </div>
 
-        <h3>Songs</h3>
-        <ul>
-            <li>
-                Song #1
-            </li>
-            <li>
-                Song #2
-            </li>
-        </ul>
+                    <div className="central_flex_item">
+                        <div className="artist_header">
+                            <div className="gradient">
 
-        <div className={"carousel"}>
-            <h2 className={"carousel_title"}>Albums</h2>
-            <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"}>
-                {albums.map((album, index) => 
-                    <AlbumCard fromArtistPage={true }key={index} name={album.album_name} artist_name={album.artist_name}/>
-                )}
-            </Carousel>
-        </div>
+                            </div>
+                        </div>                        
+                    </div>
 
+                    <div className="artist_details">
+                        <div className="list_container">
+                            <div className="list_title"><div>{artist.name}'s Best:</div></div>
+                            <ul>
+                            {artistSongs.map((song) =>
+                                    <Link style={{ textDecoration: 'none', color: "white"}}> 
+                                    <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
+                                    </Link>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+
+            <div className="second_content">
+
+            
+
+            </div>
         </>
     )
 }

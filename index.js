@@ -11,6 +11,7 @@ app.get("/top_albums/", query.getTopAlbumsHandler);
 app.get("/top_playlists/", query.getTopPlaylistsHandler);
 
 app.get("/songs/:id", query.getSongByIdHandler);
+app.get("/artists/:id/songs", query.getArtistSongs);
 app.get("/artists/:id", query.getArtistByIdHandler);
 app.get("/albums/:id", query.getAlbumByIdHandler);
 app.get("/playlists/:id", query.getPlaylistByIdHandler);

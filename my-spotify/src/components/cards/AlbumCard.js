@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useHistory, useLocation, Link } from "react-router-dom";
 
 function AlbumCard({ name, artist_name }) {
+    
         const params = useParams();
         console.log(params);
         return (
