@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ArtistAlbumsCarousel from '../carousels/ArtistAlbumsCarousel'
 import { useParams, Link } from "react-router-dom"; 
 
-function AritstPage( ) {
+function AlbumPage( ) {
 
-    const [artist, setArtist] = useState({})
-    const [artistSongs, setArtistSongs] = useState([])
+    const [album, setAlbum] = useState({})
+    const [albumSongs, setAlbumSongs] = useState([])
     const {id} = useParams();
 
     useEffect( () => {
         (async () => {
-            const { data } = await axios.get(`http://localhost:3001/artists/${id}`)
-            setArtist(data)
-            const artistSongsData = (await axios.get(`http://localhost:3001/artists/${id}/songs`)).data
-            setArtistSongs(artistSongsData)
+            const albumData= (await axios.get(`http://localhost:3001/albums/${id}`)).data
+            setAlbum(albumData)
+            const albumSongsData = (await axios.get(`http://localhost:3001/albums/${id}/songs`)).data
+            setAlbumSongs(albumSongsData)
         })()
     }
     ,[])
@@ -25,9 +24,10 @@ function AritstPage( ) {
             <div className={"content"}>
                 <div className="container">
 
-                    <div className="artist_details">
-                        <div className="artist_details_row"><h1 className="inner-row">{artist.name}</h1></div> 
-                        <div className="artist_details_row"><div className="inner-row">Songs Released: {artist.num_of_songs}</div></div>
+                    <div className="artist_details left_artist_details">
+                        <div className="artist_details_row"><h1 className="inner-row">{album.name}</h1></div>
+                        <div className="artist_details_row"><h3 className="inner-row">Album by {album.artist_name}</h3></div>
+                        <div className="artist_details_row"><div className="inner-row">{album.num_of_songs} Songs</div></div>
                     </div>
 
                     <div className="central_flex_item">
@@ -40,9 +40,9 @@ function AritstPage( ) {
 
                     <div className="artist_details">
                         <div className="list_container">
-                            <div className="list_title"><div>{artist.name}'s Best:</div></div>
+                            <div className="list_title"><div>Songs:</div></div>
                             <ul>
-                            {artistSongs.map((song, index) =>
+                            {albumSongs.map((song, index) =>
                                     <Link key={index} style={{ textDecoration: 'none', color: "white"}}> 
                                     <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
                                     </Link>
@@ -53,12 +53,10 @@ function AritstPage( ) {
                 </div>
             </div>
 
-						<div>
-						  <ArtistAlbumsCarousel />
-						</div>
+
 
 
         </>
     )
 }
-export default AritstPage;
+export default AlbumPage;

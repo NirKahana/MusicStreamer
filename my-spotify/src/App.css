@@ -76,16 +76,16 @@ body {
       color: white;
       margin-right: 1em;
   }
+ 
   .carousel{
     width: 95%;
     margin: auto;
     position: relative;
   }
   .img{
-    height: 9em;
+    width: 100%;
     display: block;
-    margin: auto;
-    margin-top: 0.5em;
+    margin-bottom: 1.1em;
   }
   .round_img{
     height: 11em;
@@ -97,12 +97,40 @@ body {
   .card {
     display: inline-block;
     height: 14.5em;
-    width: 10em;
+    min-width: 9em;
+    max-width: 9em;
     background-color: rgb(38 38 38);
     border-radius: 10px;
-    padding: 10px;
-    margin: 20px 20px;
+    padding: 18px 18px;
+    margin: 3em 3em 6em 3em;
   }
+  .artist_albums_carousel{
+      margin: 3em 0;
+  }
+  .artist_album_card{
+    position: relative;
+    display: inline-block;
+    background-image: url("https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg");
+    background-size: cover;
+    height: 12em;
+    width: 12em;
+    margin: 2em 1em 4em 1em;
+    border-radius: 5px;
+    border: 0.35em double black;
+  }
+  .album_name{
+    position: absolute;
+    bottom: -2em;
+    color: white;
+  }
+  
+  .album_details {
+    position: absolute;
+    bottom: -4em;
+    color: gray;
+    font-size: 0.9em;
+  }
+
   .artist_card{
     display: inline-block;
     height: 14.5em;
@@ -123,9 +151,9 @@ body {
     color: white;
   }
   .major_title {
-    font-size: 1em;
-    margin: 0.5em 0.5em 0.5em 0.5em;
     color: white;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
   .minor_title{
       font-size: 0.7em;
@@ -137,12 +165,16 @@ body {
     color: white;
     text-align: center;
   }
-  .artist_titles {
-      text-align: center;
-    }
-    .container{
+.artist_titles {
+    text-align: center;
+}
+/* .left_artist_details{
+    padding: 0 0 0 1em;
+} */
+.container{
         display: flex;
         justify-content: space-evenly;
+        min-width: 55em;
 }
   .artist_details{
     color: white;
@@ -177,7 +209,7 @@ body {
 }
 .artist_details_row{
     display: flex;
-    justify-content: center;
+    padding: 0 0 0 3rem;
 }
 .list_container{
     position: absolute;

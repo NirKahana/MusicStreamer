@@ -1,1 +1,1 @@
-GET http://localhost:3001/albums/5
+GET http://localhost:3001/albums/1

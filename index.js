@@ -12,7 +12,9 @@ app.get("/top_playlists/", query.getTopPlaylistsHandler);
 
 app.get("/songs/:id", query.getSongByIdHandler);
 app.get("/artists/:id/songs", query.getArtistSongs);
+app.get("/artists/:id/albums", query.getArtistAlbums);
 app.get("/artists/:id", query.getArtistByIdHandler);
+app.get("/albums/:id/songs", query.getAlbumSongs);
 app.get("/albums/:id", query.getAlbumByIdHandler);
 app.get("/playlists/:id", query.getPlaylistByIdHandler);
 
@@ -21,10 +23,10 @@ app.post("/artists", query.postToArtistsHandler);
 app.post("/albums", query.postToAlbumsHandler);
 app.post("/playlists", query.postToPlaylistHandler);
 
-app.put("/songs", query.putToSongsHandler);
-app.put("/artists", query.putToArtistsHandler);
-app.put("/albums", query.putToAlbumsHandler);
-app.put("/playlists", query.putToPlaylistHandler);
+app.put("/songs/:id", query.putToSongsHandler);
+app.put("/artists/:id", query.putToArtistsHandler);
+app.put("/albums/:id", query.putToAlbumsHandler);
+app.put("/playlists/:id", query.putToPlaylistHandler);
 
 app.delete("/songs/:id", query.deleteSongByIdHandler);
 app.delete("/artists/:id", query.deleteArtistByIdHandler);

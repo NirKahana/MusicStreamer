@@ -94,8 +94,6 @@ const getSongByIdHandler = (req, res) => { /// do not modify!
             else {res.send(result[0])};
           })
 };
-
-
 const getArtistByIdHandler = (req, res) => { /// do not modify! 
         con.query(`SELECT * FROM artists JOIN (SELECT artist_id, COUNT(artist_id) AS num_of_songs FROM songs GROUP BY artist_id) AS T  ON artists.id = T.artist_id WHERE artists.id = ${Number(req.params.id)}`, function (err, result, fields) {
             if (err) throw err;
@@ -114,16 +112,41 @@ const getArtistSongs = (req, res) => { /// do not modify!
         else {res.send(result)};
     })
 };
-
-
+const getArtistAlbums = (req, res) => { /// do not modify! 
+    con.query(`SELECT albums.name, albums.created_at, COUNT(albums.name) AS num_of_songs
+    FROM albums
+    JOIN songs ON songs.album_id = albums.id
+    WHERE albums.artist_id = ${Number(req.params.id)}
+    GROUP BY albums.name`, function (err, result, fields) {
+        if (err) throw err;
+        if (result[0] === undefined) {res.status(404).send("Artist not found")}
+        else {res.send(result)};
+    })
+};
 
 const getAlbumByIdHandler = (req, res) => { /// do not modify!
-        con.query(`SELECT * FROM albums WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+            con.query(`SELECT albums.*, num_of_songs, artists.name AS artist_name FROM albums 
+            JOIN (SELECT album_id, COUNT(artist_id) AS num_of_songs FROM songs GROUP BY album_id) AS T  
+            ON albums.id = T.album_id
+            JOIN artists ON albums.artist_id = artists.id
+            WHERE albums.id = ${Number(req.params.id)}`, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("Album not found")}
             else {res.send(result[0])};
           })
 };
+const getAlbumSongs = (req, res) => { /// do not modify! 
+    con.query(`SELECT songs.title, songs.created_at, songs.length, interactions.play_count
+    FROM songs
+    LEFT JOIN interactions ON interactions.song_id = songs.id
+    WHERE album_id = ${Number(req.params.id)}
+    ORDER BY play_count DESC LIMIT 10`, function (err, result, fields) {
+        if (err) throw err;
+        if (result[0] === undefined) {res.status(404).send("Album not found")}
+        else {res.send(result)};
+    })
+};
+
 const getPlaylistByIdHandler = (req, res) => { /// do not modify!
         con.query(`SELECT * FROM playlists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
             if (err) throw err;
@@ -213,7 +236,7 @@ const postToSongsHandler = (req, res) => {
 const putToSongsHandler = (req, res) => {
     let body = req.body;
     if(!body.title || !body.artist_id || !body.album_id) {res.status(400).send("error: song name or album or artist is missing!")}; /// managing missing fields
-        con.query(`UPDATE songs SET ?`,
+        con.query(`UPDATE songs SET ? WHERE id = ${Number(req.params.id)}`,
         {
             "title": body.title,
             "artist_id": body.artist_id,
@@ -234,7 +257,7 @@ const putToAlbumsHandler = (req, res) => { // do not
     let body = req.body;
     if(!body.name || !body.artist_id) {res.status(400).send("error: album name or artist_id is missing!")}
         getArtistID(body.artist_id).then(() => {
-            con.query(`UPDATE albums SET ?`,
+            con.query(`UPDATE albums SET ? WHERE id = ${Number(req.params.id)}`,
             {
                 "name": body.name,
                 "artist_id": body.artist_id,
@@ -252,7 +275,7 @@ const putToAlbumsHandler = (req, res) => { // do not
 const putToPlaylistHandler = (req, res) => { // do not modify
     let body = req.body;
     if(!body.name) {res.status(400).send("error: playlist name is missing!")}; /// managing missing fields
-        con.query(`UPDATE playlists SET ?`,
+        con.query(`UPDATE playlists SET ? WHERE id = ${Number(req.params.id)}`,
         {
             "name": body.name,
             "cover_img": body.cover_img,
@@ -268,7 +291,7 @@ const putToPlaylistHandler = (req, res) => { // do not modify
 const putToArtistsHandler = (req, res) => { // do not modify!
     let body = req.body;                                                     /// defining body
     if(!body.name) {res.status(400).send("error: artist name is missing!")}; /// managing missing fields
-        con.query(`UPDATE artists SET ?`,
+        con.query(`UPDATE artists SET ? WHERE id = ${Number(req.params.id)}`,
         {
             "name": body.name,
             "cover_img": body.cover_img,
@@ -317,13 +340,16 @@ const deletePlaylistByIdHandler = (req, res) => { /// do not modify!
 module.exports = {
     getTopSongsHandler: getTopSongsHandler,
     getTopArtistsHandler: getTopArtistsHandler,
-    getArtistSongs: getArtistSongs,
+
     getTopAlbumsHandler: getTopAlbumsHandler,
     getTopPlaylistsHandler: getTopPlaylistsHandler,
 
     getSongByIdHandler: getSongByIdHandler,
     getArtistByIdHandler: getArtistByIdHandler,
+    getArtistSongs: getArtistSongs,
+    getArtistAlbums: getArtistAlbums,
     getAlbumByIdHandler: getAlbumByIdHandler,
+    getAlbumSongs: getAlbumSongs,
     getPlaylistByIdHandler: getPlaylistByIdHandler,
 
     postToSongsHandler: postToSongsHandler,
