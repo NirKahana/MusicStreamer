@@ -10,6 +10,7 @@ function SongPage( ) {
     const {id} = useParams();
     
     const location = useLocation();
+    const { pathname } = useLocation();
     const qParams = queryString.parse(location.search);
     const qParamArray = Object.entries(qParams);
     const qParamKey = qParamArray[0][0]
@@ -28,46 +29,35 @@ function SongPage( ) {
             setSongsData(SongsArray)
             const targetData = (await axios.get(`http://localhost:3001/${qParamKey}s/${qParamValue}`)).data ////////// 
             setTarget(targetData)
+            window.scrollTo(0, 0); 
+ 
         })()
     }
-    ,[])
-
-    const { pathname } = useLocation();
-
-    useEffect(() => {
-      window.scrollTo(0, 0);
-      let x = `${pathname}${location.search}`;
-    //   console.log(x);
-    //   window.location.assign(x)   
-
-    }, [pathname]); 
+    ,[pathname])
 
     
     return (
         <>
+
             <div className={"content"}>
-                <div className="container">
 
-                    <div className="artist_details left_artist_details">
-                        <div className="artist_details_row"><h1 className="inner-row">{song.title}</h1></div>
-                        <div className="artist_details_row"><h3 className="inner-row">Song by {song.artist_name}</h3></div>
-                    </div>
+                    <h1 className={"song_page_title"}>
+                        {song.title}
+                    </h1>   
+                <div className="song_page_container">
 
-                    <div className="central_flex_item">
-                        <div className="artist_header">
-                            <div className="gradient">
+                        <iframe src={"https://www.youtube.com/embed/sdhep5OaAC0"} allowtransparency="true" className="youtube_player">
 
-                            </div>
-                        </div>                        
-                    </div>
-                    
-                    <SongsList 
-                        song_title={song.title}
-                        dataList={songsData} 
-                        artist_name={song.artist_name}
-                        arrivedFromData={target}
-                        qParamKey={qParamKey}
-                    />
+                        </iframe>
+
+                        <SongsList 
+                            specialClass={true}
+                            song_title={song.title}
+                            dataList={songsData} 
+                            artist_name={song.artist_name}
+                            arrivedFromData={target}
+                            qParamKey={qParamKey}
+                        />
 
                 </div>
             </div>

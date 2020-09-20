@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
 
-function SongsList( { dataList, arrivedFromData, song_title, qParamKey }) {
+function SongsList( { dataList, arrivedFromData, song_title, qParamKey, specialClass}) {
 
     
 
@@ -16,18 +16,9 @@ function SongsList( { dataList, arrivedFromData, song_title, qParamKey }) {
     }
     ,[])
 
-    // const { pathname } = useLocation();
-
-    // useEffect(() => {
-    //   window.scrollTo(0, 0);
-    // }, [pathname]);
-
-    
     return (
         <>
-        {console.log("song_title: ",song_title)}
-        {console.log("dataList[0]: ",dataList[0])}
-            <div className="artist_details">
+            <div className={specialClass ? "song_page_class" : "artist_details"}>
                 <div className="list_container">
                     <div className="list_title"><div>{headline}</div></div>
                     <ul>

@@ -31,7 +31,7 @@ function AlbumsCarousel( ) {
                 <h2 className={"carousel_title"}>Your Top 20 Albums</h2> {/* ALBUMS */}
                 <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"}>
                     {albums.map((album, index) => 
-                        <AlbumCard key={index} name={album.album_name} id={album.id} artist_name={album.artist_name}/>
+                        <AlbumCard key={index} name={album.album_name} id={album.id} cover_img={album.cover_img} artist_name={album.artist_name}/>
                     )}
                 </Carousel>
                 </div>

@@ -6,7 +6,7 @@ function PlaylistCard({ playlist_name, id, num_of_songs}) {
         <>
             <Link to={`/playlist/${id}`}>
                 <div className={"card"}>
-                    <img className={"img"} src={"https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg"}></img>
+                    <img className={"img"} style={{}} src={"https://www.freeiconspng.com/uploads/spotify-icon-2.png"}></img>
                     <div className={"major_title"}>{playlist_name}</div>
                     <div className={"major_title"}><span className={"minor_title"}>Playlist &#8226; {num_of_songs} Songs</span></div>
                 </div>

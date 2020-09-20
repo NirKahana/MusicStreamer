@@ -36,7 +36,7 @@ function AritstPage( ) {
                     </div>
 
                     <div className="central_flex_item">
-                        <div className="artist_header">
+                        <div className="artist_header" style={{'background-image': `url(${artist.cover_img})`}}>
                             <div className="gradient">
 
                             </div>

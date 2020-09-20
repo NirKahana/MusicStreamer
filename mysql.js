@@ -53,7 +53,7 @@ const getTopArtistsHandler = (req, res) => { /// do not modify!
         ON a.id = s.artist_id
         GROUP BY artist_id 
         ORDER BY total_plays DESC 
-        LIMIT 10;`
+        LIMIT 20;`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}
@@ -61,7 +61,7 @@ const getTopArtistsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopAlbumsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT a.name AS album_name, a.id AS id, artists.name AS artist_name, SUM(play_count) AS total_plays 
+        const sql = `SELECT a.name AS album_name, a.cover_img, a.id AS id, artists.name AS artist_name, SUM(play_count) AS total_plays 
         FROM interactions i 
         JOIN songs s 
         ON s.id = i.song_id 

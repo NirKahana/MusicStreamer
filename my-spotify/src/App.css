@@ -84,11 +84,14 @@ body {
   }
   .img{
     width: 100%;
+    max-width: 100%;
     display: block;
     margin-bottom: 1.1em;
   }
   .round_img{
     height: 11em;
+    width: 11em;
+    max-width: 11em;
     display: block;
     margin: auto;
     margin-top: 0.5em;
@@ -174,6 +177,20 @@ body {
         justify-content: space-evenly;
         min-width: 55em;
 }
+.song_page_container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  min-width: 40em;
+  height: 65vh;
+  padding: 2% 5%;
+}
+.song_page_title{
+  color: white;
+  flex-basis: 100%;
+  height: 1em;
+  padding: 0 5%;
+}
 .artist_details{
     color: white;
     flex-grow: 1;
@@ -184,9 +201,25 @@ body {
     position: relative;
     overflow: auto;
 }
+.song_page_class{
+  color: white;
+  flex-grow: 2;
+  min-width: 40%;
+  padding: 0, 0;
+  position: relative;
+  overflow: auto;
+}
+
 .central_flex_item{
     min-width: 37%;
     flex-grow: 1;
+}
+.youtube_player{
+  flex-grow: 3;
+  width: 0%;
+  min-width: 60%;
+  border: none;
+  border-radius: 8px;
 }
 .artist_header{
     position: relative;
@@ -194,7 +227,7 @@ body {
     width: 100%;
     padding-top: 100%;
     background-size: contain;
-    background-image: url(https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg);
+    /* background-image: url(https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg); */
 }
 .gradient{
     position: absolute;

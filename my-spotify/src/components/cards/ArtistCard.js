@@ -6,7 +6,7 @@ function ArtistCard({ name, plays, id, cover_img }) {
         <>
             <Link to={`/artist/${id}`}>
                 <div className={"artist_card"}>
-                    <img className={"round_img"} src={cover_img}></img>
+                    <img className={"round_img"} src={cover_img || ""}></img>
                     <div className={"artists_major_title"}>{name}</div>
                     <div className={"artists_major_title"}><span className={"minor_title"}>Total Views: {plays}</span></div>
                 </div>
