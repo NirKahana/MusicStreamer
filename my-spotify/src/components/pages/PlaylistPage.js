@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
-function AlbumPage( ) {
+function PlaylistPage( ) {
 
-    const [album, setAlbum] = useState({})
-    const [albumSongs, setAlbumSongs] = useState([])
+    const [playlist, setPlaylist] = useState({})
+    const [playlistSongs, setPlaylistSongs] = useState([])
     const {id} = useParams();
 
     useEffect( () => {
         (async () => {
-            const albumData= (await axios.get(`http://localhost:3001/albums/${id}`)).data
-            setAlbum(albumData)
-            const albumSongsData = (await axios.get(`http://localhost:3001/albums/${id}/songs`)).data
-            setAlbumSongs(albumSongsData)
+            const playlistData= (await axios.get(`http://localhost:3001/playlists/${id}`)).data
+            setPlaylist(playlistData)
+            const playlistSongsData = (await axios.get(`http://localhost:3001/playlists/${id}/songs`)).data ////////// 
+            setPlaylistSongs(playlistSongsData)
         })()
     }
     ,[])
@@ -31,9 +31,8 @@ function AlbumPage( ) {
                 <div className="container">
 
                     <div className="artist_details left_artist_details">
-                        <div className="artist_details_row"><h1 className="inner-row">{album.name}</h1></div>
-                        <div className="artist_details_row"><h3 className="inner-row">Album by {album.artist_name}</h3></div>
-                        <div className="artist_details_row"><div className="inner-row">{album.num_of_songs} Songs</div></div>
+                        <div className="artist_details_row"><h1 className="inner-row">{playlist.name}</h1></div>
+                        <div className="artist_details_row"><div className="inner-row">{playlist.num_of_songs} Songs</div></div>
                     </div>
 
                     <div className="central_flex_item">
@@ -48,7 +47,7 @@ function AlbumPage( ) {
                         <div className="list_container">
                             <div className="list_title"><div>Songs:</div></div>
                             <ul>
-                            {albumSongs.map((song, index) =>
+                            {playlistSongs.map((song, index) =>
                                     <Link to={"/song"} key={index} style={{ textDecoration: 'none', color: "white"}}> 
                                     <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
                                     </Link>
@@ -65,4 +64,4 @@ function AlbumPage( ) {
         </>
     )
 }
-export default AlbumPage;
+export default PlaylistPage;

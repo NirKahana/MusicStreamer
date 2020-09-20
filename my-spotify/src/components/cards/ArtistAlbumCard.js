@@ -6,8 +6,8 @@ function ArtistAlbumCard({ name, created_at, num_of_songs, id}) {
         const params = useParams();
         return (
             <>
-                <Link to={`album/${id}`}>
-                    <div className={"artist_album_card"}>
+                <Link to={`/album/${id}`}>
+                    <div className={"artist_album_card"}>   
                     <div className="album_name">
                         {name}
                     </div>

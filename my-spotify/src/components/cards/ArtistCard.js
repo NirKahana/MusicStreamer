@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams, useHistory, useLocation, Link } from "react-router-dom";
 
 function ArtistCard({ name, plays, id }) {
-
     return (
         <>
             <Link to={`/artist/${id}`}>

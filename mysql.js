@@ -61,7 +61,7 @@ const getTopArtistsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopAlbumsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT a.name AS album_name, artists.name AS artist_name, SUM(play_count) AS total_plays 
+        const sql = `SELECT a.name AS album_name, a.id AS id, artists.name AS artist_name, SUM(play_count) AS total_plays 
         FROM interactions i 
         JOIN songs s 
         ON s.id = i.song_id 
@@ -77,7 +77,7 @@ const getTopAlbumsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopPlaylistsHandler = (req, res) => { /// do not modify!
-        const sql = "SELECT p.name, SUM(i.play_count) AS num_of_plays, T.num_of_songs FROM interactions i JOIN playlist_songs pls ON i.song_id = pls.song_id JOIN (SELECT *, COUNT(song_id) AS num_of_songs FROM playlist_songs GROUP BY (playlist_id)) AS T ON T.playlist_id = pls.playlist_id  JOIN playlists p ON p.id = pls.playlist_id GROUP BY (pls.playlist_id)";
+        const sql = "SELECT p.name, p.id, SUM(i.play_count) AS num_of_plays, T.num_of_songs FROM interactions i JOIN playlist_songs pls ON i.song_id = pls.song_id JOIN (SELECT *, COUNT(song_id) AS num_of_songs FROM playlist_songs GROUP BY (playlist_id)) AS T ON T.playlist_id = pls.playlist_id  JOIN playlists p ON p.id = pls.playlist_id GROUP BY (pls.playlist_id)";
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}
@@ -88,14 +88,18 @@ const getTopPlaylistsHandler = (req, res) => { /// do not modify!
 ////////////// GET SPECIFIC BY ID
 
 const getSongByIdHandler = (req, res) => { /// do not modify!
-        con.query(`SELECT * FROM songs WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+        con.query(`SELECT songs.*, artists.name AS artist_name FROM songs JOIN artists ON artists.id = songs.artist_id 
+        WHERE songs.id = ?`,req.params.id, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("Song not found")}
             else {res.send(result[0])};
           })
 };
 const getArtistByIdHandler = (req, res) => { /// do not modify! 
-        con.query(`SELECT * FROM artists JOIN (SELECT artist_id, COUNT(artist_id) AS num_of_songs FROM songs GROUP BY artist_id) AS T  ON artists.id = T.artist_id WHERE artists.id = ${Number(req.params.id)}`, function (err, result, fields) {
+        con.query(`SELECT * FROM artists 
+        JOIN (SELECT artist_id, COUNT(artist_id) AS num_of_songs FROM songs GROUP BY artist_id) AS T  
+        ON artists.id = T.artist_id 
+        WHERE artists.id = ?`,req.params.id, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("Artist not found")}
             else {res.send(result[0])};
@@ -105,19 +109,19 @@ const getArtistSongs = (req, res) => { /// do not modify!
     con.query(`SELECT songs.title, songs.created_at, songs.length, interactions.play_count
     FROM songs
     LEFT JOIN interactions ON interactions.song_id = songs.id
-    WHERE artist_id = ${Number(req.params.id)}
-    ORDER BY play_count DESC LIMIT 10`, function (err, result, fields) {
+    WHERE artist_id = ?
+    ORDER BY play_count DESC`,req.params.id, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Artist not found")}
         else {res.send(result)};
     })
 };
 const getArtistAlbums = (req, res) => { /// do not modify! 
-    con.query(`SELECT albums.name, albums.created_at, COUNT(albums.name) AS num_of_songs
+    con.query(`SELECT albums.name, albums.id, albums.created_at, COUNT(albums.name) AS num_of_songs
     FROM albums
     JOIN songs ON songs.album_id = albums.id
-    WHERE albums.artist_id = ${Number(req.params.id)}
-    GROUP BY albums.name`, function (err, result, fields) {
+    WHERE albums.artist_id = ?
+    GROUP BY albums.name`,req.params.id, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Artist not found")}
         else {res.send(result)};
@@ -129,7 +133,7 @@ const getAlbumByIdHandler = (req, res) => { /// do not modify!
             JOIN (SELECT album_id, COUNT(artist_id) AS num_of_songs FROM songs GROUP BY album_id) AS T  
             ON albums.id = T.album_id
             JOIN artists ON albums.artist_id = artists.id
-            WHERE albums.id = ${Number(req.params.id)}`, function (err, result, fields) {
+            WHERE albums.id = ?`,req.params.id, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("Album not found")}
             else {res.send(result[0])};
@@ -139,8 +143,8 @@ const getAlbumSongs = (req, res) => { /// do not modify!
     con.query(`SELECT songs.title, songs.created_at, songs.length, interactions.play_count
     FROM songs
     LEFT JOIN interactions ON interactions.song_id = songs.id
-    WHERE album_id = ${Number(req.params.id)}
-    ORDER BY play_count DESC LIMIT 10`, function (err, result, fields) {
+    WHERE album_id = ?
+    ORDER BY play_count DESC`,req.params.id, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Album not found")}
         else {res.send(result)};
@@ -148,11 +152,25 @@ const getAlbumSongs = (req, res) => { /// do not modify!
 };
 
 const getPlaylistByIdHandler = (req, res) => { /// do not modify!
-        con.query(`SELECT * FROM playlists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+        con.query(`SELECT pl.*, COUNT(pls.song_id) AS num_of_songs
+        FROM playlists pl
+        JOIN playlist_songs pls ON pls.playlist_id = pl.id
+        WHERE pl.id = ?
+        GROUP BY pl.id`,[req.params.id], function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("Playlist not found")}
             else {res.send(result[0])};
           })
+};
+const getPlaylistSongs = (req, res) => { /// do not modify! 
+    con.query(`SELECT songs.title, songs.length
+    FROM songs
+    JOIN playlist_songs ON playlist_songs.song_id = songs.id
+    WHERE playlist_songs.playlist_id = ?`,req.params.id, function (err, result, fields) {
+        if (err) throw err;
+        if (result[0] === undefined) {res.status(404).send("Album not found")}
+        else {res.send(result)};
+    })
 };
 ////////////// POST A NEW
 
@@ -308,28 +326,28 @@ const putToArtistsHandler = (req, res) => { // do not modify!
 
 ///////////// DELETE A SPECIFIC BY ID
 const deleteSongByIdHandler = (req, res) => { /// do not modify!
-        con.query(`DELETE FROM songs WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+        con.query(`DELETE FROM songs WHERE id = ?`,[req.params.id], function (err, result, fields) {
             if (err) throw err;
             if (result === undefined) {res.status(404).send("Song not found")}
             else {res.send(result)};
           })
 };
 const deleteArtistByIdHandler = (req, res) => { /// do not modify!
-        con.query(`DELETE FROM artists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+        con.query(`DELETE FROM artists WHERE id = ?`,[req.params.id], function (err, result, fields) {
             if (err) throw err;
             if (result === undefined) {res.status(404).send("Artist not found")}
             else {res.send(result)};
           })
 };
 const deleteAlbumByIdHandler = (req, res) => { /// do not modify!
-        con.query(`DELETE FROM albums WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+        con.query(`DELETE FROM albums WHERE id = ?`,[req.params.id], function (err, result, fields) {
             if (err) throw err;
             if (result === undefined) {res.status(404).send("Album not found")}
             else {res.send(result)};
           })
 };
 const deletePlaylistByIdHandler = (req, res) => { /// do not modify!
-        con.query(`DELETE FROM playlists WHERE id = ${Number(req.params.id)}`, function (err, result, fields) {
+        con.query(`DELETE FROM playlists WHERE id = ?`,[req.params.id], function (err, result, fields) {
             if (err) throw err;
             if (result === undefined) {res.status(404).send("Playlist not found")}
             else {res.send(result)};
@@ -351,6 +369,7 @@ module.exports = {
     getAlbumByIdHandler: getAlbumByIdHandler,
     getAlbumSongs: getAlbumSongs,
     getPlaylistByIdHandler: getPlaylistByIdHandler,
+    getPlaylistSongs: getPlaylistSongs,
 
     postToSongsHandler: postToSongsHandler,
     postToArtistsHandler: postToArtistsHandler,

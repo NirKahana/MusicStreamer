@@ -16,6 +16,7 @@ app.get("/artists/:id/albums", query.getArtistAlbums);
 app.get("/artists/:id", query.getArtistByIdHandler);
 app.get("/albums/:id/songs", query.getAlbumSongs);
 app.get("/albums/:id", query.getAlbumByIdHandler);
+app.get("/playlists/:id/songs", query.getPlaylistSongs);
 app.get("/playlists/:id", query.getPlaylistByIdHandler);
 
 app.post("/songs", query.postToSongsHandler);

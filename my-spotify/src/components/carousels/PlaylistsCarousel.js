@@ -31,7 +31,7 @@ function PlaylistsCarousel( ) {
             <h2 className={"carousel_title"}>Your Top 20 Playlists</h2> {/* PLAYLISTS */}
             <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"}>
                 {playlists.map((playlist, index) => 
-                    <PlaylistCard key={index} playlist_name={playlist.name} num_of_songs={playlist.num_of_songs}/>
+                    <PlaylistCard key={index} id={playlist.id} playlist_name={playlist.name} num_of_songs={playlist.num_of_songs}/>
                 )}
             </Carousel>
             </div>

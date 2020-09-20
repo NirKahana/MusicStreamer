@@ -102,7 +102,7 @@ body {
     background-color: rgb(38 38 38);
     border-radius: 10px;
     padding: 18px 18px;
-    margin: 3em 3em 6em 3em;
+    margin: 3em 3em;
   }
   .artist_albums_carousel{
       margin: 3em 0;
@@ -159,18 +159,16 @@ body {
       font-size: 0.7em;
       color: rgb(141, 141, 141);
   }
-  .artists_major_title {
+.artists_major_title {
     font-size: 1em;
     margin: 0.5em 0.5em 0.5em 0.5em;
     color: white;
     text-align: center;
-  }
+}
 .artist_titles {
     text-align: center;
 }
-/* .left_artist_details{
-    padding: 0 0 0 1em;
-} */
+
 .container{
         display: flex;
         justify-content: space-evenly;
@@ -182,6 +180,7 @@ body {
     padding: 0 0;
     font-family: 'Karla', sans-serif;
     min-width: 30.75%;
+    max-width: 30.75%;
     position: relative;
     overflow: auto;
 }
