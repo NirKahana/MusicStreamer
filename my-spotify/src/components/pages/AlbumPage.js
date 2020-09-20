@@ -49,7 +49,7 @@ function AlbumPage( ) {
                             <div className="list_title"><div>Songs:</div></div>
                             <ul>
                             {albumSongs.map((song, index) =>
-                                    <Link to={"/song"} key={index} style={{ textDecoration: 'none', color: "white"}}> 
+                                    <Link to={`/song/${song.id}?album=${album.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
                                     <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
                                     </Link>
                                 )}

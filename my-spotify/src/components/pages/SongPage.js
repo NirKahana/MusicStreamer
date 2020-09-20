@@ -4,11 +4,9 @@ import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 import SongsList from '../SongsList'
 
-function PlaylistPage( ) {
+function SongPage( ) {
 
 
-
-    
     const {id} = useParams();
     
     const location = useLocation();
@@ -38,7 +36,11 @@ function PlaylistPage( ) {
 
     useEffect(() => {
       window.scrollTo(0, 0);
-    }, [pathname]);
+      let x = `${pathname}${location.search}`;
+    //   console.log(x);
+    //   window.location.assign(x)   
+
+    }, [pathname]); 
 
     
     return (
@@ -59,13 +61,12 @@ function PlaylistPage( ) {
                         </div>                        
                     </div>
                     
-
-
                     <SongsList 
                         song_title={song.title}
                         dataList={songsData} 
                         artist_name={song.artist_name}
                         arrivedFromData={target}
+                        qParamKey={qParamKey}
                     />
 
                 </div>
@@ -77,4 +78,4 @@ function PlaylistPage( ) {
         </>
     )
 }
-export default PlaylistPage;
+export default SongPage;

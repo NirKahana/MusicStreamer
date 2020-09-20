@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
 
-function SongsList( { dataList, artist_name, arrivedFromData, song_title }) {
+function SongsList( { dataList, arrivedFromData, song_title, qParamKey }) {
 
     
 
@@ -32,8 +32,8 @@ function SongsList( { dataList, artist_name, arrivedFromData, song_title }) {
                     <div className="list_title"><div>{headline}</div></div>
                     <ul>
                     {dataList.filter((song) => song.title !== song_title).map((song, index) =>
-                            <Link to={"/song"} key={index} style={{ textDecoration: 'none', color: "white"}}> 
-                            <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
+                            <Link to={`/song/${song.id}?${qParamKey}=${arrivedFromData.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
+                                <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
                             </Link>
                         )}
                     </ul>

@@ -174,7 +174,7 @@ body {
         justify-content: space-evenly;
         min-width: 55em;
 }
-  .artist_details{
+.artist_details{
     color: white;
     flex-grow: 1;
     padding: 0 0;
@@ -184,19 +184,19 @@ body {
     position: relative;
     overflow: auto;
 }
-  .central_flex_item{
-      min-width: 37%;
-      flex-grow: 1;
+.central_flex_item{
+    min-width: 37%;
+    flex-grow: 1;
 }
-  .artist_header{
+.artist_header{
     position: relative;
-
+    
     width: 100%;
     padding-top: 100%;
     background-size: contain;
     background-image: url(https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg);
 }
-  .gradient{
+.gradient{
     position: absolute;
     background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.2) 85%, rgba(10,10,10, 1) 100%),
                       linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 75%,rgba(0, 0, 0, 0.2) 85%,rgba(10,10,10, 1) 100%),
@@ -208,8 +208,19 @@ body {
 }
 .artist_details_row{
     display: flex;
-    padding: 0 0 0 3rem;
+    margin: auto;
+    margin-bottom: 1em;
 }
+.artist_details_row h1{
+    margin: auto;
+}
+.artist_details_row div{
+    margin: auto;
+}
+.artist_details_row h3{
+    margin: auto;
+}
+
 .list_container{
     position: absolute;
     width: 100%;

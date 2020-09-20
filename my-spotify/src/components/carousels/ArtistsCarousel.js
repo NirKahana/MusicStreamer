@@ -31,7 +31,7 @@ function ArtistsCarousel( ) {
             <h2 className={"carousel_title"}>Your Top 20 Artists</h2> {/* ARTISTS */}
             <Carousel breakPoints={breakPointsForArtists} transitionMs={1200} easing={"ease"}>
                 {artists.map((artist, index) => 
-                    <ArtistCard key={index} id={artist.artist_id} name={artist.artist_name} plays={artist.total_plays}/>
+                    <ArtistCard key={index} cover_img={artist.cover_img} id={artist.artist_id} name={artist.artist_name} plays={artist.total_plays}/>
                 )}
             </Carousel>
             </div>

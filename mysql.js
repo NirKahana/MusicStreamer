@@ -45,7 +45,7 @@ const getTopSongsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopArtistsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT a.created_at, a.id AS artist_id ,a.name AS artist_name, SUM(play_count) AS total_plays 
+        const sql = `SELECT a.created_at, a.id AS artist_id ,a.name AS artist_name, a.cover_img, SUM(play_count) AS total_plays 
         FROM interactions i 
         JOIN songs s 
         ON s.id = i.song_id 
@@ -106,7 +106,7 @@ const getArtistByIdHandler = (req, res) => { /// do not modify!
         })
 };
 const getArtistSongs = (req, res) => { /// do not modify! 
-    con.query(`SELECT songs.title, songs.created_at, songs.length, interactions.play_count
+    con.query(`SELECT songs.id, songs.title, songs.created_at, songs.length, interactions.play_count
     FROM songs
     LEFT JOIN interactions ON interactions.song_id = songs.id
     WHERE artist_id = ?
@@ -140,7 +140,7 @@ const getAlbumByIdHandler = (req, res) => { /// do not modify!
           })
 };
 const getAlbumSongs = (req, res) => { /// do not modify! 
-    con.query(`SELECT songs.title, songs.created_at, songs.length, interactions.play_count
+    con.query(`SELECT songs.id, songs.title, songs.created_at, songs.length, interactions.play_count
     FROM songs
     LEFT JOIN interactions ON interactions.song_id = songs.id
     WHERE album_id = ?
@@ -163,7 +163,7 @@ const getPlaylistByIdHandler = (req, res) => { /// do not modify!
           })
 };
 const getPlaylistSongs = (req, res) => { /// do not modify! 
-    con.query(`SELECT songs.title, songs.length
+    con.query(`SELECT songs.id, songs.title, songs.length
     FROM songs
     JOIN playlist_songs ON playlist_songs.song_id = songs.id
     WHERE playlist_songs.playlist_id = ?`,req.params.id, function (err, result, fields) {
