@@ -224,6 +224,12 @@ body {
   border: none;
   border-radius: 8px;
 }
+.youtube_iframe{
+  /* height: 100% !important; */
+  width: 100% !important;
+  height: 65vh;
+  border-radius: 8px;
+}
 .artist_header{
     position: relative;
     

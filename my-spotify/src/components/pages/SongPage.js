@@ -22,25 +22,34 @@ function SongPage( ) {
     }
     ,[pathname])
 
-    const myFunc = () => { 
-        // !booleanSwitch && setBooleanSwitch(true) 
+    const onEnd = () => { 
+        !booleanSwitch && setBooleanSwitch(true)
     }
+    const onStart = () => { 
+        // sendQuery()
+    }
+    let videoId = song.youtube_link ? song.youtube_link.replace("https://www.youtube.com/watch?v=", "") : ""
+    
     return (
         <>
             <div className={"content"}>
                     <h1 className={"song_page_title"}>
                         {song.title}
-                    </h1>   
+                    </h1>    
+
                 <div className="song_page_container">
-
-
-
-                        <iframe src={song.youtube_link ? song.youtube_link.replace("watch?v=", "embed/") : ""}
+                    <div className="youtube_player">
+                        <YouTube
+                                videoId={videoId}
                                 allowtransparency="true" 
-                                onLoad={myFunc}
-                                className="youtube_player"
+                                onEnd={onEnd}
+                                onPlay={onStart}
+                                className="youtube_iframe"
+                                width="100%"
+                                height="100%"
                         >
-                        </iframe>
+                        </YouTube>
+                    </div>
                                 
 
                         <SongsList

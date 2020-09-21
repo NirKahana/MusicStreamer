@@ -24,28 +24,28 @@ function AritstPage( ) {
     useEffect(() => {
       window.scrollTo(0, 0);
     }, [pathname]);
-    
+    let leftHeadLine = (artist.name && artistSongs[0]) ? <h1 className="inner-row">{artist.name}</h1> : ""
+    let rightHeadLine = (artist.name && artistSongs[0]) ? <div><span>{artist.name}</span><span>s Best:</span></div> : ""
+    let songsReleased = (artist.num_of_songs && artistSongs[0]) ? <div className="inner-row">Songs Released: {artist.num_of_songs}</div> : ""
+    let centralDiv = (artist.cover_img && artistSongs[0]) ? <div className="artist_header" style={{backgroundImage: `url(${artist.cover_img})`}}><div className="gradient"></div></div> : ""
+    let albumsCarousel = (artist.cover_img && artistSongs[0]) ? <div><ArtistAlbumsCarousel/></div> : ""
     return (
         <>
             <div className={"content"}>
                 <div className="container">
 
                     <div className="artist_details">
-                        <div className="artist_details_row"><h1 className="inner-row">{artist.name}</h1></div> 
-                        <div className="artist_details_row"><div className="inner-row">Songs Released: {artist.num_of_songs}</div></div>
+                        <div className="artist_details_row">{leftHeadLine}</div> 
+                        <div className="artist_details_row">{songsReleased}</div>
                     </div>
 
                     <div className="central_flex_item">
-                        <div className="artist_header" style={{backgroundImage: `url(${artist.cover_img})`}}>
-                            <div className="gradient">
-
-                            </div>
-                        </div>                        
+                        {centralDiv}                       
                     </div>
 
                     <div className="artist_details">
                         <div className="list_container">
-                            <div className="list_title"><div>{artist.name}'s Best:</div></div>
+                            <div className="list_title">{rightHeadLine}</div>
                             <ul>
                             {artistSongs.map((song, index) =>
                                     <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
@@ -57,12 +57,7 @@ function AritstPage( ) {
                     </div>
                 </div>
             </div>
-
-						<div>
-						  <ArtistAlbumsCarousel />
-						</div>
-
-
+            {albumsCarousel}
         </>
     )
 }
