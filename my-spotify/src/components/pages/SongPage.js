@@ -19,7 +19,7 @@ function SongPage( ) {
         
     const [song, setSong] = useState({})
     const [songsData, setSongsData] = useState([])
-    const [target, setTarget] = useState([])
+    const [target, setTarget] = useState(false)
 
     useEffect( () => {
         (async () => {
@@ -35,18 +35,28 @@ function SongPage( ) {
     }
     ,[pathname])
 
+    const myFunc = () => {
+        if (target) {
+            console.log("hi");
+        }
+    //    window.
+    }
+
+    console.log(songsData);
     
     return (
         <>
-
             <div className={"content"}>
-
                     <h1 className={"song_page_title"}>
                         {song.title}
                     </h1>   
                 <div className="song_page_container">
 
-                        <iframe src={"https://www.youtube.com/embed/sdhep5OaAC0"} allowtransparency="true" className="youtube_player">
+                        <iframe src={song.youtube_link ? song.youtube_link.replace("watch?v=", "embed/") : ""}
+                                allowtransparency="true" 
+                                className="youtube_player"
+                                onEnded={myFunc()}
+                        >
 
                         </iframe>
 
@@ -61,10 +71,6 @@ function SongPage( ) {
 
                 </div>
             </div>
-
-
-
-
         </>
     )
 }

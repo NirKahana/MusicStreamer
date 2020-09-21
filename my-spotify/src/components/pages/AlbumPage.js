@@ -37,7 +37,7 @@ function AlbumPage( ) {
                     </div>
 
                     <div className="central_flex_item">
-                        <div className="artist_header">
+                        <div className="artist_header"  style={{'background-image': `url(${album.cover_img})`}}>
                             <div className="gradient">
 
                             </div>

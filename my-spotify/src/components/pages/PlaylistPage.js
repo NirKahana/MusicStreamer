@@ -36,7 +36,7 @@ function PlaylistPage( ) {
                     </div>
 
                     <div className="central_flex_item">
-                        <div className="artist_header">
+                        <div className="artist_header" style={{'background-image': `url(${"https://www.freeiconspng.com/uploads/spotify-icon-2.png"})`}}>
                             <div className="gradient">
 
                             </div>
