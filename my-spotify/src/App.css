@@ -84,6 +84,7 @@ body {
   }
   .link{
     text-decoration: none;
+    color: white;
   }
   .img{
     width: 100%;
@@ -286,4 +287,9 @@ body {
 .list_container ul li:hover{
     background-color: rgb(39, 39, 39);
     transition: 500ms;
+}
+.not_found{
+  margin-top: 50vh;
+  color: white;
+  text-align: center;
 }

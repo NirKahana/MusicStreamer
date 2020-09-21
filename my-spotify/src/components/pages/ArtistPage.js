@@ -36,7 +36,7 @@ function AritstPage( ) {
                     </div>
 
                     <div className="central_flex_item">
-                        <div className="artist_header" style={{'background-image': `url(${artist.cover_img})`}}>
+                        <div className="artist_header" style={{backgroundImage: `url(${artist.cover_img})`}}>
                             <div className="gradient">
 
                             </div>
@@ -49,7 +49,7 @@ function AritstPage( ) {
                             <ul>
                             {artistSongs.map((song, index) =>
                                     <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
-                                    <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
+                                        <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
                                     </Link>
                                 )}
                             </ul>

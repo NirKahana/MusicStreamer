@@ -7,6 +7,7 @@ import ArtistPage from "./components/pages/ArtistPage"
 import AlbumPage from "./components/pages/AlbumPage"
 import PlaylistPage from "./components/pages/PlaylistPage"
 import SongPage from "./components/pages/SongPage"
+import NotFound from "./components/pages/NotFound"
 
 function App() {
 
@@ -28,17 +29,17 @@ function App() {
       <Route exact path='/playlist/:id'>
         <PlaylistPage/>
       </Route>
-      <Route path='/song/:id'>
+      <Route exact path='/song/:id'>
         <SongPage/>
       </Route>
 
-      <Route path='/'>
+      <Route exact path='/'>
         <Home />
       </Route>
 
-        {/* <Route>
-          <Home/>
-        </Route> */}
+        <Route>
+          <NotFound/>
+        </Route>
 
       </Switch>
     </Router>

@@ -32,7 +32,7 @@ function AlbumPage( ) {
 
                     <div className="artist_details left_artist_details">
                         <div className="artist_details_row"><h1 className="inner-row">{album.name}</h1></div>
-                        <div className="artist_details_row"><h3 className="inner-row">Album by {album.artist_name}</h3></div>
+                        <div className="artist_details_row"><h3 className="inner-row">Album by <Link to={`/artist/${album.artist_id}`} className="link">{album.artist_name}</Link></h3></div>
                         <div className="artist_details_row"><div className="inner-row">{album.num_of_songs} Songs</div></div>
                     </div>
 

@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import queryString from 'query-string';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
 
-function SongsList( { dataList, arrivedFromData, qParamKey, qParamValue, specialClass}) {
+function SongsList( { }) {
 
     const {id} = useParams()
     const { pathname } = useLocation();
+    const location = useLocation();
+    const qParams = queryString.parse(location.search);
+    const qParamArray = Object.entries(qParams);
+    const qParamKey = qParamArray[0][0]
+    const qParamValue = qParamArray[0][1]
 
 
     const [songsData, setSongsData] = useState([])
-    const [target, setTarget] = useState(false)
+    const [target, setTarget] = useState({})
     
     useEffect( () => {
         ( async () => {
@@ -22,13 +28,13 @@ function SongsList( { dataList, arrivedFromData, qParamKey, qParamValue, special
     }
     ,[pathname])
 
-    let headline = `More from ${target.name}:`;
+    let headline = <div>More from <Link to={`/${qParamKey}/${qParamValue}`} className="link">{target.name}</Link>:</div>
 
     return (
         <>
-            <div className={specialClass ? "song_page_class" : "artist_details"}>
+            <div className={"song_page_class"}>
                 <div className="list_container">
-                    <div className="list_title"><div>{headline}</div></div>
+                    <div className="list_title">{headline}</div>
                     <ul>
                     {songsData.map((song, index) =>
                             <Link to={`/song/${song.id}?${qParamKey}=${target.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 

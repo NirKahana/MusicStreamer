@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import queryString from 'query-string';
 import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 import SongsList from '../SongsList'
 
 function SongPage( ) {
 
-
     const {id} = useParams();
-    
-    const location = useLocation();
     const { pathname } = useLocation();
-    const qParams = queryString.parse(location.search);
-    const qParamArray = Object.entries(qParams);
-    const qParamKey = qParamArray[0][0]
-    const qParamValue = qParamArray[0][1]
 
-        
     const [song, setSong] = useState({})
-
     useEffect( () => {
         (async () => {
             const songData= (await axios.get(`http://localhost:3001/songs/${id}`)).data //////////////////
@@ -30,11 +20,9 @@ function SongPage( ) {
     ,[pathname])
 
     const myFunc = () => {
-        if (song) {
             console.log("hi");
         }
-    //    window.
-    }    
+    
     return (
         <>
             <div className={"content"}>
@@ -48,15 +36,9 @@ function SongPage( ) {
                                 className="youtube_player"
                                 onEnded={myFunc()}
                         >
-
                         </iframe>
 
-                        <SongsList 
-                            specialClass={true}
-                            song_title={song.title}
-                            qParamKey={qParamKey}
-                            qParamValue={qParamValue}
-                        />
+                        <SongsList/>
 
                 </div>
             </div>
