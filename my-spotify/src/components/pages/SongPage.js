@@ -18,17 +18,11 @@ function SongPage( ) {
 
         
     const [song, setSong] = useState({})
-    const [songsData, setSongsData] = useState([])
-    const [target, setTarget] = useState(false)
 
     useEffect( () => {
         (async () => {
             const songData= (await axios.get(`http://localhost:3001/songs/${id}`)).data //////////////////
             setSong(songData)
-            const SongsArray = (await axios.get(`http://localhost:3001/${qParamKey}s/${qParamValue}/songs`)).data ////////// 
-            setSongsData(SongsArray)
-            const targetData = (await axios.get(`http://localhost:3001/${qParamKey}s/${qParamValue}`)).data ////////// 
-            setTarget(targetData)
             window.scrollTo(0, 0); 
  
         })()
@@ -36,14 +30,11 @@ function SongPage( ) {
     ,[pathname])
 
     const myFunc = () => {
-        if (target) {
+        if (song) {
             console.log("hi");
         }
     //    window.
-    }
-
-    console.log(songsData);
-    
+    }    
     return (
         <>
             <div className={"content"}>
@@ -63,10 +54,8 @@ function SongPage( ) {
                         <SongsList 
                             specialClass={true}
                             song_title={song.title}
-                            dataList={songsData} 
-                            artist_name={song.artist_name}
-                            arrivedFromData={target}
                             qParamKey={qParamKey}
+                            qParamValue={qParamValue}
                         />
 
                 </div>
