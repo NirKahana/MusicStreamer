@@ -10,9 +10,9 @@ function AlbumPage( ) {
 
     useEffect( () => {
         (async () => {
-            const albumData= (await axios.get(`http://localhost:3001/albums/${id}`)).data
+            const albumData= (await axios.get(`/albums/${id}`)).data
             setAlbum(albumData)
-            const albumSongsData = (await axios.get(`http://localhost:3001/albums/${id}/songs`)).data
+            const albumSongsData = (await axios.get(`/albums/${id}/songs`)).data
             setAlbumSongs(albumSongsData)
         })()
     }

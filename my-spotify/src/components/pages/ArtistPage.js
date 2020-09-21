@@ -12,9 +12,9 @@ function AritstPage( ) {
 
     useEffect( () => {
         (async () => {
-            const { data } = await axios.get(`http://localhost:3001/artists/${id}`)
+            const { data } = await axios.get(`/artists/${id}`)
             setArtist(data)
-            const artistSongsData = (await axios.get(`http://localhost:3001/artists/${id}/songs`)).data
+            const artistSongsData = (await axios.get(`/artists/${id}/songs`)).data
             setArtistSongs(artistSongsData)
         })()
     }

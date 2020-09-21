@@ -10,9 +10,9 @@ function PlaylistPage( ) {
 
     useEffect( () => {
         (async () => {
-            const playlistData= (await axios.get(`http://localhost:3001/playlists/${id}`)).data
+            const playlistData= (await axios.get(`/playlists/${id}`)).data
             setPlaylist(playlistData)
-            const playlistSongsData = (await axios.get(`http://localhost:3001/playlists/${id}/songs`)).data ////////// 
+            const playlistSongsData = (await axios.get(`/playlists/${id}/songs`)).data ////////// 
             setPlaylistSongs(playlistSongsData)
         })()
     }

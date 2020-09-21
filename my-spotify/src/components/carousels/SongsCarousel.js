@@ -20,7 +20,7 @@ function SongsCarousel( ) {
       useEffect(() => {
           (async () => {
           try{
-        let songsArray = await axios.get("http://localhost:3001/top_songs");
+        let songsArray = await axios.get("/top_songs");
         setSongs(songsArray.data);
           } catch(err) {console.error(err)};
         })() 

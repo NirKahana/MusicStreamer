@@ -19,7 +19,7 @@ function AlbumsCarousel( ) {
       useEffect(() => {
           (async () => {
           try{
-            let albumsArray = await axios.get("http://localhost:3001/top_albums");
+            let albumsArray = await axios.get("/top_albums");
             setAlbums(albumsArray.data);
           } catch(err) {console.error(err)};
         })() 

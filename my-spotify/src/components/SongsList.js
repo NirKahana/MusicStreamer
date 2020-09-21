@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
 
-function SongsList( { }) {
+function SongsList( { booleanSwitch }) {
 
     const {id} = useParams()
     const { pathname } = useLocation();
@@ -14,22 +14,31 @@ function SongsList( { }) {
     const qParamKey = qParamArray[0][0]
     const qParamValue = qParamArray[0][1]
 
-
-    const [songsData, setSongsData] = useState([])
+    
+    
+    const [songsData, setSongsData] = useState([])  
     const [target, setTarget] = useState({})
     
     useEffect( () => {
         ( async () => {
-            const SongsArray = (await axios.get(`http://localhost:3001/${qParamKey}s/${qParamValue}/songs`)).data ////////// 
+            const SongsArray = (await axios.get(`/${qParamKey}s/${qParamValue}/songs`)).data ////////// 
             setSongsData(SongsArray)
-            const targetData = (await axios.get(`http://localhost:3001/${qParamKey}s/${qParamValue}`)).data ////////// 
+            const targetData = (await axios.get(`/${qParamKey}s/${qParamValue}`)).data ////////// 
             setTarget(targetData)
         })()
     }
     ,[pathname])
 
-    let headline = <div>More from <Link to={`/${qParamKey}/${qParamValue}`} className="link">{target.name}</Link>:</div>
+    if(booleanSwitch) {
+        for (let i = 0; i < songsData.length-1; i++) {
+            if (songsData[i].id.toString() === id) {
+                window.location.assign(`/song/${songsData[i+1].id}?${qParamKey}=${qParamValue}`)
+            }
+        }
+    }
 
+    let headline = <div>More from <Link to={`/${qParamKey}/${qParamValue}`} className="link">{target.name}</Link>:</div>
+    
     return (
         <>
             <div className={"song_page_class"}>

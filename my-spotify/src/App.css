@@ -292,4 +292,6 @@ body {
   margin-top: 50vh;
   color: white;
   text-align: center;
+  font-family: monospace;
+  font-size: 2.5em;
 }

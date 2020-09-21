@@ -19,7 +19,7 @@ function PlaylistsCarousel( ) {
       useEffect(() => {
           (async () => {
           try{
-            let playlistsArray = await axios.get("http://localhost:3001/top_playlists");
+            let playlistsArray = await axios.get("/top_playlists");
             setPlaylists(playlistsArray.data)
           } catch(err) {console.error(err)};
         })() 
