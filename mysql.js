@@ -127,6 +127,15 @@ const getArtistAlbums = (req, res) => { /// do not modify!
         else {res.send(result)};
     })
 };
+const getSongInteractionsByIdHandler = (req, res) => { /// do not modify! 
+    con.query(`select play_count
+                FROM interactions
+                WHERE user_id = 1 AND song_id = ${req.params.id}`, function (err, result, fields) {
+        if (err) throw err;
+        if (result[0] === undefined) {res.status(200).send("0")}
+        else {res.send(result)};
+    })
+};
 
 const getAlbumByIdHandler = (req, res) => { /// do not modify!
             con.query(`SELECT albums.*, num_of_songs, artists.name AS artist_name FROM albums 
@@ -249,6 +258,30 @@ const postToSongsHandler = (req, res) => {
             else {res.send(result)}
         })
 };
+const postToInteracionsHandler = (req, res) => {
+    let body = req.body;
+    con.query(`select play_count
+    FROM interactions
+    WHERE user_id = 1 AND song_id = ${req.params.id}`, function (err, result, fields) {
+        if (result[0]) {res.status(400).send("interactions already exists")
+        } else{
+            if(!body.play_count) {res.status(400).send("error: play_count is missing!")}; /// managing missing fields
+                con.query(`INSERT INTO interactions SET ?`,
+                {
+                    "user_id": 1,
+                    "song_id": req.params.id,
+                    "play_count": body.play_count,
+                    "created_at": moment(new Date()).format("YYYY-MM-DD")
+                }, 
+                function (err, result, fields) {
+                    if (err) throw err;
+                    if(!result) {res.status(400).send("Invalid input")}
+                    else {res.send(result)}
+                })
+        }
+    })
+};
+
 ///////////// UPADTE A SPECIFIC BY ID
 
 const putToSongsHandler = (req, res) => {
@@ -321,6 +354,26 @@ const putToArtistsHandler = (req, res) => { // do not modify!
             else {res.send(result)}
         })
 }
+const putToInteractionsHandler = (req, res) => { // do not modify!
+    let body = req.body;
+    con.query(`select play_count
+    FROM interactions
+    WHERE user_id = 1 AND song_id = ${req.params.id}`, function (err, result, fields) {
+        if (!result[0]) {
+            res.status(404).send("interaction doesn't exist")
+        } else {
+            con.query(`UPDATE interactions SET ? WHERE song_id = ${req.params.id} AND user_id = 1`,
+            {
+                "play_count": body.play_count
+            }, 
+            function (err, result, fields) {
+                if (err) throw err;
+                if(!result) {res.status(400).send("Invalid input")}
+                else {res.send(fields)}
+            })
+        }
+    })
+}
 
 
 
@@ -370,16 +423,19 @@ module.exports = {
     getAlbumSongs: getAlbumSongs,
     getPlaylistByIdHandler: getPlaylistByIdHandler,
     getPlaylistSongs: getPlaylistSongs,
+    getSongInteractionsByIdHandler: getSongInteractionsByIdHandler,
 
     postToSongsHandler: postToSongsHandler,
     postToArtistsHandler: postToArtistsHandler,
     postToAlbumsHandler: postToAlbumsHandler,
     postToPlaylistHandler: postToPlaylistHandler,
+    postToInteracionsHandler: postToInteracionsHandler,
 
     putToSongsHandler: putToSongsHandler,
     putToArtistsHandler: putToArtistsHandler,
     putToAlbumsHandler: putToAlbumsHandler,
     putToPlaylistHandler: putToPlaylistHandler,
+    putToInteractionsHandler: putToInteractionsHandler,
 
     deleteSongByIdHandler: deleteSongByIdHandler,
     deleteArtistByIdHandler: deleteArtistByIdHandler,

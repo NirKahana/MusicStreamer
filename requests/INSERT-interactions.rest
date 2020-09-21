@@ -1,0 +1,6 @@
+POST http://localhost:3001/interactions/36 HTTP/1.1
+content-type: application/json
+
+{
+    "play_count": 1
+}

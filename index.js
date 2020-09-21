@@ -18,16 +18,19 @@ app.get("/albums/:id/songs", query.getAlbumSongs);
 app.get("/albums/:id", query.getAlbumByIdHandler);
 app.get("/playlists/:id/songs", query.getPlaylistSongs);
 app.get("/playlists/:id", query.getPlaylistByIdHandler);
+app.get("/interactions/:id", query.getSongInteractionsByIdHandler);
 
 app.post("/songs", query.postToSongsHandler);
 app.post("/artists", query.postToArtistsHandler);
 app.post("/albums", query.postToAlbumsHandler);
 app.post("/playlists", query.postToPlaylistHandler);
+app.post("/interactions/:id", query.postToInteracionsHandler);
 
 app.put("/songs/:id", query.putToSongsHandler);
 app.put("/artists/:id", query.putToArtistsHandler);
 app.put("/albums/:id", query.putToAlbumsHandler);
 app.put("/playlists/:id", query.putToPlaylistHandler);
+app.put("/interactions/:id", query.putToInteractionsHandler);
 
 app.delete("/songs/:id", query.deleteSongByIdHandler);
 app.delete("/artists/:id", query.deleteArtistByIdHandler);

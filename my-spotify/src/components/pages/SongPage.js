@@ -21,12 +21,25 @@ function SongPage( ) {
         })()
     }
     ,[pathname])
-
+    const sendQuery = async () => {
+        const currentPlayCount = await axios.get(`/interactions/${id}`);
+        if (currentPlayCount.data === 0) {
+            await axios({
+                method: 'post',
+                url: `/interactions/${id}`,
+                data: {
+                  "play_count": 1
+                }
+              });
+        } else {
+            await axios.put(`/interactions/${id}`, {play_count: currentPlayCount.data[0].play_count+1 })
+        }        
+    }
     const onEnd = () => { 
         !booleanSwitch && setBooleanSwitch(true)
     }
     const onStart = () => { 
-        // sendQuery()
+        sendQuery()
     }
     let videoId = song.youtube_link ? song.youtube_link.replace("https://www.youtube.com/watch?v=", "") : ""
     
@@ -47,6 +60,7 @@ function SongPage( ) {
                                 className="youtube_iframe"
                                 width="100%"
                                 height="100%"
+                                opts={{playerVars: {mute: 1, autoplay: 1}}}
                         >
                         </YouTube>
                     </div>
