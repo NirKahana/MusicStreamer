@@ -31,7 +31,7 @@ getArtistID = (artist_id) => {
 ////////////// GET TOP OF
 
 const getTopSongsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT s.created_at, s.title AS song_title, s.cover_img, a.name AS artist_name, SUM(play_count) AS total 
+        const sql = `SELECT s.created_at, s.id, s.title AS song_title, s.cover_img, a.name AS artist_name, s.length, SUM(play_count) AS total 
         FROM interactions i 
         JOIN songs s ON s.id = song_id
         JOIN artists a ON s.artist_id = a.id
