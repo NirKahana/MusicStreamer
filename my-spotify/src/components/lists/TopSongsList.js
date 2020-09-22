@@ -34,7 +34,7 @@ function TopSongsList( { booleanSwitch }) {
         }
     }
 
-    let headline = <div>More from top songs:</div>
+    let headline = (topSongsData[0]) ? <div>More from top songs:</div> : ""
     
     return (
         <>
