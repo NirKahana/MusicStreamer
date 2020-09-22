@@ -28,7 +28,7 @@ function PlaylistsCarousel( ) {
     return (
         <>
             <div className={"carousel"}>
-            <h2 className={"carousel_title"}>Your Top 20 Playlists</h2> {/* PLAYLISTS */}
+            {playlists[0] && <h2 className={"carousel_title"}>Your Top 20 Playlists</h2>}
             <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"}>
                 {playlists.map((playlist, index) => 
                     <PlaylistCard key={index} id={playlist.id} playlist_name={playlist.name} num_of_songs={playlist.num_of_songs}/>

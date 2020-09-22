@@ -38,6 +38,7 @@ function RegularSongsList( { booleanSwitch }) {
         }
     }
 
+
     let headline = (target.name && songsData[0]) ? <div>More from <Link to={`/${qParamKey}/${qParamValue}`} className="link">{target.name}</Link>:</div> : ""
     
     return (

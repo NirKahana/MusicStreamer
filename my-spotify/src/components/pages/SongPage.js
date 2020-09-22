@@ -18,7 +18,6 @@ function SongPage( ) {
             const songData= (await axios.get(`/songs/${id}`)).data //////////////////
             setSong(songData)
             window.scrollTo(0, 0); 
- 
         })()
     }
     ,[pathname])

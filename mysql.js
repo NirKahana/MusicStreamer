@@ -110,14 +110,14 @@ const getArtistSongs = (req, res) => { /// do not modify!
     FROM songs
     LEFT JOIN interactions ON interactions.song_id = songs.id
     WHERE artist_id = ?
-    ORDER BY play_count DESC`,req.params.id, function (err, result, fields) {
+    `,req.params.id, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Artist not found")}
         else {res.send(result)};
     })
 };
 const getArtistAlbums = (req, res) => { /// do not modify! 
-    con.query(`SELECT albums.name, albums.id, albums.created_at, COUNT(albums.name) AS num_of_songs
+    con.query(`SELECT albums.name, albums.id, albums.cover_img, albums.created_at, COUNT(albums.name) AS num_of_songs
     FROM albums
     JOIN songs ON songs.album_id = albums.id
     WHERE albums.artist_id = ?
@@ -153,7 +153,7 @@ const getAlbumSongs = (req, res) => { /// do not modify!
     FROM songs
     LEFT JOIN interactions ON interactions.song_id = songs.id
     WHERE album_id = ?
-    ORDER BY play_count DESC`,req.params.id, function (err, result, fields) {
+    `,req.params.id, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Album not found")}
         else {res.send(result)};

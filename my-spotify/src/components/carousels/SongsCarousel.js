@@ -29,7 +29,7 @@ function SongsCarousel( ) {
     return (
         <>
             <div className={"carousel"}>
-            <h2 className={"carousel_title"}>Your Top 20 Songs</h2> {/* SONGS */}
+            {songs[0] && <h2 className={"carousel_title"}>Your Top 20 Songs</h2>}
             <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"}>
                 {songs.map((value, index) => 
                     <SongCard key={index} id={value.id} cover_img={value.cover_img} title={value.song_title} artist={value.artist_name}/>

@@ -11,11 +11,11 @@ function SongsList( { booleanSwitch }) {
 
     if (useLocation().search === "") {
         return(
-            <TopSongsList />
+            <TopSongsList booleanSwitch={booleanSwitch}/>
         )
     } else {
         return (
-            <RegularSongsList />
+            <RegularSongsList booleanSwitch={booleanSwitch}/>
         )
     }
 }

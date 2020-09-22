@@ -31,7 +31,7 @@ function AlbumsCarousel({  }) {
         <>
         <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"} className="artist_albums_carousel">
                     {artistAlbums.map((album, index) =>     
-                        <ArtistAlbumCard key={index} name={album.name} id={album.id} created_at={album.created_at} num_of_songs= {album.num_of_songs}/>
+                        <ArtistAlbumCard key={index} name={album.name} id={album.id} created_at={album.created_at} cover_img={album.cover_img} num_of_songs= {album.num_of_songs}/>
                     )}
         </Carousel>
 

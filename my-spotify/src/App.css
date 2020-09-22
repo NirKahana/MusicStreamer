@@ -117,7 +117,7 @@ body {
   .artist_album_card{
     position: relative;
     display: inline-block;
-    background-image: url("https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg");
+    /* background-image: url("https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg"); */
     background-size: cover;
     height: 12em;
     width: 12em;
