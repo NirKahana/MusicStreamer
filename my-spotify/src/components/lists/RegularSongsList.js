@@ -38,7 +38,7 @@ function RegularSongsList( { booleanSwitch }) {
         }
     }
 
-    let headline = <div>More from <Link to={`/${qParamKey}/${qParamValue}`} className="link">{target.name}</Link>:</div>
+    let headline = (target.name && songsData[0]) ? <div>More from <Link to={`/${qParamKey}/${qParamValue}`} className="link">{target.name}</Link>:</div> : ""
     
     return (
         <>
@@ -46,7 +46,7 @@ function RegularSongsList( { booleanSwitch }) {
                 <div className="list_container">
                     <div className="list_title">{headline}</div>
                     <ul>
-                    {songsData.map((song, index) =>
+                    {(target.name) && songsData.map((song, index) =>
                             <Link to={`/song/${song.id}?${qParamKey}=${target.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
                                 <li style={id === song.id.toString() ? {backgroundColor: 'rgb(22,22,22)'} : {}}><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
                             </Link>

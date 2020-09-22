@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
-import SongsList from '../SongsList'
+import SongsList from '../lists/SongsList'
 import YouTube from 'react-youtube';
 
 function SongPage( ) {
