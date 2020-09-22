@@ -37,7 +37,7 @@ const getTopSongsHandler = (req, res) => { /// do not modify!
         JOIN artists a ON s.artist_id = a.id
         GROUP BY song_id 
         ORDER BY total DESC 
-        LIMIT 10`
+        LIMIT 20`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}

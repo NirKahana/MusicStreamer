@@ -6,7 +6,6 @@ import ArtistsCarousel from './carousels/ArtistsCarousel';
 import PlaylistsCarousel from './carousels/PlaylistsCarousel';
 
 function Home( ) {
-    //.replace("watch?v=", "embed/")
 
     return (
         <>

@@ -8,6 +8,7 @@ function SongPage( ) {
 
     const {id} = useParams();
     const { pathname } = useLocation();
+    console.log(pathname);
 
     const [song, setSong] = useState({})
     const [booleanSwitch, setBooleanSwitch] = useState(false)
