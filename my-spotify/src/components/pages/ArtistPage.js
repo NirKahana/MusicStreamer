@@ -25,7 +25,7 @@ function AritstPage( ) {
       window.scrollTo(0, 0);
     }, [pathname]);
     let leftHeadLine = (artist.name && artistSongs[0]) ? <h1 className="inner-row">{artist.name}</h1> : ""
-    let rightHeadLine = (artist.name && artistSongs[0]) ? <div><span>{artist.name}</span><span>s Best:</span></div> : ""
+    let rightHeadLine = (artist.name && artistSongs[0]) ? <div><span>Songs by </span><span>{artist.name}:</span></div> : ""
     let songsReleased = (artist.num_of_songs && artistSongs[0]) ? <div className="inner-row">Songs Released: {artist.num_of_songs}</div> : ""
     let centralDiv = (artist.cover_img && artistSongs[0]) ? <div className="artist_header" style={{backgroundImage: `url(${artist.cover_img})`}}><div className="gradient"></div></div> : ""
     let albumsCarousel = (artist.cover_img && artistSongs[0]) ? <div><ArtistAlbumsCarousel/></div> : ""
