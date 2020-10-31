@@ -13,14 +13,26 @@ function SongPage( ) {
     const [song, setSong] = useState({})
     const [booleanSwitch, setBooleanSwitch] = useState(false)
     
-    useEffect( () => {
+    useEffect(() => {
         (async () => {
             const songData= (await axios.get(`/songs/${id}`)).data //////////////////
             setSong(songData)
             window.scrollTo(0, 0); 
+            onStart()
         })()
     }
     ,[pathname])
+
+    useEffect(() => {
+        (async () => {
+            const songData= (await axios.get(`/songs/${id}`)).data //////////////////
+            setSong(songData)
+            window.scrollTo(0, 0); 
+            onStart()
+        })()
+    }
+    ,[])
+
     const sendQuery = async () => {
         const currentPlayCount = await axios.get(`/interactions/${id}`);
         if (currentPlayCount.data === 0) {
@@ -56,7 +68,7 @@ function SongPage( ) {
                                 videoId={videoId}
                                 allowtransparency="true" 
                                 onEnd={onEnd}
-                                onPlay={onStart}
+                                // onPlay={onStart}
                                 className="youtube_iframe"
                                 width="100%"
                                 height="100%"
