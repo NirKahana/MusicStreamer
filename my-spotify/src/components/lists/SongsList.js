@@ -6,16 +6,16 @@ import TopSongsList from './TopSongsList'
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
 
-function SongsList( { booleanSwitch }) {
+function SongsList( { songHasEnded }) {
 
 
     if (useLocation().search === "") {
         return(
-            <TopSongsList booleanSwitch={booleanSwitch}/>
+            <TopSongsList songHasEnded={songHasEnded}/>
         )
     } else {
         return (
-            <RegularSongsList booleanSwitch={booleanSwitch}/>
+            <RegularSongsList songHasEnded={songHasEnded}/>
         )
     }
 }

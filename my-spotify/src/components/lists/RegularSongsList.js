@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
 
-function RegularSongsList( { booleanSwitch }) {
+function RegularSongsList( { songHasEnded }) {
 
     const {id} = useParams()
     const { pathname } = useLocation();
@@ -30,7 +30,7 @@ function RegularSongsList( { booleanSwitch }) {
     }
     ,[pathname])
 
-    if(booleanSwitch) {
+    if(songHasEnded) {
         for (let i = 0; i < songsData.length-1; i++) {
             if (songsData[i].id.toString() === id) {
                 window.location.assign(`/song/${songsData[i+1].id}?${qParamKey}=${qParamValue}`)

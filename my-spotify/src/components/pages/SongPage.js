@@ -11,7 +11,7 @@ function SongPage( ) {
     console.log(pathname);
 
     const [song, setSong] = useState({})
-    const [booleanSwitch, setBooleanSwitch] = useState(false)
+    const [songHasEnded, setSongHasEnded] = useState(false)
     
     useEffect(() => {
         (async () => {
@@ -48,7 +48,7 @@ function SongPage( ) {
         }        
     }
     const onEnd = () => { 
-        !booleanSwitch && setBooleanSwitch(true)
+        !songHasEnded && setSongHasEnded(true)
     }
     const onStart = () => { 
         sendQuery()
@@ -79,7 +79,7 @@ function SongPage( ) {
                                 
 
                         <SongsList
-                            booleanSwitch={booleanSwitch}
+                            songHasEnded={songHasEnded}
                         />
 
                 </div>
