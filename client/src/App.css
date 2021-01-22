@@ -67,16 +67,36 @@ body {
       cursor: pointer;
       color: white;
   }
+  .tabs_selector {
+    display: flex;
+  }
+  .search {
+    display: flex;
+  }
+  .search > span {
+    margin-left: 0.5em;
+  }
   .logo{
       color: white;
       text-decoration: none;
       margin-left: 1em;
+      /* background-image: url("//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg"); */
+      /* background-image: url("https://music.youtube.com/img/on_platform_logo_dark.svg");
+      background-repeat: no-repeat;
+      padding: 0em 3em 0.25em 3em; */
+      /* padding: 1em 3em; */
   }
   .profile_logo{
       color: white;
       margin-right: 1em;
   }
- 
+  @media only screen and (max-width: 450px) {
+    .tab{
+      color: rgb(187, 187, 187);
+      margin: 0 0.7em;
+      text-decoration: none; 
+  }
+  }
   .carousel{
     width: 95%;
     margin: auto;
