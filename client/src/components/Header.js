@@ -41,7 +41,7 @@ function Header() {
                 {/* </span> */}
 
                 <span className={"profile_logo"}>
-                    <AccountCircleIcon fontSize={'large'}/>
+                    <AccountCircleIcon fontSize={'large'} />
                 </span>
             </div>
         </>

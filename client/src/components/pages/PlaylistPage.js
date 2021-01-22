@@ -43,7 +43,7 @@ function PlaylistPage( ) {
                         </div>                        
                     </div>
 
-                    <div className="artist_details">
+                    <div className="artist_details artist_list">
                         <div className="list_container">
                             <div className="list_title"><div>Songs:</div></div>
                             <ul>
