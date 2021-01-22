@@ -46,10 +46,10 @@ body {
     display: flex;
     position: fixed;
     top: 0;
-    width: 98%;
-    justify-content: space-between;
+    width: 100vw;
+    justify-content: center;
     align-items: center;
-    padding: 0.75em 0.75em 0.75em 0.75em;
+    padding: 0.75em 0;
     font-size: 1.2em;
     z-index: 9999;
     transition: 350ms;
@@ -77,25 +77,30 @@ body {
     margin-left: 0.5em;
   }
   .logo{
-      color: white;
-      text-decoration: none;
-      margin-left: 1em;
-      /* background-image: url("//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg"); */
-      /* background-image: url("https://music.youtube.com/img/on_platform_logo_dark.svg");
-      background-repeat: no-repeat;
-      padding: 0em 3em 0.25em 3em; */
-      /* padding: 1em 3em; */
+      margin-right: auto;
   }
   .profile_logo{
       color: white;
       margin-right: 1em;
+      margin-left: auto;
   }
   @media only screen and (max-width: 450px) {
     .tab{
       color: rgb(187, 187, 187);
-      margin: 0 0.7em;
+      /* margin: 0 0.7em; */
+      margin: 0 auto;
       text-decoration: none; 
-  }
+    }
+    .profile_logo{
+      color: white;
+      margin: 0 auto
+    }
+    .logo{
+      margin: 0 auto
+    }
+    .header {
+      justify-content: space-evenly;
+    }
   }
   .carousel{
     width: 95%;
@@ -198,7 +203,7 @@ body {
 .container{
         display: flex;
         justify-content: space-evenly;
-        min-width: 55em;
+        /* min-width: 55em; */
 }
 .song_page_container{
   display: flex;
@@ -219,10 +224,15 @@ body {
     flex-grow: 1;
     padding: 0 0;
     font-family: 'Karla', sans-serif;
-    min-width: 30.75%;
-    max-width: 30.75%;
+    /* min-width: 30.75%; */
+    /* max-width: 30.75%; */
+    width: 30.75%;
     position: relative;
     overflow: auto;
+}
+.artist_list {
+  min-height: 300px;
+  /* margin-top: 2em; */
 }
 .song_page_class{
   color: white;
@@ -282,7 +292,17 @@ body {
 .artist_details_row h3{
     margin: auto;
 }
-
+@media only screen and (max-width: 450px) {
+  .artist_details {
+    width: 100%;
+  }
+  .container {
+    flex-direction: column;
+  }
+  .artist_list {
+    margin-top: 2em;
+  }
+}
 .list_container{
     position: absolute;
     width: 100%;
