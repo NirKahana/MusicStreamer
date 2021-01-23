@@ -6,16 +6,16 @@ import TopSongsList from './TopSongsList'
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
 
-function SongsList( { songHasEnded }) {
+function SongsList( { songHasEnded, lyrics }) {
 
 
     if (useLocation().search === "") {
         return(
-            <TopSongsList songHasEnded={songHasEnded}/>
+            <TopSongsList songHasEnded={songHasEnded} lyrics={lyrics}/>
         )
     } else {
         return (
-            <RegularSongsList songHasEnded={songHasEnded}/>
+            <RegularSongsList songHasEnded={songHasEnded} lyrics={lyrics}/>
         )
     }
 }

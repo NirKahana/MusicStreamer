@@ -259,7 +259,7 @@ body {
     padding: 0;
   }
   .song_page_class {
-    height: 300px;
+    height: 350px;
     margin-top: 2em;
   }
   .youtube_player {
@@ -327,7 +327,7 @@ body {
 .artist_details_row h3 {
   margin: auto;
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 650px) {
   .artist_details {
     width: 100%;
   }
@@ -337,6 +337,11 @@ body {
   .artist_list {
     margin-top: 2em;
   }
+}
+.lyrics {
+  font-family: "Karla";
+  font-weight: 400;
+  padding: 1em;
 }
 .list_container {
   position: absolute;
@@ -356,7 +361,7 @@ body {
   padding: 0 0 0 2em;
 }
 .list_title div {
-  border-bottom: 2px double rgb(27, 27, 27);
+  /* border-bottom: 2px double rgb(27, 27, 27); */
   padding: 0.5em 0 0.75em 0;
   font-weight: 600;
   /* margin-bottom: 1em; */

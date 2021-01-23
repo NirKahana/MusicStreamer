@@ -71,7 +71,7 @@ function SongPage( ) {
                                 className="youtube_iframe"
                                 width="100%"
                                 height="100%"
-                                opts={{playerVars: {autoplay: 1}}}
+                                // opts={{playerVars: {autoplay: 1}}}
                         >
                         </YouTube>
                     </div>
@@ -79,6 +79,7 @@ function SongPage( ) {
 
                         <SongsList
                             songHasEnded={songHasEnded}
+                            lyrics={song.lyrics}
                         />
 
                 </div>
