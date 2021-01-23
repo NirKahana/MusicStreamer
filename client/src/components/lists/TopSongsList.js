@@ -14,7 +14,6 @@ function TopSongsList( { songHasEnded }) {
     useEffect( () => {
         ( async () => {
             let topSongsArray = (await axios.get("/top_songs")).data;
-            console.log(topSongsArray);
             setTopSongsData(topSongsArray)
         })()
     }

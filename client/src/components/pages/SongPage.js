@@ -8,9 +8,8 @@ function SongPage( ) {
 
     const {id} = useParams();
     const { pathname } = useLocation();
-    console.log(pathname);
 
-    const [song, setSong] = useState({})
+    const [song, setSong] = useState({});
     const [songHasEnded, setSongHasEnded] = useState(false)
     
     useEffect(() => {
@@ -72,7 +71,7 @@ function SongPage( ) {
                                 className="youtube_iframe"
                                 width="100%"
                                 height="100%"
-                                opts={{playerVars: {autoplay: 1}}}
+                                // opts={{playerVars: {autoplay: 1}}}
                         >
                         </YouTube>
                     </div>

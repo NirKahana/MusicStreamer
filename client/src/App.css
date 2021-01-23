@@ -1,296 +1,331 @@
 body {
-    background-color: rgb(10, 10, 10); 
-    font-family: 'Inter', sans-serif;
+  background-color: rgb(10, 10, 10);
+  font-family: "Inter", sans-serif;
 }
 /* width */
 ::-webkit-scrollbar {
-    width: 0.75em;
-  }
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background-color: rgb(34, 34, 34);
-  }
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgb(85, 85, 85);
-  }
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgb(124, 124, 124);
-  }
+  width: 0.75em;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: rgb(34, 34, 34);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(85, 85, 85);
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(124, 124, 124);
+}
 .brcpxa {
-    display: none
+  display: none;
 }
 .ikyGAt {
-    display: none;
+  display: none;
 }
 .hCVuYx {
-    background-color: transparent !important;
-    color: transparent !important; 
-    box-shadow: none !important;
-    cursor: default !important ;
+  background-color: transparent !important;
+  color: transparent !important;
+  box-shadow: none !important;
+  cursor: default !important ;
+}
+.chowzb {
+  background-color: #1db95477 !important;
+}
+.chowzb:hover {
+  background-color: rgb(70, 156, 70) !important;
+}
+.content {
+  margin-top: 4.5em;
+}
+.header {
+  height: 2em;
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75em 0;
+  font-size: 1.2em;
+  z-index: 9999;
+  transition: 350ms;
+}
+.active_link {
+  background-color: rgb(43, 43, 43);
+  transition: 400ms;
+}
+.tab {
+  color: rgb(187, 187, 187);
+  margin: 0 1.5em;
+  text-decoration: none;
+}
+.tab:hover {
+  cursor: pointer;
+  color: white;
+}
+.tabs_selector {
+  display: flex;
+}
+.search {
+  display: flex;
+}
+.search > span {
+  margin-left: 0.5em;
+}
+.logo {
+  margin-right: auto;
+}
+.profile_logo {
+  color: white;
+  margin-right: 1em;
+  margin-left: auto;
+}
+@media only screen and (max-width: 450px) {
+  .tab {
+    color: rgb(187, 187, 187);
+    /* margin: 0 0.7em; */
+    margin: 0 auto;
+    text-decoration: none;
   }
-  .chowzb {
-    background-color: #1db95477 !important;
-
+  .profile_logo {
+    color: white;
+    margin: 0 auto;
   }
-  .chowzb:hover{
-      background-color: rgb(70, 156, 70) !important;
-
-  }
-  .content{
-      margin-top: 4.5em;
+  .logo {
+    margin: 0 auto;
   }
   .header {
-    height: 2em;
-    display: flex;
-    position: fixed;
-    top: 0;
-    width: 100vw;
-    justify-content: center;
-    align-items: center;
-    padding: 0.75em 0;
-    font-size: 1.2em;
-    z-index: 9999;
-    transition: 350ms;
+    justify-content: space-evenly;
   }
-  .active_link {
-    background-color: rgb(43, 43, 43);
-    transition: 400ms;
-  }
-  .tab{
-      color: rgb(187, 187, 187);
-      margin: 0 1.5em;
-      text-decoration: none; 
-  }
-  .tab:hover{
-      cursor: pointer;
-      color: white;
-  }
-  .tabs_selector {
-    display: flex;
-  }
-  .search {
-    display: flex;
-  }
-  .search > span {
-    margin-left: 0.5em;
-  }
-  .logo{
-      margin-right: auto;
-  }
-  .profile_logo{
-      color: white;
-      margin-right: 1em;
-      margin-left: auto;
-  }
-  @media only screen and (max-width: 450px) {
-    .tab{
-      color: rgb(187, 187, 187);
-      /* margin: 0 0.7em; */
-      margin: 0 auto;
-      text-decoration: none; 
-    }
-    .profile_logo{
-      color: white;
-      margin: 0 auto
-    }
-    .logo{
-      margin: 0 auto
-    }
-    .header {
-      justify-content: space-evenly;
-    }
-  }
-  .carousel{
-    width: 95%;
-    margin: auto;
-    position: relative;
-  }
-  .link{
-    text-decoration: none;
-    color: white;
-  }
-  .img{
-    width: 100%;
-    max-width: 100%;
-    display: block;
-    margin-bottom: 1.1em;
-  }
-  .round_img{
-    height: 11em;
-    width: 11em;
-    max-width: 11em;
-    display: block;
-    margin: auto;
-    margin-top: 0.5em;
-    border-radius: 50%;
-  }
-  .card {
-    display: inline-block;
-    height: 14.5em;
-    min-width: 9em;
-    max-width: 9em;
-    background-color: rgb(38 38 38);
-    border-radius: 10px;
-    padding: 18px 18px;
-    margin: 3em 3em;
-  }
-  .artist_albums_carousel{
-      margin: 3em 0;
-  }
-  .artist_album_card{
-    position: relative;
-    display: inline-block;
-    /* background-image: url("https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg"); */
-    background-size: cover;
-    height: 12em;
-    width: 12em;
-    margin: 2em 1em 4em 1em;
-    border-radius: 5px;
-    border: 0.35em double black;
-  }
-  .album_name{
-    position: absolute;
-    bottom: -2em;
-    color: white;
-  }
-  
-  .album_details {
-    position: absolute;
-    bottom: -4em;
-    color: gray;
-    font-size: 0.9em;
-  }
-  .artist_card{
-    display: inline-block;
-    height: 14.5em;
-    width: 11em;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 20px 20px;
-  }
-  .artist_card:hover{
-      cursor: pointer;
-  }
-  .card:hover{
-      cursor: pointer;
-  }
-  .carousel_title{
-    margin: 2em;
-    text-align: center;
-    color: white;
-  }
-  .major_title {
-    color: white;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-  }
-  .minor_title{
-      font-size: 0.7em;
-      color: rgb(141, 141, 141);
-  }
-.artists_major_title {
-    font-size: 1em;
-    margin: 0.5em 0.5em 0.5em 0.5em;
-    color: white;
-    text-align: center;
 }
-.artist_titles {
-    text-align: center;
+.carousel {
+  width: 95%;
+  margin: auto;
+  position: relative;
+}
+.link {
+  text-decoration: none;
+  color: white;
+}
+.img {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  margin-bottom: 1.1em;
+}
+.round_img {
+  height: 11em;
+  width: 11em;
+  max-width: 11em;
+  display: block;
+  margin: auto;
+  margin-top: 0.5em;
+  border-radius: 50%;
+}
+.card {
+  display: inline-block;
+  height: 14.5em;
+  min-width: 9em;
+  max-width: 9em;
+  background-color: rgb(38 38 38);
+  border-radius: 10px;
+  padding: 18px 18px;
+  margin: 3em 3em;
+}
+.artist_albums_carousel {
+  margin: 3em 0;
+}
+.artist_album_card {
+  position: relative;
+  display: inline-block;
+  /* background-image: url("https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg"); */
+  background-size: cover;
+  height: 12em;
+  width: 12em;
+  margin: 2em 1em 4em 1em;
+  border-radius: 5px;
+  border: 0.35em double black;
+}
+.album_name {
+  position: absolute;
+  bottom: -2em;
+  color: white;
 }
 
-.container{
-        display: flex;
-        justify-content: space-evenly;
-        /* min-width: 55em; */
+.album_details {
+  position: absolute;
+  bottom: -4em;
+  color: gray;
+  font-size: 0.9em;
 }
-.song_page_container{
+.artist_card {
+  display: inline-block;
+  height: 14.5em;
+  width: 11em;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 20px 20px;
+}
+.artist_card:hover {
+  cursor: pointer;
+}
+.card:hover {
+  cursor: pointer;
+}
+.carousel_title {
+  margin: 2em;
+  text-align: center;
+  color: white;
+}
+.major_title {
+  color: white;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.minor_title {
+  font-size: 0.7em;
+  color: rgb(141, 141, 141);
+}
+.artists_major_title {
+  font-size: 1em;
+  margin: 0.5em 0.5em 0.5em 0.5em;
+  color: white;
+  text-align: center;
+}
+.artist_titles {
+  text-align: center;
+}
+
+.container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-evenly;
-  min-width: 40em;
-  height: 65vh;
-  padding: 2% 5%;
+  /* min-width: 55em; */
 }
-.song_page_title{
+.song_page_container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 1em;  
+}
+.song_page_title {
   color: white;
   flex-basis: 100%;
   height: 1em;
   padding: 0 5%;
 }
-.artist_details{
-    color: white;
-    flex-grow: 1;
-    padding: 0 0;
-    font-family: 'Karla', sans-serif;
-    /* min-width: 30.75%; */
-    /* max-width: 30.75%; */
-    width: 30.75%;
-    position: relative;
-    overflow: auto;
+.artist_details {
+  color: white;
+  flex-grow: 1;
+  padding: 0 0;
+  font-family: "Karla", sans-serif;
+  /* min-width: 30.75%; */
+  /* max-width: 30.75%; */
+  width: 30.75%;
+  position: relative;
+  overflow: auto;
 }
 .artist_list {
   min-height: 300px;
   /* margin-top: 2em; */
 }
-.song_page_class{
+.song_page_class {
   color: white;
   flex-grow: 2;
   min-width: 40%;
-  /* padding: 0, 0; */
   position: relative;
-  /* overflow: auto; */
 }
 
-.central_flex_item{
-    min-width: 37%;
-    flex-grow: 1;
+.central_flex_item {
+  min-width: 37%;
+  flex-grow: 1;
 }
-.youtube_player{
+.youtube_player {
   flex-grow: 3;
   width: 0%;
   min-width: 60%;
   border: none;
   border-radius: 8px;
 }
-.youtube_iframe{
+.youtube_iframe {
   /* height: 100% !important; */
   width: 100% !important;
   height: 65vh;
   border-radius: 8px;
 }
-.artist_header{
-    position: relative;
-    
-    width: 100%;
-    padding-top: 100%;
-    background-size: contain;
-    /* background-image: url(https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg); */
-}
-.gradient{
-    position: absolute;
-    background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0.2) 90%, rgba(10,10,10, 1) 100%),
-                      linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 80%,rgba(0, 0, 0, 0.2) 90%,rgba(10,10,10, 1) 100%),
-                      linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0.2) 90%,rgba(10,10,10, 1) 100%),
-                      linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 80%,rgba(0, 0, 0, 0.2) 90%,rgba(10,10,10, 1) 100%);
-    width: 100%;
-    height: 100%;
-    top:0;
-}
-.artist_details_row{
-    display: flex;
+@media only screen and (max-width: 950px) {
+  .song_page_container {
+    flex-direction: column;
+    padding: 0;
+  }
+  .song_page_class {
+    height: 300px;
+    margin-top: 2em;
+  }
+  .youtube_player {
     margin: auto;
-    margin-bottom: 1em;
+    width: 85%;
+  }
+  .song_page_title {
+    text-align: center;
+  }
 }
-.artist_details_row h1{
-    margin: auto;
+
+.artist_header {
+  position: relative;
+
+  width: 100%;
+  padding-top: 100%;
+  background-size: contain;
+  /* background-image: url(https://i.pinimg.com/474x/9a/dd/f9/9addf958b50fa78629939febb246e0df.jpg); */
 }
-.artist_details_row div{
-    margin: auto;
+.gradient {
+  position: absolute;
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 80%,
+      rgba(0, 0, 0, 0.2) 90%,
+      rgba(10, 10, 10, 1) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 80%,
+      rgba(0, 0, 0, 0.2) 90%,
+      rgba(10, 10, 10, 1) 100%
+    ),
+    linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 80%,
+      rgba(0, 0, 0, 0.2) 90%,
+      rgba(10, 10, 10, 1) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 80%,
+      rgba(0, 0, 0, 0.2) 90%,
+      rgba(10, 10, 10, 1) 100%
+    );
+  width: 100%;
+  height: 100%;
+  top: 0;
 }
-.artist_details_row h3{
-    margin: auto;
+.artist_details_row {
+  display: flex;
+  margin: auto;
+  margin-bottom: 1em;
+}
+.artist_details_row h1 {
+  margin: auto;
+}
+.artist_details_row div {
+  margin: auto;
+}
+.artist_details_row h3 {
+  margin: auto;
 }
 @media only screen and (max-width: 450px) {
   .artist_details {
@@ -303,42 +338,42 @@ body {
     margin-top: 2em;
   }
 }
-.list_container{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    max-height: 100%;
-    overflow: hidden;
+.list_container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
-.list_container ul{
-    padding: 0 0em 1em 2em;
-    margin: 0 0;
-    list-style: none;
-    overflow: auto;
-    height: 100%;
+.list_container ul {
+  padding: 0 0em 1em 2em;
+  margin: 0 0;
+  list-style: none;
+  overflow: auto;
+  height: 100%;
 }
-.list_title{
-    padding: 0 0 0 2em;
+.list_title {
+  padding: 0 0 0 2em;
 }
-.list_title div{
-    border-bottom: 2px double rgb(27, 27, 27);
-    padding: 0.5em 0 0.75em 0;
-    font-weight: 600;
-    /* margin-bottom: 1em; */
+.list_title div {
+  border-bottom: 2px double rgb(27, 27, 27);
+  padding: 0.5em 0 0.75em 0;
+  font-weight: 600;
+  /* margin-bottom: 1em; */
 }
-.list_container ul li{
-    display: flex;
-    font-size: 1em;
-    padding: 0.5em 0.5em;
-    border-bottom: 1px solid rgb(27, 27, 27);
-    justify-content: space-between;
-    transition: 100ms;
+.list_container ul li {
+  display: flex;
+  font-size: 1em;
+  padding: 0.5em 0.5em;
+  border-bottom: 1px solid rgb(27, 27, 27);
+  justify-content: space-between;
+  transition: 100ms;
 }
-.list_container ul li:hover{
-    background-color: rgb(39, 39, 39);
-    transition: 500ms;
+.list_container ul li:hover {
+  background-color: rgb(39, 39, 39);
+  transition: 500ms;
 }
-.not_found{
+.not_found {
   margin-top: 50vh;
   color: white;
   text-align: center;
