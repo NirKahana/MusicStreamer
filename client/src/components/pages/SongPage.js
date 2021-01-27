@@ -4,6 +4,7 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import SongsList from '../lists/SongsList'
 import YouTube from 'react-youtube';
 
+
 function SongPage( ) {
 
     const {id} = useParams();
@@ -11,7 +12,7 @@ function SongPage( ) {
 
     const [song, setSong] = useState({});
     const [songHasEnded, setSongHasEnded] = useState(false)
-    
+
     useEffect(() => {
         (async () => {
             const songData= (await axios.get(`/songs/${id}`)).data //////////////////
@@ -71,7 +72,7 @@ function SongPage( ) {
                                 className="youtube_iframe"
                                 width="100%"
                                 height="100%"
-                                // opts={{playerVars: {autoplay: 1}}}
+                                opts={{playerVars: {autoplay: 1}}}
                         >
                         </YouTube>
                     </div>
