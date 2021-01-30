@@ -56,4 +56,10 @@ app.use(unknownEndpoint);
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  // console.log("DB_HOST: ", process.env.DB_HOST)
+  console.log("PORT: ", process.env.PORT || "failed")
+  console.log("HOST: ", process.env.DB_HOST || "failed")
+  console.log("DB_USER: ", process.env.DB_USER || "failed")
+  console.log("DB_PASSWORD: ", process.env.DB_PASSWORD || "failed")
+  console.log("DB_NAME: ", process.env.DB_NAME || "failed")
 });
