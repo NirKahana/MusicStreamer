@@ -27,7 +27,7 @@ function Header() {
                   <NavLink className={"tab"} exact to="/" activeStyle={{color: 'white', textDecoration:"none"}}>{matches ? 'Home' :<HomeIcon />}</NavLink>
                   <NavLink className={"tab"} exact to="/explore" activeStyle={{color: 'white', textDecoration:"none"}}>{matches ? 'Explore' :<ExploreIcon />}</NavLink>
                   <NavLink className={"tab"} exact to="/library" activeStyle={{color: 'white', textDecoration:"none"}}>{matches ? 'Library' :<LibraryMusicIcon />}</NavLink>
-                  <NavLink className={"tab search"} exact to="/explore" activeStyle={{color: 'white', textDecoration:"none"}}><SearchIcon /> {matches ? <span>Search</span> : null}</NavLink>
+                  <NavLink className={"tab search"} exact to="/search" activeStyle={{color: 'white', textDecoration:"none"}}><SearchIcon /> {matches ? <span>Search</span> : null}</NavLink>
                   <span className={"profile_logo"}>
                       <AccountCircleIcon fontSize={'large'} />
                   </span>
