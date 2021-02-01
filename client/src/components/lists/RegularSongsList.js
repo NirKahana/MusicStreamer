@@ -106,7 +106,7 @@ function RegularSongsList({ songHasEnded, lyrics }) {
                   </Link>
                 ))}
             </ul> :
-            <div>
+            <div className='lyrics'>
                 {lyrics}
             </div>
           }
