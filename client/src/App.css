@@ -25,7 +25,9 @@ body {
 .gUWalH {
   display: none;
 }
-
+.rec-arrow {
+  color: rgb(38 38 38) !important;
+}
 .kyJvRZ {
   background-color: transparent !important;
   color: transparent !important;
@@ -37,6 +39,7 @@ body {
 }
 .bTybGL:hover {
   background-color: rgb(70, 156, 70) !important;
+  color: white !important;
 }
 .content {
   margin-top: 5.5em;
