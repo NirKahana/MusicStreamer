@@ -1,6 +1,7 @@
 body {
   background-color: rgb(10, 10, 10);
   font-family: "Inter", sans-serif;
+  min-width: 320px;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -37,10 +38,11 @@ body {
   background-color: rgb(70, 156, 70) !important;
 }
 .content {
-  margin-top: 4.5em;
+  margin-top: 5.5em;
 }
 .header {
-  height: 2em;
+  background-color: rgb(10, 10, 10);
+  height: 2.5em;
   display: flex;
   position: fixed;
   top: 0;
@@ -51,9 +53,11 @@ body {
   font-size: 1.2em;
   z-index: 9999;
   transition: 350ms;
+  min-width: 320px;
 }
 .active_link {
-  background-color: rgb(43, 43, 43);
+  /* background-color: rgb(43, 43, 43); */
+  border-bottom: 1px solid rgb(43, 43, 43);
   transition: 400ms;
 }
 .tab {
@@ -73,6 +77,23 @@ body {
 }
 .search > span {
   margin-left: 0.5em;
+}
+.searchInputContainer {
+  /* display: contents; */
+  display: flex;
+  align-items: center;
+  background-color: rgb(38, 38, 38);
+	color: white;
+	width: 65%;
+	padding: 0.5em 1em;
+	font-family: "Inter", sans-serif;
+	border-radius: 3px;
+	font-size: 1em;
+	font-weight: bold;
+	transition: 350ms;
+}
+.searchInput {
+  color: rgb(141, 141, 141);
 }
 .logo {
   margin-right: auto;
@@ -373,9 +394,7 @@ body {
   overflow: auto;
   height: 100%;
 }
-.list_title {
-  /* padding: 0 0 1em 0; */
-}
+
 .list_title div {
   /* border-bottom: 2px double rgb(27, 27, 27); */
   padding: 0.5em 0 0.75em 0.5em;
