@@ -8,8 +8,6 @@ import Tab from "@material-ui/core/Tab";
 function TopSongsList({ songHasEnded, lyrics }) {
   const { id } = useParams();
   const { pathname } = useLocation();
-	// const location = useLocation();
-	console.log(lyrics);
 
   const [topSongsData, setTopSongsData] = useState([]);
   const [value, setValue] = React.useState(0);

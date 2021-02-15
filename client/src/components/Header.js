@@ -8,8 +8,29 @@ import ExploreIcon from '@material-ui/icons/Explore';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { useAuth } from "../contexts/AuthContext";
 
 const useStyles = makeStyles({
+	header: {
+		backgroundColor: "rgb(10, 10, 10)",
+  	height: "2.5em",
+  	display: 'flex',
+  	position: 'fixed',
+  	top: '0',
+  	width: '100vw',
+  	justifyContent: 'center',
+  	alignItems: 'center',
+  	padding: '0.75em 0',
+  	fontSize: '1.2em',
+  	fontFamily: '"Inter", sans-serif',
+  	zIndex: '9999',
+  	transition: '350ms',
+  	minWidth: '320px',
+	},
+	active: {
+		borderBottom: '1px solid rgb(43, 43, 43)',
+		transition: '400ms',
+	},
   searchInput: {
 		color: 'white',
 		padding: '0em 1em',
@@ -25,6 +46,7 @@ const useStyles = makeStyles({
 
 function Header() {
 	const classes = useStyles();
+  const { currentUser } = useAuth();
 
   const [navbar, setNavbar] = useState(false)
   const [searchIsOn, setSearchIsOn] = useState(false);
@@ -44,9 +66,9 @@ function Header() {
   };
   
   window.addEventListener("scroll", changeBackground);
-  return (
+  return currentUser ? (
     <>
-      <div className={navbar ? "header active_link" : "header"}>
+      <div className={navbar ? `${classes.header} ${classes.active} ` : `${classes.header}`}>
         <Link className="tab logo" to='/'> <img src={matches ? "//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg" : (process.env.PUBLIC_URL + "/images/ytm_icon.png")}></img></Link>
 				{(!searchIsOn) 
 					? (
@@ -71,6 +93,16 @@ function Header() {
         </span> 
       </div>
     </>
-  )
+  ) : null 
+	// (
+	// 	<>
+  //     <div className={`${classes.header} ${classes.active}`}>
+  //       <Link className="tab logo" to='/'> <img src={matches ? "//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg" : (process.env.PUBLIC_URL + "/images/ytm_icon.png")}></img></Link>
+  //       <span className={"profile_logo"}>
+  //         <AccountCircleIcon fontSize={'large'} />
+  //       </span> 
+  //     </div>
+  //   </>
+	// )
 }
 export default Header;
