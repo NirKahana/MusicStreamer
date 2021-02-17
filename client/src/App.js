@@ -13,13 +13,15 @@ import AlbumPage from "./components/pages/AlbumPage";
 import PlaylistPage from "./components/pages/PlaylistPage";
 import SongPage from "./components/pages/SongPage";
 import Signup from "./components/auth/Signup";
+import Signin from "./components/auth/Signin";
 import NotFound from "./components/pages/NotFound";
-import { AuthProvider } from "./contexts/AuthContext";
+import { useAuth } from "./contexts/AuthContext";
 
 function App() {
-  return (
+  const { currentUser } = useAuth();
+
+  return currentUser ? (
     <>
-      <AuthProvider>
         <Router>
           <Header />
           <Switch>
@@ -36,9 +38,9 @@ function App() {
             <Route exact path="/song/:id">
               <SongPage />
             </Route>
-            <Route exact path="/signup">
+            {/* <Route exact path="/signup">
               <Signup />
-            </Route>
+            </Route> */}
             <Route exact path="/">
               <Home />
             </Route>
@@ -48,9 +50,41 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </AuthProvider>
     </>
-  );
+  ) : (
+    <>
+        <Router>
+          <Switch>
+            <Route exact path="/artist/:id">
+              <Signin />
+            </Route>
+
+            <Route exact path="/album/:id">
+              <Signin />
+            </Route>
+            <Route exact path="/playlist/:id">
+              <Signin />
+            </Route>
+            <Route exact path="/song/:id">
+              <Signin />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            <Route exact path="/">
+              <Signin />
+            </Route>
+            <Route exact path="/signin">
+              <Signin />
+            </Route>
+
+            <Route>
+              <NotFound />
+            </Route>
+          </Switch>
+        </Router>
+    </>
+  )
 }
 
 export default App;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery, Input} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
@@ -46,11 +46,22 @@ const useStyles = makeStyles({
 
 function Header() {
 	const classes = useStyles();
-  const { currentUser } = useAuth();
+	const history = useHistory();
+  const { signout } = useAuth();
 
   const [navbar, setNavbar] = useState(false)
   const [searchIsOn, setSearchIsOn] = useState(false);
   const matches = useMediaQuery('(min-width:650px)');
+
+	const signOut = async () => {
+		try {
+			signout();
+			history.push('/signin');
+		}
+		catch(error) {
+			alert(error.message);
+		}
+	};
   const changeBackground = () => {
         if (window.scrollY > 0) {
             setNavbar(true)
@@ -66,7 +77,7 @@ function Header() {
   };
   
   window.addEventListener("scroll", changeBackground);
-  return currentUser ? (
+  return (
     <>
       <div className={navbar ? `${classes.header} ${classes.active} ` : `${classes.header}`}>
         <Link className="tab logo" to='/'> <img src={matches ? "//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg" : (process.env.PUBLIC_URL + "/images/ytm_icon.png")}></img></Link>
@@ -89,20 +100,10 @@ function Header() {
 					</div>)
 				}
         <span className={"profile_logo"}>
-          <AccountCircleIcon fontSize={'large'} />
+          <AccountCircleIcon fontSize={'large'} onClick={signOut}/>
         </span> 
       </div>
     </>
-  ) : null 
-	// (
-	// 	<>
-  //     <div className={`${classes.header} ${classes.active}`}>
-  //       <Link className="tab logo" to='/'> <img src={matches ? "//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg" : (process.env.PUBLIC_URL + "/images/ytm_icon.png")}></img></Link>
-  //       <span className={"profile_logo"}>
-  //         <AccountCircleIcon fontSize={'large'} />
-  //       </span> 
-  //     </div>
-  //   </>
-	// )
+  );
 }
 export default Header;

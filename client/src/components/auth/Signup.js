@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import swal from 'sweetalert';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -13,13 +14,14 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
 import { useAuth } from "../../contexts/AuthContext";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="/">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -37,9 +39,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "5em",
     width: "100vw",
     height: "100vh",
-  },
-  formContainer: {
-    // padding: "0",
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -62,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -78,11 +78,8 @@ export default function SignUp() {
     };  
     try {
       await signup(emailRef.current.value, passwordRef.current.value);
-      swal({
-        title: "Signed Up Successfully!",
-        icon: "success",
-      });
-      setLoading(false);
+      // setLoading(false);
+      history.push("/");  
     }
     catch(error) {
       swal("Failed To Sign Up", error.message, "error");
@@ -100,7 +97,6 @@ export default function SignUp() {
         <Container
           component="main"
           maxWidth="xs"
-          className={classes.formContainer}
         >
           <CssBaseline />
           <div className={classes.paper}>
