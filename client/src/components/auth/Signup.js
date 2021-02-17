@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import swal from 'sweetalert';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -26,20 +27,19 @@ function Copyright() {
     </Typography>
   );
 }
-const imageLink = `
-https://cdn5.vectorstock.com/i/thumb-large/93/59/musical-abstract-treble-clef-icon-vector-28359359.jpg
-`;
+
 const useStyles = makeStyles((theme) => ({
   page: {
+    display: "flex",
+    justifyContent: "center",
     height: "100%",
-    background: 'linear-gradient(30deg, #f2f2f2, #9198e5)',
-    padding: '0',
-    paddingTop: '5em',
-    width: "100%",
-    height: '100vh',
+    background: `linear-gradient(30deg, #f2f2f2, #9198e5 75%)`,
+    paddingTop: "5em",
+    width: "100vw",
+    height: "100vh",
   },
   formContainer: {
-    padding: "0",
+    // padding: "0",
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: '#484bb8',
+    backgroundColor: "#484bb8",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -62,14 +62,41 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const [passwordError, setPasswordError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const { signup } = useAuth();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    if(passwordRef.current.value !== passwordConfirmRef.current.value) {
+      setLoading(false);
+      return setPasswordError(true);
+    };  
+    try {
+      await signup(emailRef.current.value, passwordRef.current.value);
+      swal({
+        title: "Signed Up Successfully!",
+        icon: "success",
+      });
+      setLoading(false);
+    }
+    catch(error) {
+      swal("Failed To Sign Up", error.message, "error");
+      setLoading(false);
+    }
   };
+
+  const clearErrors = () => {
+    setPasswordError(false);
+  }
 
   return (
     <>
-      <Container className={classes.page}>
+      <div className={classes.page} onClick={clearErrors}>
         <Container
           component="main"
           maxWidth="xs"
@@ -83,10 +110,11 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
+                    inputRef={emailRef}
                     variant="outlined"
                     required
                     fullWidth
@@ -98,6 +126,8 @@ export default function SignUp() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    inputRef={passwordRef}
+                    error={passwordError}
                     variant="outlined"
                     required
                     fullWidth
@@ -110,6 +140,8 @@ export default function SignUp() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    inputRef={passwordConfirmRef}
+                    error={passwordError}
                     variant="outlined"
                     required
                     fullWidth
@@ -118,6 +150,7 @@ export default function SignUp() {
                     type="password"
                     id="passwordConfirm"
                     autoComplete="current-password"
+                    helperText={passwordError ? "Passwords Do Not Match" : null}
                   />
                 </Grid>
               </Grid>
@@ -127,12 +160,13 @@ export default function SignUp() {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                disabled={loading}
               >
                 Sign Up
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/signin" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
@@ -143,7 +177,7 @@ export default function SignUp() {
             <Copyright />
           </Box>
         </Container>
-      </Container>
+      </div>
     </>
   );
 }
