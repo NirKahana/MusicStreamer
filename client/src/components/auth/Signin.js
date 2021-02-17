@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,6 +14,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { InputAdornment, IconButton } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -60,19 +62,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-
   const classes = useStyles();
   const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const hidePassword = () => setShowPassword(false);
+  const revealPassword = () => setShowPassword(true);
 
   const { signin } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await signin(emailRef.current.value, passwordRef.current.value);
+      await signin(
+        emailRef.current.value,
+        passwordRef.current.value,
+        rememberMe
+      );
       // setLoading(false);
       history.push("/");
     } catch (error) {
@@ -113,13 +123,31 @@ export default function SignIn() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               autoComplete="current-password"
+              InputProps={{
+                // <-- This is where the toggle button is added.
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onMouseUp={hidePassword}
+                      onMouseDown={revealPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
+              checked={rememberMe}
+              onChange={() => {
+                setRememberMe(!rememberMe);
+              }}
             />
             <Button
               type="submit"

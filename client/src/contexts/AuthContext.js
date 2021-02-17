@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { auth } from "../firebase"
+import { auth, persistence } from "../firebase"
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -12,9 +12,11 @@ export function AuthProvider({ children }) {
   const signup = (email, password) => (
     auth.createUserWithEmailAndPassword(email, password)
   );
-  const signin = (email, password) => (
-    auth.signInWithEmailAndPassword(email, password)
-  );
+  const signin = async (email, password, rememberMe = false) => {
+    const newPersistence = rememberMe ? persistence.LOCAL : persistence.SESSION;
+    await auth.setPersistence(newPersistence);
+    return auth.signInWithEmailAndPassword(email, password)
+  };
   const signout = () => (
     auth.signOut()
   );

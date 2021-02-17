@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Link, useHistory } from "react-router-dom";
+import swal from 'sweetalert';
 import { makeStyles } from '@material-ui/core/styles';
 import { useMediaQuery, Input} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
@@ -59,7 +60,7 @@ function Header() {
 			history.push('/signin');
 		}
 		catch(error) {
-			alert(error.message);
+			swal("Failed To Sign Out", error.message, "error");
 		}
 	};
   const changeBackground = () => {
