@@ -87,7 +87,6 @@ export default function SignUp() {
     }
     try {
       await signup(emailRef.current.value, passwordRef.current.value);
-      // setLoading(false);
       history.push("/");
     } catch (error) {
       swal("Failed To Sign Up", error.message, "error");

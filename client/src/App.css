@@ -210,6 +210,9 @@ body {
   justify-content: space-evenly;
   /* min-width: 55em; */
 }
+.vh100 {
+  height: 100vh;
+}
 .song_page_container {
   display: flex;
   justify-content: space-evenly;
@@ -244,7 +247,11 @@ body {
   position: relative;
   margin: 0 1em;
 }
-
+.flex_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .central_flex_item {
   min-width: 37%;
   flex-grow: 1;

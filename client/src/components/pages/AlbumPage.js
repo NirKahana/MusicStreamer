@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import ReactLoading from "react-loading";
 import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
+const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
+
 function AlbumPage( ) {
 
-    const [album, setAlbum] = useState({})
-    const [albumSongs, setAlbumSongs] = useState([])
+    const [album, setAlbum] = useState();
+    const [albumSongs, setAlbumSongs] = useState();
     const {id} = useParams();
 
     useEffect( () => {
@@ -25,7 +28,7 @@ function AlbumPage( ) {
     }, [pathname]);
 
     
-    return (
+    return (album && albumSongs) ? (
         <>
             <div className={"content"}>
                 <div className="container">
@@ -37,7 +40,7 @@ function AlbumPage( ) {
                     </div>
 
                     <div className="central_flex_item">
-                        <div className="artist_header"  style={{'background-image': `url(${album.cover_img})`}}>
+                        <div className="artist_header"  style={{'background-image': `url(${album.cover_img || defaultBg})`}}>
                             <div className="gradient">
 
                             </div>
@@ -63,6 +66,12 @@ function AlbumPage( ) {
 
 
         </>
-    )
+    ) : (
+        <>
+          <div className="vh100 flex_center ">
+                <ReactLoading type={"spokes"} color={"grey"} height={67} width={75} />
+          </div>
+        </>
+      );
 }
 export default AlbumPage;

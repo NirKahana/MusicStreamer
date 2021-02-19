@@ -19,12 +19,14 @@ app.get("/albums/:id", query.getAlbumByIdHandler);
 app.get("/playlists/:id/songs", query.getPlaylistSongs);
 app.get("/playlists/:id", query.getPlaylistByIdHandler);
 app.get("/interactions/:id", query.getSongInteractionsByIdHandler);
+app.get("/user", query.getUserByEmailHandler);
 
 app.post("/songs", query.postToSongsHandler);
 app.post("/artists", query.postToArtistsHandler);
 app.post("/albums", query.postToAlbumsHandler);
 app.post("/playlists", query.postToPlaylistHandler);
 app.post("/interactions/:id", query.postToInteracionsHandler);
+app.post("/users", query.postToUsersHandler);
 
 app.put("/songs/:id", query.putToSongsHandler);
 app.put("/artists/:id", query.putToArtistsHandler);

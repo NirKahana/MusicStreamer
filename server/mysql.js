@@ -3,7 +3,8 @@ const moment = require('moment');
 
 require("dotenv").config();
 const con = mysql.createConnection({
-  host: "localhost",
+  host: "35.230.118.105",
+//   host: "localhost",
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -12,7 +13,7 @@ con.connect((err) => {
   if (err) {
     throw err;
   } else {
-    console.log(`Connected to my sql! on ${process.env.DB_NAME} DB`);
+    console.log(`Connected to MySQL! on ${process.env.DB_NAME} DB`);
   }
 });
 /////
@@ -135,6 +136,14 @@ const getSongInteractionsByIdHandler = (req, res) => { /// do not modify!
         if (result[0] === undefined) {res.status(200).send("0")}
         else {res.send(result)};
     })
+};
+const getUserByEmailHandler = (req, res) => { /// do not modify!
+    con.query(`SELECT * FROM users 
+    WHERE email LIKE ?`,req.body.email, function (err, result, fields) {
+        if (err) throw err;
+        if (result[0] === undefined) {res.status(404).send("Song not found")}
+        else {res.send(result[0])};
+      })
 };
 
 const getAlbumByIdHandler = (req, res) => { /// do not modify!
@@ -281,7 +290,21 @@ const postToInteracionsHandler = (req, res) => {
         }
     })
 };
-
+const postToUsersHandler = (req, res) => {
+    let body = req.body;
+    if(!body.email) {res.status(400).send("error: email is missing!")}; /// managing missing fields
+        con.query(`INSERT INTO users SET ?`,
+        {
+            "email": body.email,
+            "created_at": moment(new Date()).format("YYYY-MM-DD"),
+            "is_admin": false,
+        }, 
+        function (err, result, fields) {
+            if (err) throw err;
+            if(!result) {res.status(400).send("Invalid input")}
+            else {res.send(result)}
+        })
+};
 ///////////// UPADTE A SPECIFIC BY ID
 
 const putToSongsHandler = (req, res) => {
@@ -411,7 +434,6 @@ const deletePlaylistByIdHandler = (req, res) => { /// do not modify!
 module.exports = {
     getTopSongsHandler: getTopSongsHandler,
     getTopArtistsHandler: getTopArtistsHandler,
-
     getTopAlbumsHandler: getTopAlbumsHandler,
     getTopPlaylistsHandler: getTopPlaylistsHandler,
 
@@ -424,12 +446,14 @@ module.exports = {
     getPlaylistByIdHandler: getPlaylistByIdHandler,
     getPlaylistSongs: getPlaylistSongs,
     getSongInteractionsByIdHandler: getSongInteractionsByIdHandler,
+    getUserByEmailHandler: getUserByEmailHandler,
 
     postToSongsHandler: postToSongsHandler,
     postToArtistsHandler: postToArtistsHandler,
     postToAlbumsHandler: postToAlbumsHandler,
     postToPlaylistHandler: postToPlaylistHandler,
     postToInteracionsHandler: postToInteracionsHandler,
+    postToUsersHandler: postToUsersHandler,
 
     putToSongsHandler: putToSongsHandler,
     putToArtistsHandler: putToArtistsHandler,

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import ReactLoading from "react-loading";
 import axios from 'axios';
 import ArtistAlbumsCarousel from '../carousels/ArtistAlbumsCarousel'
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
+const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
+
 function AritstPage( ) {
 
-    const [artist, setArtist] = useState({})
-    const [artistSongs, setArtistSongs] = useState([])
+    const [artist, setArtist] = useState()
+    const [artistSongs, setArtistSongs] = useState()
     const {id} = useParams();
 
 
@@ -24,28 +27,34 @@ function AritstPage( ) {
     useEffect(() => {
       window.scrollTo(0, 0);
     }, [pathname]);
-    let leftHeadLine = (artist.name && artistSongs[0]) ? <h1 className="inner-row">{artist.name}</h1> : ""
-    let rightHeadLine = (artist.name && artistSongs[0]) ? <div><span>Songs by </span><span>{artist.name}:</span></div> : ""
-    let songsReleased = (artist.num_of_songs && artistSongs[0]) ? <div className="inner-row">Songs Released: {artist.num_of_songs}</div> : ""
-    let centralDiv = (artist.cover_img && artistSongs[0]) ? <div className="artist_header" style={{backgroundImage: `url(${artist.cover_img})`}}><div className="gradient"></div></div> : ""
-    let albumsCarousel = (artist.cover_img && artistSongs[0]) ? <div><ArtistAlbumsCarousel/></div> : ""
-    return (
+    
+    return artist && artistSongs ? (
         <>
             <div className={"content"}>
                 <div className="container">
 
                     <div className="artist_details">
-                        <div className="artist_details_row">{leftHeadLine}</div> 
-                        <div className="artist_details_row">{songsReleased}</div>
+                        <div className="artist_details_row"><h1 className="inner-row">{artist.name}</h1></div> 
+                        <div className="artist_details_row">
+                            <div className="inner-row">
+                                Songs Released: {artist.num_of_songs}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="central_flex_item">
-                        {centralDiv}                       
+                        <div className="artist_header" style={{backgroundImage: `url(${artist.cover_img || defaultBg})`}}>
+                            <div className="gradient"></div>
+                        </div>                     
                     </div>
 
                     <div className="artist_details artist_list">
                         <div className="list_container">
-                            <div className="list_title">{rightHeadLine}</div>
+                            <div className="list_title">
+                                <div>
+                                    <span>Songs by </span> <span>{artist.name}:</span>
+                                </div>
+                            </div>
                             <ul>
                             {artistSongs.map((song, index) =>
                                     <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
@@ -57,8 +66,14 @@ function AritstPage( ) {
                     </div>
                 </div>
             </div>
-            {albumsCarousel}
+            <ArtistAlbumsCarousel/>
         </>
-    )
+    ) : (
+        <>
+          <div className="vh100 flex_center ">
+                <ReactLoading type={"spokes"} color={"grey"} height={67} width={75} />
+          </div>
+        </>
+      );
 }
 export default AritstPage;
