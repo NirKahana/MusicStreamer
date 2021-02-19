@@ -3,8 +3,8 @@ const moment = require('moment');
 
 require("dotenv").config();
 const con = mysql.createConnection({
-  host: "35.230.118.105",
-//   host: "localhost",
+//   host: "35.230.118.105",
+  host: "localhost",
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,

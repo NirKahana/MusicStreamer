@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import Carousel from 'react-elastic-carousel';
-import { useParams, useHistory, useLocation, Link } from "react-router-dom";
 import ArtistCard from '../cards/ArtistCard';
 
 function ArtistsCarousel( ) {

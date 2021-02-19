@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   page: {
     display: "flex",
     justifyContent: "center",
-    height: "100%",
+    // height: "100%",
     background: `linear-gradient(30deg, #f2f2f2, #9198e5 75%)`,
     paddingTop: "5em",
     width: "100vw",
@@ -90,9 +90,15 @@ export default function SignIn() {
       setLoading(false);
     }
   };
+  const onKeyPressed = (e) => {
+    if(e.key === "Enter") {
+      e.preventDefault();
+      e.target.click();
+    }
+  }
 
   return (
-    <div className={classes.page}>
+    <div className={classes.page} onKeyPress={onKeyPressed}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>

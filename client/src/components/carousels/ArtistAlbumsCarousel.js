@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import Carousel from 'react-elastic-carousel';
-import { useParams, useHistory, useLocation, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ArtistAlbumCard from '../cards/ArtistAlbumCard'; 
 
 function AlbumsCarousel({  }) {
@@ -25,7 +25,7 @@ function AlbumsCarousel({  }) {
             setArtistAlbums(artistAlbumsArray.data);
           } catch(err) {console.error(err)};
         })() 
-    } ,[])
+    } ,[id])
 
     return (
         <>

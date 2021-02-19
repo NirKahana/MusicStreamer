@@ -16,7 +16,7 @@ function PlaylistPage() {
         .data; //////////
       setPlaylistSongs(playlistSongsData);
     })();
-  }, []);
+  }, [id]);
 
   const { pathname } = useLocation();
 

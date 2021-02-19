@@ -19,7 +19,7 @@ function AlbumPage( ) {
             setAlbumSongs(albumSongsData)
         })()
     }
-    ,[])
+    ,[id])
 
     const { pathname } = useLocation();
 
@@ -40,7 +40,7 @@ function AlbumPage( ) {
                     </div>
 
                     <div className="central_flex_item">
-                        <div className="artist_header"  style={{'background-image': `url(${album.cover_img || defaultBg})`}}>
+                        <div className="artist_header"  style={{'backgroundImage': `url(${album.cover_img || defaultBg})`}}>
                             <div className="gradient">
 
                             </div>

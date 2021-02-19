@@ -81,7 +81,7 @@ function Header() {
   return (
     <>
       <div className={navbar ? `${classes.header} ${classes.active} ` : `${classes.header}`}>
-        <Link className="tab logo" to='/'> <img src={matches ? "//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg" : (process.env.PUBLIC_URL + "/images/ytm_icon.png")}></img></Link>
+        <Link className="tab logo" to='/'> <img src={matches ? "//s.ytimg.com/yts/img/music/web/on_platform_logo_dark-vflzMsRak.svg" : (process.env.PUBLIC_URL + "/images/ytm_icon.png")} alt="youtube logo"></img></Link>
 				{(!searchIsOn) 
 					? (
 						<>

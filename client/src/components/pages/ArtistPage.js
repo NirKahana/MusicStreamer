@@ -21,7 +21,7 @@ function AritstPage( ) {
             setArtistSongs(artistSongsData)
         })()
     }
-    ,[])
+    ,[id])
 
     const { pathname } = useLocation();
     useEffect(() => {

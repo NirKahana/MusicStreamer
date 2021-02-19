@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import ReactLoading from "react-loading";
 import axios from "axios";
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SongsList from "../lists/SongsList";
 import YouTube from "react-youtube";
 
 function SongPage() {
   const { id } = useParams();
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   const [song, setSong] = useState();
   const [songHasEnded, setSongHasEnded] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const songData = (await axios.get(`/songs/${id}`)).data; //////////////////
-      setSong(songData);
-      window.scrollTo(0, 0);
-      onStart();
-    })();
-  }, [pathname]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const songData = (await axios.get(`/songs/${id}`)).data; //////////////////
+  //     setSong(songData);
+  //     window.scrollTo(0, 0);
+  //     onStart();
+  //   })();
+  // }, [pathname, id]);
 
   useEffect(() => {
     (async () => {
@@ -28,7 +28,7 @@ function SongPage() {
       window.scrollTo(0, 0);
       onStart();
     })();
-  }, []);
+  }, [id]);
 
   const sendQuery = async () => {
     const currentPlayCount = await axios.get(`/interactions/${id}`);
