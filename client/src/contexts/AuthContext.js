@@ -9,9 +9,16 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  const signup = (email, password) => (
-    auth.createUserWithEmailAndPassword(email, password)
-  )
+  const signup = async (email, password) => {
+    try {
+      const newUser = await auth.createUserWithEmailAndPassword(email, password);
+      console.log("newUser: ", newUser);
+      return newUser;
+    } catch(error) {
+      console.log("error: ", error);
+      return error;
+    }
+  }
   // await axios.post('/users', {email});
   const signin = async (email, password, rememberMe = false) => {
     const newPersistence = rememberMe ? persistence.LOCAL : persistence.SESSION;

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import Avatar from "@material-ui/core/Avatar";
@@ -83,13 +84,16 @@ export default function SignUp() {
       setLoading(false);
       return setPasswordError(true);
     }
-    try {
-      await signup(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
-    } catch (error) {
-      swal("Failed To Sign Up", error.message, "error");
-      setLoading(false);
-    }
+      const email = emailRef.current.value;
+      const result = await signup(emailRef.current.value, passwordRef.current.value);
+      console.log('email: ', email);
+      if(!result.code) {
+        history.push("/");
+        await axios.post('/users', {email});
+      } else {
+          swal("Failed To Sign Up", result.message, "error");
+          setLoading(false);
+      }
   };
 
   const clearErrors = () => {
