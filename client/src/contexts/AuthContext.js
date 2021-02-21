@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useContext, useState, useEffect } from 'react'
 import { auth, persistence } from "../firebase"
 const AuthContext = React.createContext();
@@ -8,14 +9,13 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
+  const [dbUser, setDbUser] = useState();
   const [loading, setLoading] = useState(true);
   const signup = async (email, password) => {
     try {
       const newUser = await auth.createUserWithEmailAndPassword(email, password);
-      console.log("newUser: ", newUser);
       return newUser;
     } catch(error) {
-      console.log("error: ", error);
       return error;
     }
   }
@@ -29,7 +29,16 @@ export function AuthProvider({ children }) {
     auth.signOut()
   );
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      const dbUser = (await axios.get(`/user`, {
+        params: {
+          email: user.email
+        }
+      })).data;
+      setDbUser({
+        id: dbUser.id,
+        email: dbUser.email 
+      });
       setCurrentUser(user);
       setLoading(false);
     })
@@ -37,6 +46,7 @@ export function AuthProvider({ children }) {
   }, []);
   const value = {
     currentUser,
+    dbUser,
     signup,
     signin,
     signout

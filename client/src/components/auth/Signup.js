@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
   page: {
     display: "flex",
     justifyContent: "center",
-    // height: "100%",
     background: `linear-gradient(30deg, #f2f2f2, #9198e5 75%)`,
     paddingTop: "5em",
     width: "100vw",

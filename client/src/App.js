@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch,
 } from "react-router-dom";
@@ -17,73 +18,59 @@ import NotFound from "./components/pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 
 function App() {
-  const { currentUser } = useAuth();
+  const { currentUser, dbUser } = useAuth();
+  // if (currentUser.email) {
+  //   console.log("currentUser: ", currentUser.email);
+  //   console.log("dbUser: ", dbUser);
+  // }
 
   return currentUser ? (
     <>
-        <Router>
-          <Header />
-          <Switch>
-            <Route exact path="/artist/:id">
-              <ArtistPage />
-            </Route>
-
-            <Route exact path="/album/:id">
-              <AlbumPage />
-            </Route>
-            <Route exact path="/playlist/:id">
-              <PlaylistPage />
-            </Route>
-            <Route exact path="/song/:id">
-              <SongPage />
-            </Route>
-            {/* <Route exact path="/signup">
-              <Signup />
-            </Route> */}
-            <Route exact path="/">
-              <Home />
-            </Route>
-
-            <Route>
-              <NotFound />
-            </Route>
-          </Switch>
-        </Router>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/artist/:id">
+            <ArtistPage />
+          </Route>
+          <Route exact path="/album/:id">
+            <AlbumPage />
+          </Route>
+          <Route exact path="/playlist/:id">
+            <PlaylistPage />
+          </Route>
+          <Route exact path="/song/:id">
+            <SongPage />
+          </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </Router>
     </>
   ) : (
     <>
-        <Router>
-          <Switch>
-            <Route exact path="/artist/:id">
-              <Signin />
-            </Route>
-
-            <Route exact path="/album/:id">
-              <Signin />
-            </Route>
-            <Route exact path="/playlist/:id">
-              <Signin />
-            </Route>
-            <Route exact path="/song/:id">
-              <Signin />
-            </Route>
-            <Route exact path="/signup">
-              <Signup />
-            </Route>
-            <Route exact path="/">
-              <Signin />
-            </Route>
-            <Route exact path="/signin">
-              <Signin />
-            </Route>
-
-            <Route>
+      <Router>
+        <Switch>
+          <Route exact path="/signup">
+            <Signup />
+          </Route>
+          <Route path="/">
+            <Redirect to="/signin" />
+            <Signin />
+          </Route>
+          <Route exact path="/signin">
+            <Signin />
+          </Route>
+          {/* <Route>
               <NotFound />
-            </Route>
-          </Switch>
-        </Router>
+            </Route> */}
+        </Switch>
+      </Router>
     </>
-  )
+  );
 }
 
 export default App;

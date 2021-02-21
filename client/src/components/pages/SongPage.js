@@ -5,8 +5,12 @@ import { useParams } from "react-router-dom";
 import SongsList from "../lists/SongsList";
 import YouTube from "react-youtube";
 
+import { useAuth } from "../../contexts/AuthContext";
+
 function SongPage() {
   const { id } = useParams();
+  const { dbUser } = useAuth();
+
   // const { pathname } = useLocation();
 
   const [song, setSong] = useState();
@@ -31,17 +35,26 @@ function SongPage() {
   }, [id]);
 
   const sendQuery = async () => {
-    const currentPlayCount = await axios.get(`/interactions/${id}`);
+    const currentPlayCount = await axios.get(`/interactions`, {
+      params: {
+        userId: dbUser.id,
+        songId: id,
+      },
+    });
     if (currentPlayCount.data === 0) {
       await axios({
         method: "post",
-        url: `/interactions/${id}`,
+        url: `/interactions`,
         data: {
+          userId: dbUser.id,
+          songId: id,
           play_count: 1,
         },
       });
     } else {
-      await axios.put(`/interactions/${id}`, {
+      await axios.put(`/interactions`, {
+        userId: dbUser.id,
+        songId: id,
         play_count: currentPlayCount.data[0].play_count + 1,
       });
     }
@@ -61,7 +74,10 @@ function SongPage() {
         <div className="song_page_container">
           <div className="youtube_player">
             <YouTube
-              videoId={song.youtube_link.replace("https://www.youtube.com/watch?v=", "")}
+              videoId={song.youtube_link.replace(
+                "https://www.youtube.com/watch?v=",
+                ""
+              )}
               allowtransparency="true"
               onEnd={onEnd}
               // onPlay={onStart}
@@ -78,7 +94,7 @@ function SongPage() {
   ) : (
     <>
       <div className="vh100 flex_center ">
-            <ReactLoading type={"spokes"} color={"grey"} height={67} width={75} />
+        <ReactLoading type={"spokes"} color={"grey"} height={67} width={75} />
       </div>
     </>
   );

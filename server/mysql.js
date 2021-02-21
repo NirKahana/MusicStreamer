@@ -129,17 +129,20 @@ const getArtistAlbums = (req, res) => { /// do not modify!
     })
 };
 const getSongInteractionsByIdHandler = (req, res) => { /// do not modify! 
+    const params = req.query;
+    if(!params.songId || !params.userId) return res.status(400).send('bad request');
     con.query(`select play_count
                 FROM interactions
-                WHERE user_id = 1 AND song_id = ${req.params.id}`, function (err, result, fields) {
+                WHERE user_id = ${params.userId} AND song_id = ${params.songId}`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(200).send("0")}
         else {res.send(result)};
     })
 };
 const getUserByEmailHandler = (req, res) => { /// do not modify!
+    const params = req.query;
     con.query(`SELECT * FROM users 
-    WHERE email LIKE ?`,req.body.email, function (err, result, fields) {
+    WHERE email LIKE '${params.email}'`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Song not found")}
         else {res.send(result[0])};
@@ -277,8 +280,8 @@ const postToInteracionsHandler = (req, res) => {
             if(!body.play_count) {res.status(400).send("error: play_count is missing!")}; /// managing missing fields
                 con.query(`INSERT INTO interactions SET ?`,
                 {
-                    "user_id": 1,
-                    "song_id": req.params.id,
+                    "user_id": req.params.userId,
+                    "song_id": req.params.songId,
                     "play_count": body.play_count,
                     "created_at": moment(new Date()).format("YYYY-MM-DD")
                 }, 
@@ -379,13 +382,16 @@ const putToArtistsHandler = (req, res) => { // do not modify!
 }
 const putToInteractionsHandler = (req, res) => { // do not modify!
     let body = req.body;
-    con.query(`select play_count
+    // console.log("body: ", body);
+    // console.log("userId: ", body.userId);
+    if(!body.songId || !body.userId) {res.status(400).send("error: missing fields!")}; /// managing missing fields
+    con.query(`SELECT play_count
     FROM interactions
-    WHERE user_id = 1 AND song_id = ${req.params.id}`, function (err, result, fields) {
+    WHERE user_id = ${body.userId} AND song_id = ${body.songId}`, function (err, result, fields) {
         if (!result[0]) {
             res.status(404).send("interaction doesn't exist")
         } else {
-            con.query(`UPDATE interactions SET ? WHERE song_id = ${req.params.id} AND user_id = 1`,
+            con.query(`UPDATE interactions SET ? WHERE song_id = ${body.songId} AND user_id = ${body.userId}`,
             {
                 "play_count": body.play_count
             }, 
