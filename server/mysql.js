@@ -130,10 +130,11 @@ const getArtistAlbums = (req, res) => { /// do not modify!
 };
 const getSongInteractionsByIdHandler = (req, res) => { /// do not modify! 
     const params = req.query;
-    if(!params.songId || !params.userId) return res.status(400).send('bad request');
+    if(!params.songId || !params.userEmail) return res.status(400).send('bad request');
     con.query(`select play_count
                 FROM interactions
-                WHERE user_id = ${params.userId} AND song_id = ${params.songId}`, function (err, result, fields) {
+                JOIN users ON users.id = user_id
+                WHERE users.email = '${params.userEmail}' AND song_id = ${params.songId}`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(200).send("0")}
         else {res.send(result)};
@@ -270,21 +271,25 @@ const postToSongsHandler = (req, res) => {
             else {res.send(result)}
         })
 };
-const postToInteracionsHandler = (req, res) => {
+const postToInteracionsHandler = (req, res) => { ///!!!!!!
     let body = req.body;
-    con.query(`select play_count
+    if(!body.play_count || !body.userEmail || !body.songId) {res.status(400).send("error: missing fields!")}; /// managing missing fields
+    con.query(`SELECT play_count
     FROM interactions
-    WHERE user_id = 1 AND song_id = ${req.params.id}`, function (err, result, fields) {
+    JOIN users ON users.id = user_id
+    WHERE users.email = '${body.userEmail}' 
+    AND song_id = ${body.songId}`
+    , function (err, result, fields) {
+        if(err) throw err;
         if (result[0]) {res.status(400).send("interactions already exists")
         } else{
-            if(!body.play_count) {res.status(400).send("error: play_count is missing!")}; /// managing missing fields
-                con.query(`INSERT INTO interactions SET ?`,
-                {
-                    "user_id": req.params.userId,
-                    "song_id": req.params.songId,
-                    "play_count": body.play_count,
-                    "created_at": moment(new Date()).format("YYYY-MM-DD")
-                }, 
+                con.query(`INSERT INTO interactions (user_id, song_id, play_count, created_at)
+                VALUES (
+                    (SELECT id FROM users WHERE email = '${body.userEmail}'), 
+                    ${body.songId}, 
+                    ${body.play_count}, 
+                    '${moment(new Date()).format("YYYY-MM-DD")}'); 
+                `,
                 function (err, result, fields) {
                     if (err) throw err;
                     if(!result) {res.status(400).send("Invalid input")}
@@ -380,18 +385,18 @@ const putToArtistsHandler = (req, res) => { // do not modify!
             else {res.send(result)}
         })
 }
-const putToInteractionsHandler = (req, res) => { // do not modify!
+const putToInteractionsHandler = (req, res) => { // !!!!!
     let body = req.body;
-    // console.log("body: ", body);
-    // console.log("userId: ", body.userId);
-    if(!body.songId || !body.userId) {res.status(400).send("error: missing fields!")}; /// managing missing fields
-    con.query(`SELECT play_count
+    if(!body.songId || !body.userEmail || !body.play_count) {res.status(400).send("error: missing fields!")}; /// managing missing fields
+    con.query(`SELECT users.id as id, play_count
     FROM interactions
-    WHERE user_id = ${body.userId} AND song_id = ${body.songId}`, function (err, result, fields) {
+    JOIN users ON users.id = user_id
+    WHERE users.email = '${body.userEmail}' AND song_id = ${body.songId}`, function (err, result, fields) {
         if (!result[0]) {
             res.status(404).send("interaction doesn't exist")
         } else {
-            con.query(`UPDATE interactions SET ? WHERE song_id = ${body.songId} AND user_id = ${body.userId}`,
+            const userId = result[0].id;
+            con.query(`UPDATE interactions SET ? WHERE song_id = ${body.songId} AND user_id = '${userId}'`,
             {
                 "play_count": body.play_count
             }, 

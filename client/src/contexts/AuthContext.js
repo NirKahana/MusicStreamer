@@ -9,7 +9,6 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
-  const [dbUser, setDbUser] = useState();
   const [loading, setLoading] = useState(true);
   const signup = async (email, password) => {
     try {
@@ -29,16 +28,7 @@ export function AuthProvider({ children }) {
     auth.signOut()
   );
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const dbUser = (await axios.get(`/user`, {
-        params: {
-          email: user.email
-        }
-      })).data;
-      setDbUser({
-        id: dbUser.id,
-        email: dbUser.email 
-      });
+    const unsubscribe = auth.onAuthStateChanged(user => {
       setCurrentUser(user);
       setLoading(false);
     })
@@ -46,7 +36,6 @@ export function AuthProvider({ children }) {
   }, []);
   const value = {
     currentUser,
-    dbUser,
     signup,
     signin,
     signout

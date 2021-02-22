@@ -18,11 +18,7 @@ import NotFound from "./components/pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 
 function App() {
-  const { currentUser, dbUser } = useAuth();
-  // if (currentUser.email) {
-  //   console.log("currentUser: ", currentUser.email);
-  //   console.log("dbUser: ", dbUser);
-  // }
+  const { currentUser } = useAuth();
 
   return currentUser ? (
     <>

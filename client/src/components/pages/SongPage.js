@@ -9,7 +9,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 function SongPage() {
   const { id } = useParams();
-  const { dbUser } = useAuth();
+  const { currentUser } = useAuth();
 
   // const { pathname } = useLocation();
 
@@ -37,7 +37,7 @@ function SongPage() {
   const sendQuery = async () => {
     const currentPlayCount = await axios.get(`/interactions`, {
       params: {
-        userId: dbUser.id,
+        userEmail: currentUser.email,
         songId: id,
       },
     });
@@ -46,14 +46,14 @@ function SongPage() {
         method: "post",
         url: `/interactions`,
         data: {
-          userId: dbUser.id,
+          userEmail: currentUser.email,
           songId: id,
           play_count: 1,
         },
       });
     } else {
       await axios.put(`/interactions`, {
-        userId: dbUser.id,
+        userEmail: currentUser.email,
         songId: id,
         play_count: currentPlayCount.data[0].play_count + 1,
       });
