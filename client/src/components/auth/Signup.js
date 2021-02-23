@@ -85,7 +85,6 @@ export default function SignUp() {
     }
       const email = emailRef.current.value;
       const result = await signup(emailRef.current.value, passwordRef.current.value);
-      console.log('email: ', email);
       if(!result.code) {
         history.push("/");
         await axios.post('/users', {email});

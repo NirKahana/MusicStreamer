@@ -32,7 +32,7 @@ function RecentlyPlayed( ) {
             {songs[0] && <h2 className={"carousel_title"}>Recently Played</h2>}
             <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"}>
                 {songs.map((value, index) => 
-                    <SongCard key={index} id={value.id} cover_img={value.cover_img} title={value.title} artist={value.name}/>
+                    <SongCard key={index} id={value.id} cover_img={value.cover_img} title={value.title} artist={value.name} paramString='?recently_played'/>
                 )}
             </Carousel>
             </div>

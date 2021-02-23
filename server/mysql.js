@@ -33,7 +33,7 @@ getArtistID = (artist_id) => {
 
 const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
         if(!req.params.email) return res.status(400).send('bad request')
-        const sql = `SELECT songs.id, songs.title, artists.name, songs.cover_img, i.updated_at FROM songs
+        const sql = `SELECT songs.id, songs.title, songs.length, artists.name, songs.cover_img, i.updated_at FROM songs
         JOIN artists ON artists.id = songs.artist_id
         JOIN interactions i ON i.song_id = songs.id
         JOIN users ON i.user_id = users.id
@@ -47,7 +47,7 @@ const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopSongsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT s.created_at, s.id, s.title AS song_title, s.cover_img, a.name AS artist_name, s.length, SUM(play_count) AS total 
+        const sql = `SELECT s.created_at, s.id, s.title AS title, s.cover_img, a.name AS artist_name, s.length, SUM(play_count) AS total 
         FROM interactions i 
         JOIN songs s ON s.id = song_id
         JOIN artists a ON s.artist_id = a.id
@@ -61,14 +61,14 @@ const getTopSongsHandler = (req, res) => { /// do not modify!
           })
 };
 const getTopArtistsHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT a.created_at, a.id AS artist_id ,a.name AS artist_name, a.cover_img, SUM(play_count) AS total_plays 
-        FROM interactions i 
-        JOIN songs s 
-        ON s.id = i.song_id 
-        JOIN artists a
-        ON a.id = s.artist_id
-        GROUP BY artist_id 
-        ORDER BY total_plays DESC 
+        if(!req.params.email) return res.status(400).send('bad request');
+        const sql = `SELECT art.id, art.name, art.cover_img FROM interactions i
+        JOIN users u ON u.id = i.user_id
+        JOIN songs s ON i.song_id = s.id
+        JOIN artists art ON s.artist_id = art.id
+        WHERE u.email = '${req.params.email}'
+        GROUP BY artist_id
+        ORDER BY SUM(i.play_count) DESC
         LIMIT 10;`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
@@ -303,7 +303,7 @@ const postToInteracionsHandler = (req, res) => { ///!!!!!!
                     (SELECT id FROM users WHERE email = '${body.userEmail}'), 
                     ${body.songId}, 
                     ${body.play_count}, 
-                    '${moment(new Date()).format("YYYY-MM-DD")}'), 
+                    '${moment(new Date()).format("YYYY-MM-DD")}', 
                     '${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}'); 
                 `,
                 function (err, result, fields) {
