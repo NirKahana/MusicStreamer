@@ -27,7 +27,7 @@ function ArtistsCarousel( ) {
     return (
         <>
             <div className={"carousel"}>
-            {artists[0] && <h2 className={"carousel_title"}>Your Top 20 Artists</h2>}
+            {artists[0] && <h2 className={"carousel_title"}>Your Favourites</h2>}
             <Carousel breakPoints={breakPointsForArtists} transitionMs={1200} easing={"ease"}>
                 {artists.map((artist, index) => 
                     <ArtistCard key={index} cover_img={artist.cover_img} id={artist.artist_id} name={artist.artist_name} plays={artist.total_plays}/>

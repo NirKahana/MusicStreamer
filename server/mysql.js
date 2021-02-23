@@ -31,6 +31,21 @@ getArtistID = (artist_id) => {
 }
 ////////////// GET TOP OF
 
+const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
+        if(!req.params.email) return res.status(400).send('bad request')
+        const sql = `SELECT songs.id, songs.title, artists.name, songs.cover_img, i.updated_at FROM songs
+        JOIN artists ON artists.id = songs.artist_id
+        JOIN interactions i ON i.song_id = songs.id
+        JOIN users ON i.user_id = users.id
+        WHERE email = '${req.params.email}'
+        ORDER BY updated_at DESC
+        LIMIT 10;`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            // if (result[0] === undefined) {res.status(404).send("no results")}
+            else {res.send(result)};
+          })
+};
 const getTopSongsHandler = (req, res) => { /// do not modify!
         const sql = `SELECT s.created_at, s.id, s.title AS song_title, s.cover_img, a.name AS artist_name, s.length, SUM(play_count) AS total 
         FROM interactions i 
@@ -54,7 +69,7 @@ const getTopArtistsHandler = (req, res) => { /// do not modify!
         ON a.id = s.artist_id
         GROUP BY artist_id 
         ORDER BY total_plays DESC 
-        LIMIT 20;`
+        LIMIT 10;`
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             if (result[0] === undefined) {res.status(404).send("no results")}
@@ -283,12 +298,13 @@ const postToInteracionsHandler = (req, res) => { ///!!!!!!
         if(err) throw err;
         if (result[0]) {res.status(400).send("interactions already exists")
         } else{
-                con.query(`INSERT INTO interactions (user_id, song_id, play_count, created_at)
+                con.query(`INSERT INTO interactions (user_id, song_id, play_count, created_at, updated_at)
                 VALUES (
                     (SELECT id FROM users WHERE email = '${body.userEmail}'), 
                     ${body.songId}, 
                     ${body.play_count}, 
-                    '${moment(new Date()).format("YYYY-MM-DD")}'); 
+                    '${moment(new Date()).format("YYYY-MM-DD")}'), 
+                    '${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}'); 
                 `,
                 function (err, result, fields) {
                     if (err) throw err;
@@ -398,7 +414,8 @@ const putToInteractionsHandler = (req, res) => { // !!!!!
             const userId = result[0].id;
             con.query(`UPDATE interactions SET ? WHERE song_id = ${body.songId} AND user_id = '${userId}'`,
             {
-                "play_count": body.play_count
+                "play_count": body.play_count,
+                "updated_at": moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
             }, 
             function (err, result, fields) {
                 if (err) throw err;
@@ -447,6 +464,7 @@ module.exports = {
     getTopArtistsHandler: getTopArtistsHandler,
     getTopAlbumsHandler: getTopAlbumsHandler,
     getTopPlaylistsHandler: getTopPlaylistsHandler,
+    getRecentlyPlayedHandler: getRecentlyPlayedHandler,
 
     getSongByIdHandler: getSongByIdHandler,
     getArtistByIdHandler: getArtistByIdHandler,
