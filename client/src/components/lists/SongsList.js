@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import queryString from "query-string";
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation, useHistory } from "react-router-dom";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
@@ -13,6 +13,7 @@ import SongItem from "./SongItem";
 function RegularSongsList({ songHasEnded, lyrics }) {
   const {currentUser} = useAuth();
   const { id } = useParams();
+  console.log("id----------", id);
   const location = useLocation();
 
 
@@ -51,19 +52,19 @@ function RegularSongsList({ songHasEnded, lyrics }) {
   useEffect(() => {
     (async () => {
       switch (qParamKey) {
-        case null: 
+        case 'most_popular': 
         requestURL = '/most_popular';
-        linkURl = '';
+        linkURl = '?most_popular==true';
         break;
         case 'recently_played':
           requestURL = `/recently_played/${currentUser.email}`
-          linkURl = '?recently_played';
+          linkURl = '?recently_played=true';
           break;
         default:
     }
       const songsArray = (await axios.get(requestURL)).data;
       setSongsData(songsArray);
-      console.log("songs array: ", songsArray);
+      console.log("songs array:    ", songsArray);
     })();
   }, [requestURL]);
 
