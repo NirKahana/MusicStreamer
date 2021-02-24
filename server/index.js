@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/top_songs/", query.getTopSongsHandler);
-app.get("/most_popular/", query.getMostPopularHandler);
+app.get("/most_popular", query.getMostPopularHandler);
 app.get("/top_artists/:email", query.getTopArtistsHandler);
 app.get("/top_albums/", query.getTopAlbumsHandler);
 app.get("/top_playlists/", query.getTopPlaylistsHandler);

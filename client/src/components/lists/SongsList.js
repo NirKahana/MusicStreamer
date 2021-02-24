@@ -7,29 +7,33 @@ import Tab from "@material-ui/core/Tab";
 
 import { useAuth } from "../../contexts/AuthContext"
 import SongLength from "./SongLength";
+import SongItem from "./SongItem";
 
 
 function RegularSongsList({ songHasEnded, lyrics }) {
   const {currentUser} = useAuth();
   const { id } = useParams();
   const location = useLocation();
+
+
+
   const qParams = queryString.parse(location.search);
   const qParamArray = Object.entries(qParams);
   const qParamKey = qParamArray[0] ? qParamArray[0][0] : null;
   const qParamValue = qParamArray[0] ? qParamArray[0][1] : null;
   let requestURL = `/${qParamKey}s/${qParamValue}/songs`;
   let linkURl = `/?${qParamKey}=${qParamValue}`;
-  switch (qParamKey) {
-    case null: 
-    requestURL = '/top_songs';
-    linkURl = '';
-    break;
-    case 'recently_played':
-      requestURL = `/recently_played/${currentUser.email}`
-      linkURl = '?recently_played';
-      break;
-    default:
-}
+//   switch (qParamKey) {
+//     case null: 
+//     requestURL = '/most_popular';
+//     linkURl = '';
+//     break;
+//     case 'recently_played':
+//       requestURL = `/recently_played/${currentUser.email}`
+//       linkURl = '?recently_played';
+//       break;
+//     default:
+// }
 
   const [songsData, setSongsData] = useState([]);
   const [value, setValue] = React.useState(0);
@@ -46,10 +50,20 @@ function RegularSongsList({ songHasEnded, lyrics }) {
   }
   useEffect(() => {
     (async () => {
-      const songsArray = (
-        await axios.get(requestURL)
-      ).data;
+      switch (qParamKey) {
+        case null: 
+        requestURL = '/most_popular';
+        linkURl = '';
+        break;
+        case 'recently_played':
+          requestURL = `/recently_played/${currentUser.email}`
+          linkURl = '?recently_played';
+          break;
+        default:
+    }
+      const songsArray = (await axios.get(requestURL)).data;
       setSongsData(songsArray);
+      console.log("songs array: ", songsArray);
     })();
   }, [requestURL]);
 
@@ -91,16 +105,7 @@ function RegularSongsList({ songHasEnded, lyrics }) {
                     key={index}
                     style={{ textDecoration: "none", color: "white" }}
                   >
-                    <li
-                      style={
-                        id === song.id.toString()
-                          ? { backgroundColor: "rgb(22,22,22)" }
-                          : {}
-                      }
-                    >
-                      <div>{song.title}</div>
-                      <SongLength string={song.length} />
-                    </li>
+                    <SongItem song={song} path={id}/>
                   </Link>
                 ))}
             </ul> :

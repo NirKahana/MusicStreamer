@@ -9,11 +9,11 @@ function Home( ) {
     return (
         <>
             <div className={"content"}>
-                <SongsCarousel title={'Recently Played'} requestURl={`/recently_played/${currentUser.email}`}/>
+                <SongsCarousel title={'Recently Played'} requestURl={`/recently_played/${currentUser.email}`} paramString="?recently_played"/>
 
                 <ArtistsCarousel />
 
-                <SongsCarousel title={'Most Popular'} requestURl={'/most_popular'}/>
+                <SongsCarousel title={'Most Popular'} requestURl={'/most_popular'} paramString=""/>
             </div>
         </>
     )

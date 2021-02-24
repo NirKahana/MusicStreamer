@@ -7,9 +7,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-evenly',
     width: '2.7em'
   },
-  // letter: {
-
-  // }
 }));
 
 export default function SongLength({ string }) {

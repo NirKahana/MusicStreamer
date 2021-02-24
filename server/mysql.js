@@ -47,7 +47,7 @@ const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
           })
 };
 const getMostPopularHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT songs.id, songs.title, songs.cover_img, artists.name, SUM(play_count) as total_views FROM songs
+        const sql = `SELECT songs.id, songs.title, songs.length, songs.cover_img, artists.name, SUM(play_count) as total_views FROM songs
         JOIN artists ON songs.artist_id = artists.id
         JOIN interactions ON interactions.song_id = songs.id
         GROUP BY songs.id
