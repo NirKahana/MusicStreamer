@@ -3,7 +3,7 @@ import axios from 'axios';
 import Carousel from 'react-elastic-carousel';
 import SongCard from '../cards/SongCard';
 
-function SongsCarousel( ) {
+function SongsCarousel({ requestURl, title }) {
 
     
     const breakPointsForCards = [
@@ -19,7 +19,7 @@ function SongsCarousel( ) {
       useEffect(() => {
           (async () => {
           try{
-        let songsArray = await axios.get("/top_songs");
+        let songsArray = await axios.get(requestURl);
         setSongs(songsArray.data);
           } catch(err) {console.error(err)};
         })() 
@@ -28,10 +28,10 @@ function SongsCarousel( ) {
     return (
         <>
             <div className={"carousel"}>
-            {songs[0] && <h2 className={"carousel_title"}>Your Top 20 Songs</h2>}
+            {songs[0] && <h2 className={"carousel_title"}>{title}</h2>}
             <Carousel breakPoints={breakPointsForCards} transitionMs={1200} easing={"ease"}>
                 {songs.map((value, index) => 
-                    <SongCard key={index} id={value.id} cover_img={value.cover_img} title={value.title} artist={value.artist_name}/>
+                    <SongCard key={index} id={value.id} cover_img={value.cover_img} title={value.title} artist={value.name}/>
                 )}
             </Carousel>
             </div>
@@ -40,5 +40,3 @@ function SongsCarousel( ) {
 }
 
 export default SongsCarousel;
-
-

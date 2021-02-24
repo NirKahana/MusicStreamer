@@ -3,6 +3,9 @@ import ReactLoading from "react-loading";
 import axios from 'axios';
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
+import SongLength from "../lists/SongLength";
+
+
 const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
 
 function AlbumPage( ) {
@@ -53,7 +56,7 @@ function AlbumPage( ) {
                             <ul>
                             {albumSongs.map((song, index) =>
                                     <Link to={`/song/${song.id}?album=${album.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
-                                    <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
+                                    <li><div>{song.title}</div><SongLength string={song.length} /></li>
                                     </Link>
                                 )}
                             </ul>

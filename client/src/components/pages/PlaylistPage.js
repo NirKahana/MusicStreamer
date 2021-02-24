@@ -3,6 +3,9 @@ import ReactLoading from "react-loading";
 import axios from "axios";
 import { useParams, Link, useLocation } from "react-router-dom";
 
+import SongLength from "../lists/SongLength";
+
+
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState();
   const [playlistSongs, setPlaylistSongs] = useState();
@@ -62,7 +65,7 @@ function PlaylistPage() {
                   >
                     <li>
                       <div>{song.title}</div>
-                      <div>{song.length.slice(3, 8)}</div>
+                      <SongLength string={song.length} />
                     </li>
                   </Link>
                 ))}

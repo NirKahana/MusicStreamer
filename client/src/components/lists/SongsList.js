@@ -6,6 +6,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import { useAuth } from "../../contexts/AuthContext"
+import SongLength from "./SongLength";
 
 
 function RegularSongsList({ songHasEnded, lyrics }) {
@@ -98,7 +99,7 @@ function RegularSongsList({ songHasEnded, lyrics }) {
                       }
                     >
                       <div>{song.title}</div>
-                      <div>{song.length.slice(3, 8)}</div>
+                      <SongLength string={song.length} />
                     </li>
                   </Link>
                 ))}

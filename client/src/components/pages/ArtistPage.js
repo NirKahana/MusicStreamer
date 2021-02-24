@@ -4,6 +4,8 @@ import axios from 'axios';
 import ArtistAlbumsCarousel from '../carousels/ArtistAlbumsCarousel'
 import { useParams, Link, useLocation } from "react-router-dom"; 
 
+import SongLength from "../lists/SongLength";
+
 const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
 
 function AritstPage( ) {
@@ -58,7 +60,7 @@ function AritstPage( ) {
                             <ul>
                             {artistSongs.map((song, index) =>
                                     <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
-                                        <li><div>{song.title}</div><div>{song.length.slice(3,8)}</div></li>
+                                        <li><div>{song.title}</div><SongLength string={song.length} /></li>
                                     </Link>
                                 )}
                             </ul>

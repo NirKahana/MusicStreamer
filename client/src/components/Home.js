@@ -1,23 +1,19 @@
 import React from 'react';
-import SongsCarousel from './carousels/SongsCarousel';
-import AlbumsCarousel from './carousels/AlbumsCarousel';
 import ArtistsCarousel from './carousels/ArtistsCarousel';
-import PlaylistsCarousel from './carousels/PlaylistsCarousel';
-import RecentlyPlayed from './carousels/RecentlyPlayed';
+import SongsCarousel from './carousels/SongsCarousel';
+import { useAuth } from "../contexts/AuthContext";
+
 
 function Home( ) {
+    const { currentUser } = useAuth();
     return (
         <>
             <div className={"content"}>
-                <RecentlyPlayed />
-                
-                <SongsCarousel />
+                <SongsCarousel title={'Recently Played'} requestURl={`/recently_played/${currentUser.email}`}/>
 
                 <ArtistsCarousel />
 
-                <AlbumsCarousel />
-
-                <PlaylistsCarousel />
+                <SongsCarousel title={'Most Popular'} requestURl={'/most_popular'}/>
             </div>
         </>
     )

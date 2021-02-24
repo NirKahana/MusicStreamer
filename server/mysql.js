@@ -46,6 +46,19 @@ const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
             else {res.send(result)};
           })
 };
+const getMostPopularHandler = (req, res) => { /// do not modify!
+        const sql = `SELECT songs.id, songs.title, songs.cover_img, artists.name, SUM(play_count) as total_views FROM songs
+        JOIN artists ON songs.artist_id = artists.id
+        JOIN interactions ON interactions.song_id = songs.id
+        GROUP BY songs.id
+        ORDER BY total_views DESC
+        LIMIT 20;`
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            if (result[0] === undefined) {res.status(404).send("no results")}
+            else {res.send(result)};
+          })
+};
 const getTopSongsHandler = (req, res) => { /// do not modify!
         const sql = `SELECT s.created_at, s.id, s.title AS title, s.cover_img, a.name AS artist_name, s.length, SUM(play_count) AS total 
         FROM interactions i 
@@ -122,11 +135,9 @@ const getArtistByIdHandler = (req, res) => { /// do not modify!
         })
 };
 const getArtistSongs = (req, res) => { /// do not modify! 
-    con.query(`SELECT songs.id, songs.title, songs.created_at, songs.length, interactions.play_count
-    FROM songs
-    LEFT JOIN interactions ON interactions.song_id = songs.id
-    WHERE artist_id = ?
-    `,req.params.id, function (err, result, fields) {
+    con.query(`SELECT songs.id, songs.title, songs.created_at, songs.length 
+               FROM songs 
+               WHERE artist_id = ? ;`,req.params.id, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Artist not found")}
         else {res.send(result)};
@@ -461,6 +472,7 @@ const deletePlaylistByIdHandler = (req, res) => { /// do not modify!
 //// EXPORT
 module.exports = {
     getTopSongsHandler: getTopSongsHandler,
+    getMostPopularHandler: getMostPopularHandler,
     getTopArtistsHandler: getTopArtistsHandler,
     getTopAlbumsHandler: getTopAlbumsHandler,
     getTopPlaylistsHandler: getTopPlaylistsHandler,
