@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useMediaQuery } from '@material-ui/core';
 import ReactLoading from "react-loading";
 import axios from 'axios';
-import ArtistAlbumsCarousel from '../carousels/ArtistAlbumsCarousel'
 import { useParams, Link, useLocation } from "react-router-dom"; 
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
+import ArtistAlbumsCarousel from '../carousels/ArtistAlbumsCarousel'
+import SongItem from "../lists/SongItem"
 import SongLength from "../lists/SongLength";
 
 const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
@@ -12,6 +15,9 @@ function AritstPage( ) {
 
     const [artist, setArtist] = useState()
     const [artistSongs, setArtistSongs] = useState()
+    const [tappedItemIndex, setTappedItemIndex] = useState(-1);
+    const matches = useMediaQuery('(min-width:650px)');
+    
     const {id} = useParams();
 
 
@@ -58,11 +64,19 @@ function AritstPage( ) {
                                 </div>
                             </div>
                             <ul>
-                            {artistSongs.map((song, index) =>
-                                    <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
-                                        <li><div>{song.title}</div><SongLength string={song.length} /></li>
-                                    </Link>
-                                )}
+                            {artistSongs.map((song, index) => matches ? (
+                                <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} className={'link'}>     
+                                    <SongItem song={song} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                                </Link>
+                            ) : (
+                                <div className="flex align_center justify_between">
+                                <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} className={'link'}>     
+                                    <PlayArrowIcon />
+                                </Link>
+                                <SongItem song={song} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} />
+                                </div>
+                            )
+                            )}
                             </ul>
                         </div>
                     </div>
@@ -79,3 +93,10 @@ function AritstPage( ) {
       );
 }
 export default AritstPage;
+
+
+
+// <Link to={`/song/${song.id}?artist=${artist.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
+//                                         <SongItem song={song} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+//                                         <li><div>{song.title}</div><SongLength string={song.length} /></li>
+//                                     </Link>

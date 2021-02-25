@@ -104,7 +104,7 @@ function RegularSongsList({ songHasEnded, lyrics }) {
                   <Link
                     to={`/song/${song.id}${linkURl}`}
                     key={index}
-                    style={{ textDecoration: "none", color: "white" }}
+                    className="link"
                   >
                     <SongItem song={song} path={id}/>
                   </Link>

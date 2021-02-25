@@ -45,6 +45,18 @@ body {
 .content {
   margin-top: 5.5em;
 }
+.flex {
+  display: flex;
+}
+.align_center {
+  align-items: center;
+}
+.justify_between {
+  justify-content: space-between;
+}
+.grow1 {
+  flex-grow: 1;
+}
 .tab {
   color: rgb(187, 187, 187);
   margin: 0 1.5em;
@@ -115,6 +127,9 @@ body {
 .link {
   text-decoration: none;
   color: white;
+}
+.disabled_router_link {
+  pointer-events: none;
 }
 .img {
   width: 100%;
@@ -397,10 +412,13 @@ body {
 .list_container ul li {
   display: flex;
   font-size: 1em;
-  padding: 0.5em 0.5em;
+  padding: 0.75em 0.5em;
   border-bottom: 1px solid rgb(27, 27, 27);
   justify-content: space-between;
+  align-items: center;
   transition: 100ms;
+  height: 1.25em;
+  max-height: 1.25em;
 }
 .list_container ul li:hover {
   background-color: rgb(39, 39, 39);
