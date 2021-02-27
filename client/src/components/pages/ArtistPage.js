@@ -8,6 +8,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import ArtistAlbumsCarousel from "../carousels/ArtistAlbumsCarousel";
 import SongItem from "../lists/SongItem";
 import SongLength from "../lists/SongLength";
+import MobileSongItem from "../lists/MobileSongItem";
 
 const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
 
@@ -68,32 +69,9 @@ function AritstPage() {
                 </div>
               </div>
               <ul>
-                {artistSongs.map((song, index) =>
-                  matches ? (
-                    <Link
-                      to={`/song/${song.id}?artist=${artist.id}`}
-                      key={index}
-                      className={"link"}
-                    >
-                      <SongItem song={song} index={index} />
-                    </Link>
-                  ) : (
-                    <div className="flex align_center justify_between">
-                      <Link
-                        to={`/song/${song.id}?artist=${artist.id}`}
-                        key={index}
-                        className={"link"}
-                      >
-                        <PlayArrowIcon />
-                      </Link>
-                      <SongItem
-                        song={song}
-                        index={index}
-                        tappedItemIndex={tappedItemIndex}
-                        setTappedItemIndex={setTappedItemIndex}
-                      />
-                    </div>
-                  )
+                {artistSongs.map((song, index) => matches 
+                ? <SongItem song={song} key={index} link={`/song/${song.id}?artist=${id}`}/>
+                : <MobileSongItem song={song} index={index} link={`/song/${song.id}?artist=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
                 )}
               </ul>
             </div>

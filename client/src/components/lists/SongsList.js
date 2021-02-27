@@ -103,20 +103,9 @@ function SongsList({ songHasEnded, lyrics }) {
           </div>
           {value === 0 ?
             <ul>
-              {songsData.map((song, index) => matches ? (
-                  <Link
-                    to={`/song/${song.id}${linkURL}`}
-                    key={index}
-                    className="link"
-                  >
-                    <SongItem song={song} path={id}/>
-                  </Link>
-                ) : <div className="flex align_center justify_between">
-                      <Link to={`/song/${song.id}${linkURL}`} key={index} className={'link'}>     
-                          <PlayArrowIcon />
-                      </Link>
-                      <SongItem song={song} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} />
-                    </div>)}
+            {songsData.map((song, index) => (
+              <SongItem song={song} path={id} key={index} link={`/song/${song.id}${linkURL}`}/>
+            ))} 
             </ul> :
             <div className='lyrics'>
                 {lyrics}
