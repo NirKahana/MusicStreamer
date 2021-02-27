@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import queryString from "query-string";
-import { useParams, Link, useLocation, useHistory } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
+import { useMediaQuery } from '@material-ui/core';
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 import { useAuth } from "../../contexts/AuthContext"
 import SongLength from "./SongLength";
 import SongItem from "./SongItem";
 
 
-function RegularSongsList({ songHasEnded, lyrics }) {
+function SongsList({ songHasEnded, lyrics }) {
+  const matches = useMediaQuery('(min-width:650px)');
   const {currentUser} = useAuth();
+  const [tappedItemIndex, setTappedItemIndex] = useState(-1);
+
   const { id } = useParams();
-  console.log("id----------", id);
   const location = useLocation();
 
 
@@ -23,7 +27,7 @@ function RegularSongsList({ songHasEnded, lyrics }) {
   const qParamKey = qParamArray[0] ? qParamArray[0][0] : null;
   const qParamValue = qParamArray[0] ? qParamArray[0][1] : null;
   let requestURL = `/${qParamKey}s/${qParamValue}/songs`;
-  let linkURl = `/?${qParamKey}=${qParamValue}`;
+  let linkURL = `/?${qParamKey}=${qParamValue}`;
 //   switch (qParamKey) {
 //     case null: 
 //     requestURL = '/most_popular';
@@ -54,17 +58,16 @@ function RegularSongsList({ songHasEnded, lyrics }) {
       switch (qParamKey) {
         case 'most_popular': 
         requestURL = '/most_popular';
-        linkURl = '?most_popular==true';
+        linkURL = '?most_popular==true';
         break;
         case 'recently_played':
           requestURL = `/recently_played/${currentUser.email}`
-          linkURl = '?recently_played=true';
+          linkURL = '?recently_played=true';
           break;
         default:
     }
       const songsArray = (await axios.get(requestURL)).data;
       setSongsData(songsArray);
-      console.log("songs array:    ", songsArray);
     })();
   }, [requestURL]);
 
@@ -72,7 +75,7 @@ function RegularSongsList({ songHasEnded, lyrics }) {
     for (let i = 0; i < songsData.length - 1; i++) {
       if (songsData[i].id.toString() === id) {
         window.location.assign(
-          `/song/${songsData[i + 1].id}${linkURl}`
+          `/song/${songsData[i + 1].id}${linkURL}`
         );
       }
     }
@@ -100,15 +103,20 @@ function RegularSongsList({ songHasEnded, lyrics }) {
           </div>
           {value === 0 ?
             <ul>
-              {songsData.map((song, index) => (
+              {songsData.map((song, index) => matches ? (
                   <Link
-                    to={`/song/${song.id}${linkURl}`}
+                    to={`/song/${song.id}${linkURL}`}
                     key={index}
                     className="link"
                   >
                     <SongItem song={song} path={id}/>
                   </Link>
-                ))}
+                ) : <div className="flex align_center justify_between">
+                      <Link to={`/song/${song.id}${linkURL}`} key={index} className={'link'}>     
+                          <PlayArrowIcon />
+                      </Link>
+                      <SongItem song={song} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} />
+                    </div>)}
             </ul> :
             <div className='lyrics'>
                 {lyrics}
@@ -120,4 +128,4 @@ function RegularSongsList({ songHasEnded, lyrics }) {
   );
 }
 
-export default RegularSongsList;
+export default SongsList;

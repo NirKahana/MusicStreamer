@@ -57,6 +57,9 @@ body {
 .grow1 {
   flex-grow: 1;
 }
+.pointer {
+  cursor: pointer;
+}
 .tab {
   color: rgb(187, 187, 187);
   margin: 0 1.5em;
