@@ -10,13 +10,16 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { useAuth } from "../../contexts/AuthContext"
 import SongLength from "./SongLength";
 import SongItem from "./SongItem";
+import MobileSongItem from "./MobileSongItem";
 
 
 function SongsList({ songHasEnded, lyrics }) {
-  const matches = useMediaQuery('(min-width:650px)');
-  const {currentUser} = useAuth();
+  const [value, setValue] = React.useState(0);
+  const [songsData, setSongsData] = useState([]);
   const [tappedItemIndex, setTappedItemIndex] = useState(-1);
 
+  const matches = useMediaQuery('(min-width:650px)');
+  const {currentUser} = useAuth();
   const { id } = useParams();
   const location = useLocation();
 
@@ -26,22 +29,9 @@ function SongsList({ songHasEnded, lyrics }) {
   const qParamArray = Object.entries(qParams);
   const qParamKey = qParamArray[0] ? qParamArray[0][0] : null;
   const qParamValue = qParamArray[0] ? qParamArray[0][1] : null;
+  
   let requestURL = `/${qParamKey}s/${qParamValue}/songs`;
   let linkURL = `/?${qParamKey}=${qParamValue}`;
-//   switch (qParamKey) {
-//     case null: 
-//     requestURL = '/most_popular';
-//     linkURl = '';
-//     break;
-//     case 'recently_played':
-//       requestURL = `/recently_played/${currentUser.email}`
-//       linkURl = '?recently_played';
-//       break;
-//     default:
-// }
-
-  const [songsData, setSongsData] = useState([]);
-  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -103,9 +93,10 @@ function SongsList({ songHasEnded, lyrics }) {
           </div>
           {value === 0 ?
             <ul>
-            {songsData.map((song, index) => (
-              <SongItem song={song} path={id} key={index} link={`/song/${song.id}${linkURL}`}/>
-            ))} 
+            {songsData.map((song, index) => matches 
+            ? <SongItem song={song} path={id} key={index} link={`/song/${song.id}${linkURL}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} />
+            : <MobileSongItem song={song} path={id} index={index} link={`/song/${song.id}${linkURL}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+            )} 
             </ul> :
             <div className='lyrics'>
                 {lyrics}

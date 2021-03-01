@@ -12,6 +12,10 @@ import SongLength from "./SongLength";
 const useStyles = makeStyles({
   playArrow: {
     marginRight: '0.5em'
+  },
+  title: {
+    flexGrow: '1',
+    padding: '0.75em 0.5em'
   }
 });
 
@@ -38,7 +42,7 @@ export default function MobileSongItem({
         <Link to={link} className='link'>     
           <PlayArrowIcon className={classes.playArrow}/>
         </Link>
-        <div>{song.title}</div>
+        <div className={classes.title}>{song.title}</div>
       </div>
       {tappedItemIndex === index 
       ? <MenuPopupState />

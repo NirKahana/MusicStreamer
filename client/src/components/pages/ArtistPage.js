@@ -2,19 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import { useMediaQuery } from "@material-ui/core";
 import ReactLoading from "react-loading";
 import axios from "axios";
-import { useParams, Link, useLocation } from "react-router-dom";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import { useParams, useLocation } from "react-router-dom";
 
 import ArtistAlbumsCarousel from "../carousels/ArtistAlbumsCarousel";
 import SongItem from "../lists/SongItem";
-import SongLength from "../lists/SongLength";
 import MobileSongItem from "../lists/MobileSongItem";
 
 const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
 
 function AritstPage() {
 
-    const [artist, setArtist] = useState();
+  const [artist, setArtist] = useState();
   const [artistSongs, setArtistSongs] = useState();
   const [tappedItemIndex, setTappedItemIndex] = useState(-1);
   const matches = useMediaQuery("(min-width:650px)");
@@ -70,7 +68,7 @@ function AritstPage() {
               </div>
               <ul>
                 {artistSongs.map((song, index) => matches 
-                ? <SongItem song={song} key={index} link={`/song/${song.id}?artist=${id}`}/>
+                ? <SongItem song={song} key={index} link={`/song/${song.id}?artist=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
                 : <MobileSongItem song={song} index={index} link={`/song/${song.id}?artist=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
                 )}
               </ul>

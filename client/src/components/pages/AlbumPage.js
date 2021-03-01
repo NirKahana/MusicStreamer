@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import ReactLoading from "react-loading";
 import axios from "axios";
 import { useParams, Link, useLocation } from "react-router-dom";
+import { useMediaQuery } from "@material-ui/core";
 
-import SongLength from "../lists/SongLength";
-import SongsList from "../lists/SongsList";
+
+import SongItem from "../lists/SongItem";
+import MobileSongItem from "../lists/MobileSongItem";
 
 const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
 
 function AlbumPage() {
   const [album, setAlbum] = useState();
   const [albumSongs, setAlbumSongs] = useState();
+  const [tappedItemIndex, setTappedItemIndex] = useState(-1);
+
+  const matches = useMediaQuery("(min-width:650px)");
   const { id } = useParams();
 
   useEffect(() => {
@@ -66,27 +71,15 @@ function AlbumPage() {
                 <div>Songs:</div>
               </div>
               <ul>
-                {albumSongs.map((song, index) => (
-                  <Link
-                    to={`/song/${song.id}?album=${album.id}`}
-                    key={index}
-                    style={{ textDecoration: "none", color: "white" }}
-                  >
-                    <li>
-                      <div>{song.title}</div>
-                      <SongLength string={song.length} />
-                    </li>
-                  </Link>
-                ))}
+                {albumSongs.map((song, index) => matches
+                  ? <SongItem song={song} key={index} link={`/song/${song.id}?album=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                  : <MobileSongItem song={song} key={index} link={`/song/${song.id}?album=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                )}
               </ul>
             </div>
           </div>
         </div>
       </div>
-
-      {/* <Link to={`/song/${song.id}?album=${album.id}`} key={index} style={{ textDecoration: 'none', color: "white"}}> 
-                                    <li><div>{song.title}</div><SongLength string={song.length} /></li>
-                                    </Link> */}
     </>
   ) : (
     <>

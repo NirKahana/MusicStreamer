@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import ReactLoading from "react-loading";
 import axios from "axios";
 import { useParams, Link, useLocation } from "react-router-dom";
+import { useMediaQuery } from "@material-ui/core";
 
-import SongLength from "../lists/SongLength";
+
+import SongItem from "../lists/SongItem";
+import MobileSongItem from "../lists/MobileSongItem";
 
 
 function PlaylistPage() {
   const [playlist, setPlaylist] = useState();
   const [playlistSongs, setPlaylistSongs] = useState();
+  const [tappedItemIndex, setTappedItemIndex] = useState(-1);
+  const matches = useMediaQuery("(min-width:650px)");
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -57,18 +63,10 @@ function PlaylistPage() {
                 <div>Songs:</div>
               </div>
               <ul>
-                {playlistSongs.map((song, index) => (
-                  <Link
-                    to={`/song/${song.id}?playlist=${playlist.id}`}
-                    key={index}
-                    style={{ textDecoration: "none", color: "white" }}
-                  >
-                    <li>
-                      <div>{song.title}</div>
-                      <SongLength string={song.length} />
-                    </li>
-                  </Link>
-                ))}
+                {playlistSongs.map((song, index) => matches
+                  ? <SongItem song={song} key={index} link={`/song/${song.id}?playlist=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                  : <MobileSongItem song={song} index={index} link={`/song/${song.id}?playlist=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                )}
               </ul>
             </div>
           </div>

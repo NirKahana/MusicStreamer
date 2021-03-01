@@ -130,6 +130,7 @@ body {
 .link {
   text-decoration: none;
   color: white;
+  flex-grow: 1;
 }
 .disabled_router_link {
   pointer-events: none;
@@ -359,6 +360,7 @@ body {
   display: flex;
   margin: auto;
   margin-bottom: 1em;
+  text-align: center;
 }
 .artist_details_row h1 {
   margin: auto;
@@ -415,13 +417,13 @@ body {
 .list_container ul li {
   display: flex;
   font-size: 1em;
-  padding: 0.75em 0.5em;
+  /* padding: 0.75em 0.5em; */
   border-bottom: 1px solid rgb(27, 27, 27);
   justify-content: space-between;
   align-items: center;
   transition: 100ms;
-  height: 1.25em;
-  max-height: 1.25em;
+  /* height: 1.25em; */
+  /* max-height: 1.25em; */
 }
 .list_container ul li:hover {
   background-color: rgb(39, 39, 39);
