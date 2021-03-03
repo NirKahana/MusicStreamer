@@ -44,6 +44,11 @@ function SongsList({ songHasEnded, lyrics }) {
       // requestURL = `/recently_played/${currentUser.email}`
       linkURL = '?recently_played=true';
       break;
+    case 'library':
+      requestURL = `/library_songs`
+      // requestURL = `/recently_played/${currentUser.email}`
+      linkURL = '?library_songs=true';
+      break;
     default:
 }
 

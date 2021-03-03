@@ -26,7 +26,9 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     flexGrow: '1',
     overflowY: 'auto',
-    paddingBottom: '2em'
+    marginBottom: '2em',
+    // paddingBottom: '2em',
+    // boxShadow: '3px 3px 8px 10px #888888'
   },
   sidePadding: {
     padding: '0 3em'
@@ -227,25 +229,10 @@ export default function Library() {
             </Tabs>
             <Container
               disableGutters
+              maxWidth={'false'}
               className={matches ? classes.list : classes.mobileList}
             > 
               {renderList()}
-              {/* {librarySongs.map((song, index) => matches 
-                ? <SongItem song={song}
-                          link={`/song/${song.id}?library=true`} 
-                          index={index}
-                          tappedItemIndex={tappedItemIndex} 
-                          setTappedItemIndex={setTappedItemIndex} 
-                          refreshSongs={refreshSongs}
-                />
-                : <MobileSongItem song={song}
-                          link={`/song/${song.id}?library=true`} 
-                          index={index}
-                          tappedItemIndex={tappedItemIndex} 
-                          setTappedItemIndex={setTappedItemIndex} 
-                          refreshSongs={refreshSongs}
-                  />
-              )} */}
             </Container>
       </div>
     </div>
