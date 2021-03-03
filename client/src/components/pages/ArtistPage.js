@@ -4,6 +4,7 @@ import ReactLoading from "react-loading";
 import axios from "axios";
 import { useParams, useLocation } from "react-router-dom";
 
+import {useAuth} from "../../contexts/AuthContext";
 import ArtistAlbumsCarousel from "../carousels/ArtistAlbumsCarousel";
 import SongItem from "../lists/SongItem";
 import MobileSongItem from "../lists/MobileSongItem";
@@ -18,12 +19,18 @@ function AritstPage() {
   const matches = useMediaQuery("(min-width:650px)");
 
   const { id } = useParams();
+  const {currentUser} = useAuth();
 
   useEffect(() => {
     (async () => {
       const { data } = await axios.get(`/artists/${id}`);
       setArtist(data);
-      const artistSongsData = (await axios.get(`/artists/${id}/songs`)).data;
+      const artistSongsData = (await axios.get(`/artists/songs`, {
+        params: {
+          artistId: id,
+          userEmail: currentUser.email
+        }
+      })).data;
       setArtistSongs(artistSongsData);
     })();
   }, [id]);
@@ -32,6 +39,16 @@ function AritstPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  const refreshSongs = async () => {
+    const artistSongsData = (await axios.get(`/artists/songs`, {
+      params: {
+        artistId: id,
+        userEmail: currentUser.email
+      }
+    })).data;
+    setArtistSongs(artistSongsData);
+  };
 
   return artist && artistSongs ? (
     <>
@@ -68,8 +85,8 @@ function AritstPage() {
               </div>
               <ul>
                 {artistSongs.map((song, index) => matches 
-                ? <SongItem song={song} key={index} link={`/song/${song.id}?artist=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
-                : <MobileSongItem song={song} index={index} link={`/song/${song.id}?artist=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                ? <SongItem song={song} key={index} link={`/song/${song.id}?artist=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
+                : <MobileSongItem song={song} index={index} link={`/song/${song.id}?artist=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
                 )}
               </ul>
             </div>

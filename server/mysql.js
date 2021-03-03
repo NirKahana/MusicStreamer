@@ -32,12 +32,13 @@ getArtistID = (artist_id) => {
 ////////////// GET TOP OF
 
 const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
-        if(!req.params.email) return res.status(400).send('bad request')
-        const sql = `SELECT songs.id, songs.title, songs.length, artists.name, songs.cover_img, i.updated_at FROM songs
+        if(!req.query.userEmail) return res.status(400).send('bad request')
+        const sql = `SELECT songs.id, songs.title, songs.length, artists.name, songs.cover_img, (SELECT email FROM users WHERE users.id = us.user_id) as email, i.updated_at FROM songs
         JOIN artists ON artists.id = songs.artist_id
         JOIN interactions i ON i.song_id = songs.id
         JOIN users ON i.user_id = users.id
-        WHERE email = '${req.params.email}'
+        LEFT JOIN user_songs us ON songs.id = us.song_id AND email = '${req.query.userEmail}'
+        WHERE email = '${req.query.userEmail}'
         ORDER BY updated_at DESC
         LIMIT 10;`
         con.query(sql, function (err, result, fields) {
@@ -47,9 +48,13 @@ const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
           })
 };
 const getMostPopularHandler = (req, res) => { /// do not modify!
-        const sql = `SELECT songs.id, songs.title, songs.length, songs.cover_img, artists.name, SUM(play_count) as total_views FROM songs
+        const params = req.query;
+        if(!params.userEmail) return res.status(400).send('bad request');
+        const sql = `SELECT songs.id, songs.title, songs.length, songs.cover_img, artists.name, SUM(play_count) as total_views, email FROM songs
         JOIN artists ON songs.artist_id = artists.id
         JOIN interactions ON interactions.song_id = songs.id
+        LEFT JOIN user_songs us ON us.song_id = songs.id
+        LEFT JOIN users ON users.id = us.user_id AND users.email = '${params.userEmail}'
         GROUP BY songs.id
         ORDER BY total_views DESC
         LIMIT 20;`
@@ -113,6 +118,19 @@ const getTopPlaylistsHandler = (req, res) => { /// do not modify!
             else {res.send(result)};
           })
 };
+const getLibrarySongsHandler = (req, res) => { /// do not modify!
+    const params = req.query;
+    if(!params.userEmail) return res.status(400).send('bad request') 
+    const sql = `SELECT s.*, email FROM songs s
+    JOIN user_songs us ON us.song_id = s.id
+    JOIN users ON users.id = us.user_id
+    WHERE users.email = '${params.userEmail}';`;
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        if (result[0] === undefined) {res.status(404).send("no results")}
+        else {res.send(result)};
+    })
+};
 
 ////////////// GET SPECIFIC BY ID
 
@@ -135,9 +153,13 @@ const getArtistByIdHandler = (req, res) => { /// do not modify!
         })
 };
 const getArtistSongs = (req, res) => { /// do not modify! 
-    con.query(`SELECT songs.id, songs.title, songs.created_at, songs.length 
-               FROM songs 
-               WHERE artist_id = ? ;`,req.params.id, function (err, result, fields) {
+    const params = req.query;
+    if(!params.userEmail || !params.artistId) return res.status(400).send('bad request')
+    con.query(`SELECT songs.id, songs.title, songs.length, users.email 
+    FROM songs
+    LEFT JOIN user_songs ON user_songs.song_id = songs.id
+    LEFT JOIN users ON users.id = user_songs.user_id AND users.email = '${params.userEmail}'
+    WHERE artist_id = ${params.artistId};`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Artist not found")}
         else {res.send(result)};
@@ -188,11 +210,13 @@ const getAlbumByIdHandler = (req, res) => { /// do not modify!
           })
 };
 const getAlbumSongs = (req, res) => { /// do not modify! 
-    con.query(`SELECT songs.id, songs.title, songs.created_at, songs.length, interactions.play_count
+    const params = req.query;
+    if(!params.userEmail || !params.albumId) return res.status(400).send('bad request')
+    con.query(`SELECT songs.id, songs.title, songs.length, users.email 
     FROM songs
-    LEFT JOIN interactions ON interactions.song_id = songs.id
-    WHERE album_id = ?
-    `,req.params.id, function (err, result, fields) {
+    LEFT JOIN user_songs ON user_songs.song_id = songs.id
+    LEFT JOIN users ON users.id = user_songs.user_id AND users.email = '${params.userEmail}'
+    WHERE songs.album_id= ${params.albumId};`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Album not found")}
         else {res.send(result)};
@@ -211,10 +235,14 @@ const getPlaylistByIdHandler = (req, res) => { /// do not modify!
           })
 };
 const getPlaylistSongs = (req, res) => { /// do not modify! 
-    con.query(`SELECT songs.id, songs.title, songs.length
+    const params = req.query;
+    if(!params.userEmail || !params.playlistId) return res.status(400).send('bad request')
+    con.query(`SELECT songs.title, users.email 
     FROM songs
-    JOIN playlist_songs ON playlist_songs.song_id = songs.id
-    WHERE playlist_songs.playlist_id = ?`,req.params.id, function (err, result, fields) {
+    JOIN playlist_songs ps ON ps.song_id = songs.id 
+    LEFT JOIN user_songs ON user_songs.song_id = songs.id
+    LEFT JOIN users ON users.id = user_songs.user_id AND users.email = '${params.userEmail}'
+    WHERE ps.playlist_id= ${params.playlistId};`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Album not found")}
         else {res.send(result)};
@@ -340,6 +368,19 @@ const postToUsersHandler = (req, res) => {
             else {res.send(result)}
         })
 };
+const postToUserSongsHandler = (req, res) => {
+    const params = req.body;
+    // return res.json(params)
+    if(!params.userEmail || !params.songId) return res.status(400).send('bad request, missing fields');
+    con.query(`INSERT INTO user_songs (user_id, song_id)
+               VALUES ((SELECT id FROM users WHERE users.email = '${params.userEmail}'), ${params.songId});
+        `,
+        function (err, result, fields) {
+            if (err) throw err;
+            if(!result) {res.status(400).send("no result")}
+            else {res.send(result)}
+        })
+}
 ///////////// UPADTE A SPECIFIC BY ID
 
 const putToSongsHandler = (req, res) => {
@@ -468,6 +509,19 @@ const deletePlaylistByIdHandler = (req, res) => { /// do not modify!
             else {res.send(result)};
           })
 };
+const deleteUserSong = (req, res) => {
+    const params = req.query
+    if(!params.userEmail || !params.songId) return res.status(400).send('bad request');
+    con.query(`DELETE FROM user_songs 
+               WHERE user_id = (SELECT id FROM users WHERE users.email = '${params.userEmail}')
+               AND song_id = ${params.songId};;
+        `,
+        function (err, result, fields) {
+            if (err) throw err;
+            if(!result) {res.status(400).send("bad request")}
+            else {res.send(result)}
+        })
+}
 
 //// EXPORT
 module.exports = {
@@ -477,6 +531,7 @@ module.exports = {
     getTopAlbumsHandler: getTopAlbumsHandler,
     getTopPlaylistsHandler: getTopPlaylistsHandler,
     getRecentlyPlayedHandler: getRecentlyPlayedHandler,
+    getLibrarySongsHandler: getLibrarySongsHandler,
 
     getSongByIdHandler: getSongByIdHandler,
     getArtistByIdHandler: getArtistByIdHandler,
@@ -495,6 +550,7 @@ module.exports = {
     postToPlaylistHandler: postToPlaylistHandler,
     postToInteracionsHandler: postToInteracionsHandler,
     postToUsersHandler: postToUsersHandler,
+    postToUserSongsHandler: postToUserSongsHandler,
 
     putToSongsHandler: putToSongsHandler,
     putToArtistsHandler: putToArtistsHandler,
@@ -505,5 +561,6 @@ module.exports = {
     deleteSongByIdHandler: deleteSongByIdHandler,
     deleteArtistByIdHandler: deleteArtistByIdHandler,
     deleteAlbumByIdHandler: deleteAlbumByIdHandler,
-    deletePlaylistByIdHandler: deletePlaylistByIdHandler
+    deletePlaylistByIdHandler: deletePlaylistByIdHandler,
+    deleteUserSong: deleteUserSong
 };

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { useMediaQuery } from "@material-ui/core";
 
-
+import {useAuth} from "../../contexts/AuthContext"
 import SongItem from "../lists/SongItem";
 import MobileSongItem from "../lists/MobileSongItem";
 
@@ -15,6 +15,7 @@ function AlbumPage() {
   const [albumSongs, setAlbumSongs] = useState();
   const [tappedItemIndex, setTappedItemIndex] = useState(-1);
 
+  const {currentUser} = useAuth();
   const matches = useMediaQuery("(min-width:650px)");
   const { id } = useParams();
 
@@ -22,7 +23,12 @@ function AlbumPage() {
     (async () => {
       const albumData = (await axios.get(`/albums/${id}`)).data;
       setAlbum(albumData);
-      const albumSongsData = (await axios.get(`/albums/${id}/songs`)).data;
+      const albumSongsData = (await axios.get(`/albums/songs`, {
+        params: {
+          userEmail: currentUser.email,
+          albumId: id
+        }
+      })).data;
       setAlbumSongs(albumSongsData);
     })();
   }, [id]);
@@ -72,8 +78,8 @@ function AlbumPage() {
               </div>
               <ul>
                 {albumSongs.map((song, index) => matches
-                  ? <SongItem song={song} key={index} link={`/song/${song.id}?album=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
-                  : <MobileSongItem song={song} key={index} link={`/song/${song.id}?album=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                  ? <SongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                  : <MobileSongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
                 )}
               </ul>
             </div>

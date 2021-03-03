@@ -16,6 +16,7 @@ import Signup from "./components/auth/Signup";
 import Signin from "./components/auth/Signin";
 import NotFound from "./components/pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
+import Library from "./components/pages/Library";
 
 function App() {
   const { currentUser } = useAuth();
@@ -36,6 +37,9 @@ function App() {
           </Route>
           <Route exact path="/song/:id">
             <SongPage />
+          </Route>
+          <Route exact path="/library">
+            <Library />
           </Route>
           <Route exact path="/">
             <Home />

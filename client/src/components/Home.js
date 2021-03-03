@@ -9,7 +9,7 @@ function Home( ) {
     return (
         <>
             <div className={"content"}>
-                <SongsCarousel title={'Recently Played'} requestURl={`/recently_played/${currentUser.email}`} paramString="?recently_played=true"/>
+                <SongsCarousel title={'Recently Played'} requestURl={`/recently_played`} paramString="?recently_played=true"/>
 
                 <ArtistsCarousel />
 

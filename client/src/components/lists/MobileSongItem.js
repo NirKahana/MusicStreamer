@@ -25,7 +25,8 @@ export default function MobileSongItem({
   index,
   tappedItemIndex,
   setTappedItemIndex,
-  link
+  link,
+  refreshSongs
 }) {
   const classes = useStyles();
 
@@ -35,7 +36,7 @@ export default function MobileSongItem({
         path === song.id.toString() ? { backgroundColor: "rgb(22,22,22)" } : {}
       }
       onClick={() => {setTappedItemIndex(index)}}
-      className={"grow1 pointer"}
+      className={"grow1 pointer list_item"}
       key={index}
     >
       <div className="flex align_center justify_between">
@@ -45,16 +46,9 @@ export default function MobileSongItem({
         <div className={classes.title}>{song.title}</div>
       </div>
       {tappedItemIndex === index 
-      ? <MenuPopupState />
+      ? <MenuPopupState song={song} refreshSongs={refreshSongs}/>
       : <SongLength string={song.length} />
       }
     </li>
   );
 }
-
-{/* <div className="flex align_center justify_between">
-<Link to={`/song/${song.id}?artist=${artist.id}`} key={index} className={'link'}>     
-    <PlayArrowIcon />
-</Link>
-<SongItem song={song} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} />
-</div> */}

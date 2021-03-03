@@ -5,7 +5,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     justifyContent: 'space-evenly',
-    width: '2.7em'
+    width: '2.7em',
+    marginRight: '0.3em'
   },
 }));
 

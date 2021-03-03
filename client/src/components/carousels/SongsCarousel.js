@@ -2,9 +2,10 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import Carousel from 'react-elastic-carousel';
 import SongCard from '../cards/SongCard';
+import { useAuth } from '../../contexts/AuthContext';
 
 function SongsCarousel({ requestURl, title, paramString }) {
-
+    const {currentUser} = useAuth();
     
     const breakPointsForCards = [
         { width: 1, itemsToShow: 1, itemsToScroll: 1},
@@ -19,7 +20,11 @@ function SongsCarousel({ requestURl, title, paramString }) {
       useEffect(() => {
           (async () => {
           try{
-        let songsArray = await axios.get(requestURl);
+        let songsArray = await axios.get(requestURl, {
+            params: {
+                userEmail: currentUser.email
+            }
+        });
         setSongs(songsArray.data);
           } catch(err) {console.error(err)};
         })() 

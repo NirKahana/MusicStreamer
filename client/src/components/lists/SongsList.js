@@ -16,6 +16,7 @@ import MobileSongItem from "./MobileSongItem";
 function SongsList({ songHasEnded, lyrics }) {
   const [value, setValue] = React.useState(0);
   const [songsData, setSongsData] = useState([]);
+  // const requestURL = '';
   const [tappedItemIndex, setTappedItemIndex] = useState(-1);
 
   const matches = useMediaQuery('(min-width:650px)');
@@ -33,6 +34,19 @@ function SongsList({ songHasEnded, lyrics }) {
   let requestURL = `/${qParamKey}s/${qParamValue}/songs`;
   let linkURL = `/?${qParamKey}=${qParamValue}`;
 
+  switch (qParamKey) {
+    case 'most_popular': 
+    requestURL = '/most_popular';
+    linkURL = '?most_popular==true';
+    break;
+    case 'recently_played':
+      requestURL = `/recently_played`
+      // requestURL = `/recently_played/${currentUser.email}`
+      linkURL = '?recently_played=true';
+      break;
+    default:
+}
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -45,18 +59,24 @@ function SongsList({ songHasEnded, lyrics }) {
   }
   useEffect(() => {
     (async () => {
-      switch (qParamKey) {
-        case 'most_popular': 
-        requestURL = '/most_popular';
-        linkURL = '?most_popular==true';
-        break;
-        case 'recently_played':
-          requestURL = `/recently_played/${currentUser.email}`
-          linkURL = '?recently_played=true';
-          break;
-        default:
-    }
-      const songsArray = (await axios.get(requestURL)).data;
+    //   switch (qParamKey) {
+    //     case 'most_popular': 
+    //     requestURL = '/most_popular';
+    //     linkURL = '?most_popular==true';
+    //     break;
+    //     case 'recently_played':
+    //       requestURL = `/recently_played`
+    //       // requestURL = `/recently_played/${currentUser.email}`
+    //       linkURL = '?recently_played=true';
+    //       break;
+    //     default:
+    // }
+    // console.log("requesURL: ", requestURL);
+      const songsArray = (await axios.get(requestURL, {
+        params: {
+          userEmail: currentUser.email
+        }
+      })).data;
       setSongsData(songsArray);
     })();
   }, [requestURL]);
@@ -70,6 +90,16 @@ function SongsList({ songHasEnded, lyrics }) {
       }
     }
   }
+
+  const refreshSongs = async () => {
+    // console.log("requesURL: ", requestURL);
+    const songsArray = (await axios.get(requestURL, {
+      params: {
+        userEmail: currentUser.email
+      }
+    })).data;
+    setSongsData(songsArray);
+  };
 
   return (
     <>
@@ -94,8 +124,8 @@ function SongsList({ songHasEnded, lyrics }) {
           {value === 0 ?
             <ul>
             {songsData.map((song, index) => matches 
-            ? <SongItem song={song} path={id} key={index} link={`/song/${song.id}${linkURL}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} />
-            : <MobileSongItem song={song} path={id} index={index} link={`/song/${song.id}${linkURL}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+            ? <SongItem song={song} path={id} link={`/song/${song.id}${linkURL}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
+            : <MobileSongItem song={song} path={id} index={index} link={`/song/${song.id}${linkURL}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
             )} 
             </ul> :
             <div className='lyrics'>

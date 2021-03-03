@@ -7,6 +7,7 @@ import { useMediaQuery } from "@material-ui/core";
 
 import SongItem from "../lists/SongItem";
 import MobileSongItem from "../lists/MobileSongItem";
+import { useAuth } from "../../contexts/AuthContext";
 
 
 function PlaylistPage() {
@@ -14,6 +15,7 @@ function PlaylistPage() {
   const [playlistSongs, setPlaylistSongs] = useState();
   const [tappedItemIndex, setTappedItemIndex] = useState(-1);
   const matches = useMediaQuery("(min-width:650px)");
+  const {currentUser} = useAuth();
 
   const { id } = useParams();
 
@@ -21,7 +23,12 @@ function PlaylistPage() {
     (async () => {
       const playlistData = (await axios.get(`/playlists/${id}`)).data;
       setPlaylist(playlistData);
-      const playlistSongsData = (await axios.get(`/playlists/${id}/songs`))
+      const playlistSongsData = (await axios.get(`/playlists/songs`, {
+        params: {
+          userEmail: currentUser.email,
+          playlistId: id
+        }
+      }))
         .data; //////////
       setPlaylistSongs(playlistSongsData);
     })();

@@ -10,33 +10,34 @@ import MenuPopupState from "./MenuPopupState";
 import SongLength from "./SongLength";
 
 const useStyles = makeStyles({
-  menu: {
-    backgroundColor: "white",
-    color: "white",
-  },
-  menuItem: {
-    backgroundColor: "white",
-  },
+  // menu: {
+  //   backgroundColor: "white",
+  //   color: "white",
+  // },
+  // menuItem: {
+  //   backgroundColor: "white",
+  // },
   title: {
     flexGrow: '1',
     padding: '0.75em 0.5em'
   }
 });
 
-export default function SongItem({ path = false, song, link, key, index, tappedItemIndex, setTappedItemIndex }) {
+export default function SongItem({ path = false, song, link, key, index, tappedItemIndex, setTappedItemIndex, refreshSongs}) {
   const classes = useStyles();
-  const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
 
   return index === tappedItemIndex ? (
     <li
       style={path === song.id.toString() ? { backgroundColor: "rgb(22,22,22)" } : {}}
       // onMouseLeave={() => {setTappedItemIndex(false)}}
-      className={"pointer"}
+      className={"pointer list_item"}
+      key={index}
     >
       <Link to={link} key={key} className="link">
         <div className={classes.title}>{song.title}</div>
       </Link>
-      <MenuPopupState />
+      <MenuPopupState song={song} refreshSongs={refreshSongs} />
     </li>
   ) : (
     <li
@@ -45,7 +46,7 @@ export default function SongItem({ path = false, song, link, key, index, tappedI
       }
       onMouseEnter={() => {setTappedItemIndex(index)}}
       // onMouseLeave={() => {setIsHovered(false)}}
-      className={"pointer"}
+      className={` pointer list_item`}
       key={key}
     >
       <Link to={link} key={key} className="link">
