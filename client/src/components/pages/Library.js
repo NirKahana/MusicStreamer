@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     color: 'white',
     width: '100%',
     // flexGrow: '1',
-    margin: 'auto'
+    // margin: 'auto'
     // padding: '0 3em'
     // backgroundColor: 'rgb(20, 20, 20)'
   },

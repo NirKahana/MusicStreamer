@@ -39,6 +39,16 @@ function AlbumPage() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  const refreshSongs = async () => {
+    const albumSongsData = (await axios.get(`/albums/songs`, {
+      params: {
+        albumId: id,
+        userEmail: currentUser.email
+      }
+    })).data;
+    setAlbumSongs(albumSongsData);
+  };
+
   return album && albumSongs ? (
     <>
       <div className={"content"}>
@@ -78,8 +88,8 @@ function AlbumPage() {
               </div>
               <ul>
                 {albumSongs.map((song, index) => matches
-                  ? <SongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
-                  : <MobileSongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex}/>
+                  ? <SongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
+                  : <MobileSongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
                 )}
               </ul>
             </div>

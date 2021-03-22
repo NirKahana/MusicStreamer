@@ -121,13 +121,13 @@ const getTopPlaylistsHandler = (req, res) => { /// do not modify!
 const getLibrarySongsHandler = (req, res) => { /// do not modify!
     const params = req.query;
     if(!params.userEmail) return res.status(400).send('bad request') 
-    const sql = `SELECT s.*, email FROM songs s
-    JOIN user_songs us ON us.song_id = s.id
-    JOIN users ON users.id = us.user_id
-    WHERE users.email = '${params.userEmail}';`;
+    const sql = `SELECT s.*, us.user_id 
+    FROM songs s
+    JOIN user_songs us ON us.song_id = s.id 
+    AND us.user_id = (SELECT id FROM users WHERE email = '${params.userEmail}');`;
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
-        if (result[0] === undefined) {res.status(404).send("no results")}
+        if (result === undefined) {res.status(404).send("no results")}
         else {res.send(result)};
     })
 };
@@ -155,10 +155,9 @@ const getArtistByIdHandler = (req, res) => { /// do not modify!
 const getArtistSongs = (req, res) => { /// do not modify! 
     const params = req.query;
     if(!params.userEmail || !params.artistId) return res.status(400).send('bad request')
-    con.query(`SELECT songs.id, songs.title, songs.length, users.email 
+    con.query(`SELECT songs.id, songs.title, songs.length, user_songs.user_id
     FROM songs
-    LEFT JOIN user_songs ON user_songs.song_id = songs.id
-    LEFT JOIN users ON users.id = user_songs.user_id AND users.email = '${params.userEmail}'
+    LEFT JOIN user_songs ON user_songs.song_id = songs.id AND user_songs.user_id = (SELECT id FROM users WHERE email = '${params.userEmail}')
     WHERE artist_id = ${params.artistId};`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Artist not found")}
@@ -212,11 +211,10 @@ const getAlbumByIdHandler = (req, res) => { /// do not modify!
 const getAlbumSongs = (req, res) => { /// do not modify! 
     const params = req.query;
     if(!params.userEmail || !params.albumId) return res.status(400).send('bad request')
-    con.query(`SELECT songs.id, songs.title, songs.length, users.email 
+    con.query(`SELECT songs.id, songs.title, songs.length, user_songs.user_id
     FROM songs
-    LEFT JOIN user_songs ON user_songs.song_id = songs.id
-    LEFT JOIN users ON users.id = user_songs.user_id AND users.email = '${params.userEmail}'
-    WHERE songs.album_id= ${params.albumId};`, function (err, result, fields) {
+    LEFT JOIN user_songs ON user_songs.song_id = songs.id AND user_songs.user_id = (SELECT id FROM users WHERE email = '${params.userEmail}')
+    WHERE artist_id = ${params.albumId};`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Album not found")}
         else {res.send(result)};
@@ -240,8 +238,7 @@ const getPlaylistSongs = (req, res) => { /// do not modify!
     con.query(`SELECT songs.title, users.email 
     FROM songs
     JOIN playlist_songs ps ON ps.song_id = songs.id 
-    LEFT JOIN user_songs ON user_songs.song_id = songs.id
-    LEFT JOIN users ON users.id = user_songs.user_id AND users.email = '${params.userEmail}'
+    LEFT JOIN user_songs ON user_songs.song_id = songs.id AND user_songs.user_id = (SELECT id FROM users WHERE email = '${params.userEmail}')
     WHERE ps.playlist_id= ${params.playlistId};`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Album not found")}

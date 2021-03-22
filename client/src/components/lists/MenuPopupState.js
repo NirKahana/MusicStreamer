@@ -66,7 +66,7 @@ export default function MenuPopupState({ song, refreshSongs }) {
             anchorEl={menuIconRef.current}
             classes={{ paper: classes.menu }}
           >
-            {song.email ? (
+            {song.user_id ? (
               <MenuItem
                 onClick={() => {onRemoveFromLibraryClick(); popupState.close()}}
                 selected={true}
