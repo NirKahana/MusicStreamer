@@ -29,8 +29,8 @@ function SongsList({ songHasEnded, lyrics }) {
   const qParamKey = qParamArray[0] ? qParamArray[0][0] : null;
   const qParamValue = qParamArray[0] ? qParamArray[0][1] : null;
   
-  let requestURL = `/${qParamKey}s/songs`;
-  let linkURL = `/?${qParamKey}=${qParamValue}`;
+  let requestURL;
+  let linkURL;
   let params = {
     userEmail: currentUser.email
   };

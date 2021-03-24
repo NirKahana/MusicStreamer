@@ -33,11 +33,11 @@ getArtistID = (artist_id) => {
 
 const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
         if(!req.query.userEmail) return res.status(400).send('bad request')
-        const sql = `SELECT songs.id, songs.title, songs.length, artists.name, songs.cover_img, (SELECT email FROM users WHERE users.id = us.user_id) as email, i.updated_at FROM songs
+        const sql = `SELECT songs.id, songs.title, songs.length, artists.name, songs.cover_img, us.user_id, i.updated_at FROM songs
         JOIN artists ON artists.id = songs.artist_id
         JOIN interactions i ON i.song_id = songs.id
         JOIN users ON i.user_id = users.id
-        LEFT JOIN user_songs us ON songs.id = us.song_id AND email = '${req.query.userEmail}'
+        LEFT JOIN user_songs us ON songs.id = us.song_id AND us.user_id = (SELECT id FROM users WHERE email = '${req.query.userEmail}')
         WHERE email = '${req.query.userEmail}'
         ORDER BY updated_at DESC
         LIMIT 10;`
@@ -50,11 +50,11 @@ const getRecentlyPlayedHandler = (req, res) => { /// do not modify!
 const getMostPopularHandler = (req, res) => { /// do not modify!
         const params = req.query;
         if(!params.userEmail) return res.status(400).send('bad request');
-        const sql = `SELECT songs.id, songs.title, songs.length, songs.cover_img, artists.name, SUM(play_count) as total_views, email FROM songs
+        const sql = `SELECT songs.id, songs.title, songs.length, songs.cover_img, artists.name, SUM(play_count) as total_views, user_songs.user_id FROM songs
         JOIN artists ON songs.artist_id = artists.id
         JOIN interactions ON interactions.song_id = songs.id
-        LEFT JOIN user_songs us ON us.song_id = songs.id
-        LEFT JOIN users ON users.id = us.user_id AND users.email = '${params.userEmail}'
+                LEFT JOIN user_songs ON user_songs.song_id = songs.id 
+                AND user_songs.user_id = (SELECT id FROM users WHERE email = '${params.userEmail}')
         GROUP BY songs.id
         ORDER BY total_views DESC
         LIMIT 20;`
