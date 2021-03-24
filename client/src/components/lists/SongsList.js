@@ -5,10 +5,8 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import { useMediaQuery } from '@material-ui/core';
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 import { useAuth } from "../../contexts/AuthContext"
-import SongLength from "./SongLength";
 import SongItem from "./SongItem";
 import MobileSongItem from "./MobileSongItem";
 
@@ -31,9 +29,11 @@ function SongsList({ songHasEnded, lyrics }) {
   const qParamKey = qParamArray[0] ? qParamArray[0][0] : null;
   const qParamValue = qParamArray[0] ? qParamArray[0][1] : null;
   
-  let requestURL = `/${qParamKey}s/${qParamValue}/songs`;
+  let requestURL = `/${qParamKey}s/songs`;
   let linkURL = `/?${qParamKey}=${qParamValue}`;
-  let targetParam = null;
+  let params = {
+    userEmail: currentUser.email
+  };
 
   switch (qParamKey) {
     case 'most_popular': 
@@ -42,15 +42,31 @@ function SongsList({ songHasEnded, lyrics }) {
     break;
     case 'recently_played':
       requestURL = `/recently_played`
-      // requestURL = `/recently_played/${currentUser.email}`
       linkURL = '?recently_played=true';
       break;
     case 'library':
       requestURL = `/library_songs`
-      // requestURL = `/recently_played/${currentUser.email}`
       linkURL = '?library_songs=true';
       break;
+    case 'artist':
+      requestURL = `/artists/songs`
+      linkURL = `?artist=${qParamValue}`;
+      params = {...params, artistId: qParamValue}
+      break;
+    case 'album':
+      requestURL = `/albums/songs`
+      linkURL = `?album=${qParamValue}`;
+      params = {...params, albumId: qParamValue}
+      break;
+    case 'playlist':
+      requestURL = `/playlists/songs`
+      linkURL = `?playlist=${qParamValue}`;
+      params = {...params, playlistId: qParamValue}
+      break;
     default:
+      params: {
+
+      }
 }
 
   const handleChange = (event, newValue) => {
@@ -65,24 +81,8 @@ function SongsList({ songHasEnded, lyrics }) {
   }
   useEffect(() => {
     (async () => {
-    //   switch (qParamKey) {
-    //     case 'most_popular': 
-    //     requestURL = '/most_popular';
-    //     linkURL = '?most_popular==true';
-    //     break;
-    //     case 'recently_played':
-    //       requestURL = `/recently_played`
-    //       // requestURL = `/recently_played/${currentUser.email}`
-    //       linkURL = '?recently_played=true';
-    //       break;
-    //     default:
-    // }
-    // console.log("requesURL: ", requestURL);
-      const songsArray = (await axios.get(`/${qParamKey}s/songs`, {
-        params: {
-          userEmail: currentUser.email,
-
-        }
+      const songsArray = (await axios.get(requestURL, {
+        params: params
       })).data;
       setSongsData(songsArray);
     })();

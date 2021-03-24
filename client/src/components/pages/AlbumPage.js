@@ -10,6 +10,7 @@ import MobileSongItem from "../lists/MobileSongItem";
 
 const defaultBg = "https://www.freeiconspng.com/uploads/spotify-icon-2.png";
 
+
 function AlbumPage() {
   const [album, setAlbum] = useState();
   const [albumSongs, setAlbumSongs] = useState();
@@ -88,7 +89,7 @@ function AlbumPage() {
               </div>
               <ul>
                 {albumSongs.map((song, index) => matches
-                  ? <SongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
+                  ? <SongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} index={index} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs} />
                   : <MobileSongItem song={song} key={index} index={index} link={`/song/${song.id}?album=${id}`} tappedItemIndex={tappedItemIndex} setTappedItemIndex={setTappedItemIndex} refreshSongs={refreshSongs}/>
                 )}
               </ul>
