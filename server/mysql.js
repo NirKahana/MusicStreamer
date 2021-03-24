@@ -214,7 +214,7 @@ const getAlbumSongs = (req, res) => { /// do not modify!
     con.query(`SELECT songs.id, songs.title, songs.length, user_songs.user_id
     FROM songs
     LEFT JOIN user_songs ON user_songs.song_id = songs.id AND user_songs.user_id = (SELECT id FROM users WHERE email = '${params.userEmail}')
-    WHERE artist_id = ${params.albumId};`, function (err, result, fields) {
+    WHERE album_id = ${params.albumId};`, function (err, result, fields) {
         if (err) throw err;
         if (result[0] === undefined) {res.status(404).send("Album not found")}
         else {res.send(result)};

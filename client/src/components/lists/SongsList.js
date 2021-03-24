@@ -33,6 +33,7 @@ function SongsList({ songHasEnded, lyrics }) {
   
   let requestURL = `/${qParamKey}s/${qParamValue}/songs`;
   let linkURL = `/?${qParamKey}=${qParamValue}`;
+  let targetParam = null;
 
   switch (qParamKey) {
     case 'most_popular': 
@@ -77,9 +78,10 @@ function SongsList({ songHasEnded, lyrics }) {
     //     default:
     // }
     // console.log("requesURL: ", requestURL);
-      const songsArray = (await axios.get(requestURL, {
+      const songsArray = (await axios.get(`/${qParamKey}s/songs`, {
         params: {
-          userEmail: currentUser.email
+          userEmail: currentUser.email,
+
         }
       })).data;
       setSongsData(songsArray);
