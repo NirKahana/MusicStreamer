@@ -131,6 +131,20 @@ const getLibrarySongsHandler = (req, res) => { /// do not modify!
         else {res.send(result)};
     })
 };
+const getLibraryArtistsHandler = (req, res) => { /// do not modify!
+    const params = req.query;
+    if(!params.userEmail) return res.status(400).send('bad request') 
+    const sql = `SELECT s.*, us.user_id 
+    FROM songs s
+    JOIN user_songs us ON us.song_id = s.id 
+    AND us.user_id = (SELECT id FROM users WHERE email = '${params.userEmail}')
+    JOIN artists ON s.artist_id = artists.id;`;
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        if (result === undefined) {res.status(404).send("no results")}
+        else {res.send(result)};
+    })
+};
 
 ////////////// GET SPECIFIC BY ID
 

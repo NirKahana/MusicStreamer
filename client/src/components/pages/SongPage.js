@@ -80,7 +80,7 @@ function SongPage() {
               )}
               allowtransparency="true"
               onEnd={onEnd}
-              // onPlay={onStart}
+              onPlay={onStart}
               className="youtube_iframe"
               width="100%"
               height="100%"

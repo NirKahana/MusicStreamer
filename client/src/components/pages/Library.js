@@ -7,6 +7,7 @@ import { Container, useMediaQuery, Tabs, Tab } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
 import SongItem from "../lists/SongItem";
 import MobileSongItem from "../lists/MobileSongItem";
+import { useLocation } from "react-router";
 
 const useStyles = makeStyles({
   flex: {
@@ -78,16 +79,21 @@ export default function Library() {
   const [librarySongs, setLibrarySongs] = useState();
   const [tappedItemIndex, setTappedItemIndex] = useState(-1);
 
+  const path = useLocation().pathname.slice(9);
+  const re = new RegExp(/\w+/i);
+  const param = re[Symbol.match](path)[0];
+
 
   useEffect(() => {
     const fetchLibrarySongs = async () => {
-      const librarySongs = (await axios.get('/library_songs', {
+      const librarySongs = (await axios.get(`/library/${param}`, {
         params: {
           userEmail: currentUser.email
         }
       })).data;
       setLibrarySongs(librarySongs);
-      console.log('library songs: ', librarySongs);
+      // console.log('library songs: ', librarySongs);
+      console.log(param);
     }
     fetchLibrarySongs();
   }, [])
@@ -102,7 +108,7 @@ export default function Library() {
     setValue(newValue);
   };
   const refreshSongs = async () => {
-    const librarySongs = (await axios.get('/library_songs', {
+    const librarySongs = (await axios.get('/library/songs', {
       params: {
         userEmail: currentUser.email
       }
@@ -229,7 +235,7 @@ export default function Library() {
             </Tabs>
             <Container
               disableGutters
-              maxWidth={'false'}
+              // maxWidth={'false'}
               className={matches ? classes.list : classes.mobileList}
             > 
               {renderList()}

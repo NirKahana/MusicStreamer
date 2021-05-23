@@ -11,7 +11,7 @@ app.get("/top_artists/:email", query.getTopArtistsHandler);
 app.get("/top_albums/", query.getTopAlbumsHandler);
 app.get("/top_playlists/", query.getTopPlaylistsHandler);
 app.get("/recently_played", query.getRecentlyPlayedHandler);
-app.get("/library_songs", query.getLibrarySongsHandler);
+app.get("/library/songs", query.getLibrarySongsHandler);
 
 
 app.get("/songs/:id", query.getSongByIdHandler);

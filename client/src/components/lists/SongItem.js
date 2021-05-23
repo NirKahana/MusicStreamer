@@ -30,7 +30,7 @@ export default function SongItem({ path = false, song, link, key, index, tappedI
   return index === tappedItemIndex ? (
     <li
       style={path === song.id.toString() ? { backgroundColor: "rgb(22,22,22)" } : {}}
-      // onMouseLeave={() => {setTappedItemIndex(false)}}
+      onMouseLeave={() => {setTappedItemIndex(-1)}}
       className={"pointer list_item"}
       key={index}
     >

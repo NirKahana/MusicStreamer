@@ -1,11 +1,12 @@
 import React from "react";
-import "./App.css";
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   Switch,
 } from "react-router-dom";
+
+import "./App.css";
 import Home from "./components/Home";
 import Header from "./components/Header";
 import ArtistPage from "./components/pages/ArtistPage";
@@ -38,7 +39,13 @@ function App() {
           <Route exact path="/song/:id">
             <SongPage />
           </Route>
-          <Route exact path="/library">
+          <Route exact path="/library/songs">
+            <Library />
+          </Route>
+          <Route exact path="/library/artists">
+            <Library />
+          </Route>
+          <Route exact path="/library/playlists">
             <Library />
           </Route>
           <Route exact path="/">
@@ -55,7 +62,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/signup">
-            <Signup />
+            <Signup /> 
           </Route>
           <Route path="/">
             <Redirect to="/signin" />

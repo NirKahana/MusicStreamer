@@ -87,7 +87,7 @@ function Header() {
 						<>
         			<NavLink className={"tab"} exact to="/" activeStyle={{color: 'white', textDecoration:"none"}}>{matches ? 'Home' :<HomeIcon />}</NavLink>
         			<NavLink className={"tab"} exact to="/explore" activeStyle={{color: 'white', textDecoration:"none"}}>{matches ? 'Explore' :<ExploreIcon />}</NavLink>
-        			<NavLink className={"tab"} exact to="/library" activeStyle={{color: 'white', textDecoration:"none"}}>{matches ? 'Library' :<LibraryMusicIcon />}</NavLink>
+        			<NavLink className={"tab"} exact to="/library/songs" activeStyle={{color: 'white', textDecoration:"none"}}>{matches ? 'Library' :<LibraryMusicIcon />}</NavLink>
         			<span className={"tab search"} onClick={onSearchButtonClick}><SearchIcon /> {matches ? <span>Search</span> : null}</span>
 					</>)
 					: (

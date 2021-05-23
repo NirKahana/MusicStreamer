@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "@material-ui/core";
 import ReactLoading from "react-loading";
 import axios from "axios";
