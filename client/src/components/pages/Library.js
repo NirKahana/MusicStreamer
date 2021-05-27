@@ -8,6 +8,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import SongItem from "../lists/SongItem";
 import MobileSongItem from "../lists/MobileSongItem";
 import { useLocation } from "react-router";
+import { NavLink, Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   flex: {
@@ -17,29 +18,29 @@ const useStyles = makeStyles({
     justifyContent: "center",
   },
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
-    maxHeight: '100vh'
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+    maxHeight: "100vh",
   },
   filler: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: '1',
-    overflowY: 'auto',
-    marginBottom: '2em',
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: "1",
+    overflowY: "auto",
+    marginBottom: "2em",
     // paddingBottom: '2em',
     // boxShadow: '3px 3px 8px 10px #888888'
   },
   sidePadding: {
-    padding: '0 3em'
+    padding: "0 3em",
   },
   alignCenter: {
-    alignItems: 'center'
+    alignItems: "center",
   },
   tabs: {
-    color: 'white',
-    width: '100%',
+    color: "white",
+    width: "100%",
     // flexGrow: '1',
     // margin: 'auto'
     // padding: '0 3em'
@@ -49,24 +50,24 @@ const useStyles = makeStyles({
     // width: '7em'
   },
   title: {
-    flexGrow: '1',
-    padding: '0.75em 0.5em'
+    flexGrow: "1",
+    padding: "0.75em 0.5em",
   },
   list: {
     // width: '100%',
-    color: 'white',
-    marginTop: '1em',
-    overflowY: 'auto',
-    overflowY: 'auto'
+    color: "white",
+    marginTop: "1em",
+    overflowY: "auto",
+    overflowY: "auto",
   },
   mobileList: {
-    color: 'white',
-    marginTop: '1em',
-    overflowY: 'auto',
+    color: "white",
+    marginTop: "1em",
+    overflowY: "auto",
   },
   listItem: {
-    padding: '1.2em 0.2em',
-  }
+    padding: "1.2em 0.2em",
+  },
 });
 
 export default function Library() {
@@ -74,8 +75,6 @@ export default function Library() {
   const { currentUser } = useAuth();
   const matches = useMediaQuery("(min-width:650px)");
 
-
-  const [value, setValue] = useState(0);
   const [librarySongs, setLibrarySongs] = useState();
   const [tappedItemIndex, setTappedItemIndex] = useState(-1);
 
@@ -83,163 +82,170 @@ export default function Library() {
   const re = new RegExp(/\w+/i);
   const param = re[Symbol.match](path)[0];
 
-
   useEffect(() => {
     const fetchLibrarySongs = async () => {
-      const librarySongs = (await axios.get(`/library/${param}`, {
-        params: {
-          userEmail: currentUser.email
-        }
-      })).data;
-      setLibrarySongs(librarySongs);
-      // console.log('library songs: ', librarySongs);
-      console.log(param);
-    }
+      const librarySongs = (
+        await axios.get(`/library/${param}`, {
+          params: {
+            userEmail: currentUser.email,
+          },
+        })
+      ).data;
+      // console.log(librarySongs);
+      setLibrarySongs(librarySongs); 
+    };
     fetchLibrarySongs();
-  }, [])
+  }, [param]);
 
-  function a11yProps(index) {
-  	return {
-  		id: `simple-tab-${index}`,
-  		'aria-controls': `simple-tabpanel-${index}`,
-  	};
-  }
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
   const refreshSongs = async () => {
-    const librarySongs = (await axios.get('/library/songs', {
-      params: {
-        userEmail: currentUser.email
-      }
-    })).data;
+    const librarySongs = (
+      await axios.get(`/library/${param}`, {
+        params: {
+          userEmail: currentUser.email,
+        },
+      })
+    ).data;
     setLibrarySongs(librarySongs);
   };
-
   const renderList = () => {
-    switch (value) {
-      case 0:
-        return librarySongs.map((song, index) => matches 
-        ? <SongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-        />
-        : <MobileSongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-          />
-      )
-        break;
-      case 1:
-        return librarySongs.map((song, index) => matches 
-        ? <SongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-        />
-        : <MobileSongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-          />
-      )
-        break;
-      case 2:
-        return librarySongs.map((song, index) => matches 
-        ? <SongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-        />
-        : <MobileSongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-          />
-      )
-        break;
-      case 3:
-        return librarySongs.map((song, index) => matches 
-        ? <SongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-        />
-        : <MobileSongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-          />
-      )
-        break;
-    
-      default:
-        return librarySongs.map((song, index) => matches 
-        ? <SongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-        />
-        : <MobileSongItem song={song}
-                  link={`/song/${song.id}?library=true`} 
-                  index={index}
-                  tappedItemIndex={tappedItemIndex} 
-                  setTappedItemIndex={setTappedItemIndex} 
-                  refreshSongs={refreshSongs}
-          />
-      )
-        break;
-    }
+    return librarySongs.map((song, index) => {
+      if(matches) {
+        if(param === "songs") {
+          return (
+            <SongItem
+              song={song}
+              link={`/song/${song.id}?library=true`}
+              index={index}
+              key={index}
+              tappedItemIndex={tappedItemIndex}
+              setTappedItemIndex={setTappedItemIndex}
+              refreshSongs={refreshSongs}
+            />
+        )} else {
+          return (
+            <SongItem
+              song={song}
+              link={`/song/${song.id}?library=true`}
+              index={index}
+              key={index}
+              tappedItemIndex={tappedItemIndex}
+              setTappedItemIndex={setTappedItemIndex}
+              refreshSongs={refreshSongs}
+              ArtistItem
+            />
+        )}
+      } else {
+        if(param === "songs") {
+          return (
+            <MobileSongItem
+              song={song}
+              link={`/song/${song.id}?library=true`}
+              index={index}
+              key={index} 
+              tappedItemIndex={tappedItemIndex}
+              setTappedItemIndex={setTappedItemIndex}
+              refreshSongs={refreshSongs}
+            />
+          )} else {
+          return (
+            <MobileSongItem
+              song={song}
+              link={`/song/${song.id}?library=true`}
+              index={index}
+              key={index} 
+              tappedItemIndex={tappedItemIndex}
+              setTappedItemIndex={setTappedItemIndex}
+              refreshSongs={refreshSongs}
+              ArtistItem
+            />
+          )
+        }
+      }
+
+
+
+      // if (matches && param === "songs") return (
+      //   <SongItem
+      //     song={song}
+      //     link={`/song/${song.id}?library=true`}
+      //     index={index}
+      //     key={index}
+      //     tappedItemIndex={tappedItemIndex}
+      //     setTappedItemIndex={setTappedItemIndex}
+      //     refreshSongs={refreshSongs}
+      //   />
+      // );
+      // if (matches && param !== "songs") return (
+      //   <div>Artist Item</div>
+      // );
+      // if(!matches && param === "songs") return (
+      //   <MobileSongItem
+      //       song={song}
+      //       link={`/song/${song.id}?library=true`}
+      //       index={index}
+      //       key={index} 
+      //       tappedItemIndex={tappedItemIndex}
+      //       setTappedItemIndex={setTappedItemIndex}
+      //       refreshSongs={refreshSongs}
+      //     />
+      // );
+      // if (!matches && param !== "songs") return (
+      //   <div>Mobile Artist Item</div>
+      // )
+    //
+    })
   }
   return librarySongs ? (
-    <div className={matches ? ` ${classes.container} ${classes.sidePadding}` : `${classes.container}`}>
+    <div
+      className={
+        matches
+          ? ` ${classes.container} ${classes.sidePadding}`
+          : `${classes.container}`
+      }
+    >
       <div className={`content ${classes.filler}`}>
-        
-      <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="simple tabs example"
-              // variant={"standard"}
-              variant={"fullWidth"}
-              TabIndicatorProps={{
-                style: {
-                  backgroundColor: "white",
-                },
-              }}
-              classes={{root: classes.tabs}}
+        <div className={`${classes.header}`}>
+          <>
+            <NavLink
+              className={"tab"}
+              exact
+              to="/library/songs"
+              activeStyle={{ color: "white", textDecoration: "none" }}
             >
-              <Tab label="Songs" {...a11yProps(0)} classes={{root: classes.tab}}/>
-              <Tab label="Artists" {...a11yProps(1)} classes={{root: classes.tab}}/>
-              <Tab label="Albums" {...a11yProps(2)} classes={{root: classes.tab}}/>
-              <Tab label="Playlists" {...a11yProps(3)} classes={{root: classes.tab}}/>
-            </Tabs>
-            <Container
-              disableGutters
-              // maxWidth={'false'}
-              className={matches ? classes.list : classes.mobileList}
-            > 
-              {renderList()}
-            </Container>
+              Songs
+            </NavLink>
+            <NavLink
+              className={"tab"}
+              exact
+              to="/library/artists"
+              activeStyle={{ color: "white", textDecoration: "none" }}
+            >
+              Artists
+            </NavLink>
+            <NavLink
+              className={"tab"}
+              exact
+              to="/library/albums"
+              activeStyle={{ color: "white", textDecoration: "none" }}
+            >
+              Albums
+            </NavLink>
+            <NavLink
+              className={"tab"}
+              exact
+              to="/library/playlists"
+              activeStyle={{ color: "white", textDecoration: "none" }}
+            >
+              Playlists
+            </NavLink>
+          </>
+        </div>
+        <Container
+          disableGutters
+          className={matches ? classes.list : classes.mobileList}
+        >
+          {renderList()}
+        </Container>
       </div>
     </div>
   ) : (

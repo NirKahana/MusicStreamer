@@ -23,10 +23,21 @@ const useStyles = makeStyles({
   }
 });
 
-export default function SongItem({ path = false, song, link, key, index, tappedItemIndex, setTappedItemIndex, refreshSongs}) {
+export default function SongItem({ path = false, song, link, key, index, tappedItemIndex, setTappedItemIndex, refreshSongs, ArtistItem}) {
   const classes = useStyles();
   // const [isHovered, setIsHovered] = useState(false);
-
+  if(ArtistItem) return (
+    <li
+      style={path === song.id.toString() ? { backgroundColor: "rgb(22,22,22)" } : {}}
+      onMouseLeave={() => {setTappedItemIndex(-1)}}
+      className={"pointer list_item"}
+      key={index}
+    >
+      <Link to={link} key={key} className="link">
+        <div className={classes.title}>{song.name}</div>
+      </Link>
+    </li>
+  )
   return index === tappedItemIndex ? (
     <li
       style={path === song.id.toString() ? { backgroundColor: "rgb(22,22,22)" } : {}}
@@ -52,7 +63,7 @@ export default function SongItem({ path = false, song, link, key, index, tappedI
       <Link to={link} key={key} className="link">
         <div className={classes.title}>{song.title}</div>
       </Link>
-        <SongLength string={song.length} />
+      <SongLength string={song.length} />
     </li>
   );
 }
